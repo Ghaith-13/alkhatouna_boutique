@@ -1,0 +1,151 @@
+// ignore_for_file: must_be_immutable
+
+part of 'cart_cubit.dart';
+
+class CartState extends Equatable {
+  CartState(
+      {this.loadingAddress = false,
+      this.countryName = "",
+      this.provicesName = "",
+      this.promoCode = "",
+      this.areaName = "",
+      this.subAreaName = "",
+      this.loadingAddAdress = false,
+      this.loadingSendOrder = false,
+      this.laodingUpdateItem = false,
+      this.laodingCheckOut = false,
+      this.loadingGetCart = false,
+      this.adressData,
+      this.countries,
+      this.countryId = "-100",
+      this.addressTitle = "",
+      this.addressPhoneNumber = "",
+      this.provinceId = "-100",
+      this.areas,
+      this.cartData,
+      this.checkData,
+      this.areaId = "-100",
+      this.subAreaId = "-100",
+      this.subAreas,
+      this.totalCartPrice = 0.0,
+      this.adressNotes = "",
+      this.adressIsDefault = "0",
+      this.province});
+  CheckOutData? checkData;
+  bool loadingAddress,
+      loadingAddAdress,
+      loadingGetCart,
+      laodingUpdateItem,
+      loadingSendOrder,
+      laodingCheckOut;
+  AdressData? adressData;
+  String? addressPhoneNumber,
+      countryId,
+      provinceId,
+      promoCode,
+      countryName,
+      areaName,
+      provicesName,
+      areaId,
+      subAreaName,
+      subAreaId,
+      adressIsDefault,
+      adressNotes,
+      addressTitle;
+  double totalCartPrice;
+  List<Regions>? countries;
+  CartData? cartData;
+  List<Children>? province;
+  List<Children>? areas;
+  List<Children>? subAreas;
+
+  @override
+  List<Object?> get props => [
+        loadingAddress,
+        adressData,
+        adressNotes,
+        addressTitle,
+        promoCode,
+        laodingUpdateItem,
+        loadingSendOrder,
+        subAreaName,
+        totalCartPrice,
+        areaName,
+        cartData,
+        provicesName,
+        loadingGetCart,
+        laodingCheckOut,
+        countryName,
+        loadingAddAdress,
+        adressIsDefault,
+        countries,
+        subAreas,
+        areaId,
+        addressPhoneNumber,
+        province,
+        countryId,
+        subAreaId,
+        checkData,
+        provinceId,
+        areas
+      ];
+  CartState copyWith(
+          {bool? loadingAddress,
+          bool? loadingAddAdress,
+          bool? loadingSendOrder,
+          bool? loadingGetCart,
+          bool? laodingUpdateItem,
+          bool? laodingCheckOut,
+          AdressData? adressData,
+          String? countryId,
+          String? promoCode,
+          String? subAreaName,
+          CheckOutData? checkData,
+          String? provicesName,
+          String? areaName,
+          String? countryName,
+          String? adressNotes,
+          double? totalCartPrice,
+          CartData? cartData,
+          String? addressPhoneNumber,
+          String? adressIsDefault,
+          String? provinceId,
+          String? areaId,
+          String? subAreaId,
+          String? addressTitle,
+          List<Regions>? countries,
+          List<Children>? province,
+          List<Children>? areas,
+          List<Children>? subAreas}) =>
+      CartState(
+        loadingAddress: loadingAddress ?? this.loadingAddress,
+        checkData: checkData ?? this.checkData,
+        countryName: countryName ?? this.countryName,
+        promoCode: promoCode ?? this.promoCode,
+        laodingCheckOut: laodingCheckOut ?? this.laodingCheckOut,
+        subAreaName: subAreaName ?? this.subAreaName,
+        loadingGetCart: loadingGetCart ?? this.loadingGetCart,
+        laodingUpdateItem: laodingUpdateItem ?? this.laodingUpdateItem,
+        areaName: areaName ?? this.areaName,
+        totalCartPrice: totalCartPrice ?? this.totalCartPrice,
+        loadingSendOrder: loadingSendOrder ?? this.loadingSendOrder,
+        cartData: cartData ?? this.cartData,
+        provicesName: provicesName ?? this.provicesName,
+        loadingAddAdress: loadingAddAdress ?? this.loadingAddAdress,
+        adressIsDefault: adressIsDefault ?? this.adressIsDefault,
+        addressPhoneNumber: addressPhoneNumber ?? this.addressPhoneNumber,
+        adressNotes: adressNotes ?? this.adressNotes,
+        subAreaId: subAreaId ?? this.subAreaId,
+        areas: areas ?? this.areas,
+        provinceId: provinceId ?? this.provinceId,
+        addressTitle: addressTitle ?? this.addressTitle,
+        areaId: areaId ?? this.areaId,
+        subAreas: subAreas ?? this.subAreas,
+        countryId: countryId ?? this.countryId,
+        province: province ?? this.province,
+        countries: countries ?? this.countries,
+        adressData: adressData ?? this.adressData,
+      );
+}
+
+class CartInitial extends CartState {}

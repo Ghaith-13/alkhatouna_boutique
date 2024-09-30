@@ -1,0 +1,137 @@
+name: alkhatouna
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.4 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  flutter_bloc: ^8.1.6
+  shared_preferences: ^2.2.3
+  http: ^1.2.1
+  get_it: ^7.7.0
+  equatable: ^2.0.5
+  logger: ^2.3.0
+  flutter_onboarding_slider: ^1.0.11
+  flutter_screenutil: ^5.9.3
+  bloc: ^8.1.4
+  flutter_localizations:
+    sdk: flutter
+  dropdown_button2: ^2.3.9
+  animated_splash_screen: ^1.3.0
+  carousel_slider: ^4.2.1
+  cached_network_image: ^3.3.1
+  bottom_sheet: ^4.0.4
+  shimmer: ^3.0.0
+  flutter_svg: ^2.0.10+1
+  animate_do: ^3.3.4
+  rate_in_stars: ^0.0.3
+  confetti: ^0.7.0
+  firebase_core: ^2.24.2
+  google_sign_in: ^6.2.1
+  firebase_auth: ^4.16.0
+  firebase_messaging: ^14.7.10
+  permission_handler: ^11.3.1
+  email_validator: ^3.0.0
+  lottie: ^3.1.2
+  video_player: ^2.9.1
+  flick_video_player: ^0.9.0
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  geolocator: ^12.0.0
+  azlistview: ^2.0.0
+  flutter_typeahead: ^4.8.0
+  share_plus: ^10.0.2
+  path_provider: ^2.1.4
+  youtube_player_flutter: ^9.0.3
+  pin_code_fields: ^8.0.1
+  url_launcher: ^6.3.0
+  # app_links: ^6.3.2
+  flutter_local_notifications: ^17.2.2
+  animated_text_kit: ^4.2.2
+  uni_links: ^0.5.1
+  flex_list: ^1.0.0
+  # go_router: ^14.2.7
+  # flutter_facebook_auth: ^7.0.1
+  # flutter_typeahead: ^5.2.0
+  # share_plus: ^10.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.jpg"
+
+  
+  flutter_lints: ^3.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/lang/en.json
+    - assets/lang/ar.json
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo/Cairo-Bold.ttf
+        - asset: assets/fonts/Cairo/Cairo-Black.ttf
+        - asset: assets/fonts/Cairo/Cairo-ExtraBold.ttf
+        - asset: assets/fonts/Cairo/Cairo-ExtraLight.ttf
+        - asset: assets/fonts/Cairo/Cairo-Light.ttf
+        - asset: assets/fonts/Cairo/Cairo-Medium.ttf
+        - asset: assets/fonts/Cairo/Cairo-SemiBold.ttf
+
+    - family: Source Sans 3
+      fonts:
+        - asset: assets/fonts/Sans/SourceSans3-Regular.ttf
+        - asset: assets/fonts/Sans/SourceSans3-Bold.ttf
+        - asset: assets/fonts/Sans/SourceSans3-Black.ttf
+        - asset: assets/fonts/Sans/SourceSans3-Light.ttf
+        - asset: assets/fonts/Sans/SourceSans3-Medium.ttf
+        - asset: assets/fonts/Sans/SourceSans3-SemiBold.ttf
+    - family: El Messiri
+      fonts:
+        - asset: assets/fonts/El_Messiri/ElMessiri-Bold.ttf
+        - asset: assets/fonts/El_Messiri/ElMessiri-Medium.ttf
+        - asset: assets/fonts/El_Messiri/ElMessiri-Regular.ttf
+        - asset: assets/fonts/El_Messiri/ElMessiri-SemiBold.ttf
+       
