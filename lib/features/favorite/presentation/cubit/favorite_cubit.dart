@@ -12,18 +12,18 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   FavoriteCubit({required this.favoriteRepo}) : super(FavoriteState());
   dealWithListIdForBrand(String value) {
-    print(value);
+    // print(value);
     List<String> mylist = state.selectedlistbrandId ?? [];
     if (mylist.contains(value)) {
       // Remove the value if it exists
       mylist.remove(value);
-      print("Removed $value from the list.");
+      // print("Removed $value from the list.");
     } else {
       // Add the value if it doesn't exist
       mylist.add(value);
-      print("Added $value to the list.");
+      // print("Added $value to the list.");
     }
-    print(mylist);
+    // print(mylist);
     emit(state.copyWith(selectedlistbrandId: mylist));
   }
 
@@ -143,12 +143,12 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   changeColorList(List<String> colorList) {
     emit(state.copyWith(colorList: colorList));
-    print(state.colorList);
+    // print(state.colorList);
   }
 
   changeSizesList(List<String> sizesList) {
     emit(state.copyWith(sizesList: sizesList));
-    print(state.sizesList);
+    // print(state.sizesList);
   }
 
   changeactiveTabIndex(int value) {
@@ -157,12 +157,12 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   changeweghitsList(List<String> weghitsList) {
     emit(state.copyWith(weghitsList: weghitsList));
-    print(state.weghitsList);
+    // print(state.weghitsList);
   }
 
   changedimensionsList(List<String> dimensionsList) {
     emit(state.copyWith(dimensionsList: dimensionsList));
-    print(state.dimensionsList);
+    // print(state.dimensionsList);
   }
 
   changeFavoriteData(List<FavoriteData>? favoriteData) =>

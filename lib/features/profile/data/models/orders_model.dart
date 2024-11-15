@@ -113,35 +113,35 @@ class OrdersList {
 
 class Pending {
   int? id;
-  String? number;
-  String? userId;
-  String? status;
-  String? totalAmount;
-  String? discountPercentage;
-  String? discountValue;
-  String? totalAmountAfterDiscount;
-  String? deliveryFees;
-  String? grandTotal;
-  String? notes;
-  String? isPaid;
+  var number;
+  var userId;
+  var status;
+  var totalAmount;
+  var discountPercentage;
+  var discountValue;
+  var totalAmountAfterDiscount;
+  var deliveryFees;
+  var grandTotal;
+  var notes;
+  var isPaid;
   var paidAt;
-  String? countryName;
-  String? provinceName;
-  String? areaName;
-  String? subAreaName;
-  String? addressTitle;
-  String? addressPhone;
-  String? addressNotes;
-  String? addressId;
-  String? longtitude;
-  String? latitude;
+  var countryName;
+  var provinceName;
+  var areaName;
+  var subAreaName;
+  var addressTitle;
+  var addressPhone;
+  var addressNotes;
+  var addressId;
+  var longtitude;
+  var latitude;
   var currencyId;
-  String? exchangeRate;
-  String? paymentMethod;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var exchangeRate;
+  var paymentMethod;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
   List<Items>? items;
 
   Pending(
@@ -257,20 +257,20 @@ class Pending {
 
 class Items {
   int? id;
-  String? orderId;
-  String? productId;
-  String? productQuantity;
-  String? productColor;
-  String? productSize;
-  String? productPrice;
-  String? productTotalAmount;
-  String? productDiscountPercentage;
-  String? productDiscountValue;
-  String? productTotalAmountAfterDiscount;
-  String? productNotes;
-  String? createdAt;
-  String? updatedAt;
-  String? imageUrl;
+  var orderId;
+  var productId;
+  var productQuantity;
+  var productColor;
+  var productSize;
+  var productPrice;
+  var productTotalAmount;
+  var productDiscountPercentage;
+  var productDiscountValue;
+  var productTotalAmountAfterDiscount;
+  var productNotes;
+  var createdAt;
+  var updatedAt;
+  var imageUrl;
   Product? product;
 
   Items(
@@ -340,32 +340,32 @@ class Items {
 
 class Product {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? paragraphAr;
-  String? paragraphEn;
-  String? paragraphKu;
-  String? descriptionAr;
-  String? descriptionEn;
-  String? descriptionKu;
-  String? isVisible;
-  String? isOutOfStock;
-  String? currentQuantity;
-  String? minAvailableQuantity;
-  String? price;
-  String? finalPrice;
-  String? points;
-  String? isFeatured;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var paragraphAr;
+  var paragraphEn;
+  var paragraphKu;
+  var descriptionAr;
+  var descriptionEn;
+  var descriptionKu;
+  var isVisible;
+  var isOutOfStock;
+  var currentQuantity;
+  var minAvailableQuantity;
+  var price;
+  var finalPrice;
+  var points;
+  var isFeatured;
   var createdBy;
   var updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  String? brandId;
-  String? discount;
-  String? isVisibleBadge;
-  String? isOutOfStockBadge;
-  String? isFeaturedBadge;
+  var createdAt;
+  var updatedAt;
+  var brandId;
+  var discount;
+  var isVisibleBadge;
+  var isOutOfStockBadge;
+  var isFeaturedBadge;
   List<Attachments>? attachments;
 
   Product(
@@ -472,11 +472,11 @@ class Product {
 
 class Attachments {
   int? id;
-  String? productId;
-  String? type;
-  String? attachment;
-  String? createdAt;
-  String? updatedAt;
+  var productId;
+  var type;
+  var attachment;
+  var createdAt;
+  var updatedAt;
 
   Attachments(
       {this.id,

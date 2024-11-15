@@ -79,11 +79,9 @@ class _SimilarProductsState extends State<SimilarProducts> {
                                     id: state.productData!
                                         .relatedProducts![index].id,
                                     imageUrl: image,
-                                    isDiscount:
-                                        double.parse(state.productData!.relatedProducts![index].discount ?? "0.0") ==
-                                                0.0
-                                            ? false
-                                            : true,
+                                    isDiscount: double.parse(state.productData!.relatedProducts![index].discount.toString() ?? "0.0") == 0.0
+                                        ? false
+                                        : true,
                                     isFavorite: state.productData!
                                         .relatedProducts![index].isFavorite,
                                     nameAr: state.productData!

@@ -40,18 +40,18 @@
 
 // class SubCategoryData {
 //   var id;
-//   String? nameAr;
-//   String? nameEn;
-//   String? nameKu;
+//   var nameAr;
+//   var nameEn;
+//   var nameKu;
 //   List<Products>? products;
 //   Pagination? pagination;
-//   String? minPrice;
-//   String? maxPrice;
+//   var minPrice;
+//   var maxPrice;
 //   List<String>? uniqueColors;
 //   List<String>? uniqueSizes;
 //   List<String>? uniqueWeights;
 //   List<String>? uniqueDimensions;
-//   String? imageUrl;
+//   var imageUrl;
 
 //   SubCategoryData({
 //     this.id,
@@ -149,14 +149,14 @@ class SubCategoriesModel {
 
 class SubCategoryData {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? imageUrl;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var imageUrl;
   List<Products>? products;
   Pagination? pagination;
-  String? minPrice;
-  String? maxPrice;
+  var minPrice;
+  var maxPrice;
   List<String>? uniqueColors;
   List<String>? uniqueSizes;
   List<String>? uniqueWeights;
@@ -227,8 +227,8 @@ class SubCategoryData {
 
 class Brands {
   int? id;
-  String? name;
-  String? logo;
+  var name;
+  var logo;
 
   Brands({this.id, this.name, this.logo});
 
@@ -249,22 +249,22 @@ class Brands {
 
 class Products {
   var id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? price;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var price;
   bool? isDiscount;
-  String? discount;
+  var discount;
   var priceAfterDiscount;
   var reviewCount;
   var reviewAvg;
-  String? imageUrl;
-  String? isFeatured;
+  var imageUrl;
+  var isFeatured;
   bool? isFavorite;
-  String? createdAt;
-  String? finalPrice;
-  String? minAvailableQuantity;
-  String? currentQuantity;
+  var createdAt;
+  var finalPrice;
+  var minAvailableQuantity;
+  var currentQuantity;
   bool? displayProduct;
 
   Products(

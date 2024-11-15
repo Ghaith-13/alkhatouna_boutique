@@ -21,7 +21,7 @@ class WalletModel {
 }
 
 class WalletData {
-  String? walletBalance;
+  var walletBalance;
   List<Records>? records;
 
   WalletData({this.walletBalance, this.records});
@@ -48,9 +48,9 @@ class WalletData {
 
 class Records {
   int? id;
-  String? createdAt;
+  var createdAt;
   int? commissionValue;
-  String? promoCode;
+  var promoCode;
 
   Records({this.id, this.createdAt, this.commissionValue, this.promoCode});
 

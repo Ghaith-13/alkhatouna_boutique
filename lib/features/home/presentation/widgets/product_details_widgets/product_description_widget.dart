@@ -57,7 +57,7 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                       ? Row(
                           children: [
                             Text(
-                                '${(formatCurrency.format(double.parse(state.productData!.product!.price!)))} د.ع',
+                                '${(formatCurrency.format(double.parse(state.productData!.product!.price!.toString())))} د.ع',
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: 18.sp,
@@ -65,7 +65,7 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                                     fontWeight: FontWeight.w500)),
                             20.pw,
                             Text(
-                              "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!)))} د.ع",
+                              "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
                               style: TextStyle(
                                   color: AppColors.redColor,
                                   fontSize: 18.sp,
@@ -74,7 +74,7 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                           ],
                         )
                       : Text(
-                          "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!)))} د.ع",
+                          "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
                           style: TextStyle(
                               color: AppColors.blackColor,
                               fontSize: 18.sp,

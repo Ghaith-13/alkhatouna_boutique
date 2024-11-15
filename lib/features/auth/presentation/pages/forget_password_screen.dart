@@ -171,7 +171,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       return;
                     }
                   } catch (e) {
-                    print(e);
+                    // print(e);
                   }
                   // Additional validation for specific use cases (optional)
                   // For example, advanced server-side validation

@@ -17,7 +17,7 @@ class FavoriteDs {
     bool filterDiscount,
     bool filterFeature,
   ) async {
-    print(minPrice);
+    // print(minPrice);
     Map<String, String> body = {};
     body['page'] = "$pageNumber";
     body['is_feautred'] = "${filterFeature ? "1" : "0"}";

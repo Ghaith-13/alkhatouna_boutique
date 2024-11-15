@@ -283,7 +283,8 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                             .read<CartCubit>()
                                             .removefromTotalPrice(double.parse(
                                                 widget.cartItem.product!
-                                                    .finalPrice!));
+                                                    .finalPrice!
+                                                    .toString()));
                                         // print("Done");
                                       }
                                     }
@@ -347,7 +348,8 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                           "+1", widget.cartItem.id.toString());
                                       context.read<CartCubit>().addToTotalPrice(
                                           double.parse(widget
-                                              .cartItem.product!.finalPrice!));
+                                              .cartItem.product!.finalPrice!
+                                              .toString()));
                                     }
                                   },
                                   child: CircleAvatar(
@@ -366,7 +368,7 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                             ],
                           ),
                           Text(
-                              "${(formatCurrency.format(double.parse(widget.cartItem.product!.finalPrice!) * double.parse(widget.cartItem.quantity!)))} د.ع",
+                              "${(formatCurrency.format(double.parse(widget.cartItem.product!.finalPrice!.toString()) * double.parse(widget.cartItem.quantity!.toString())))} د.ع",
                               style: TextStyle(
                                   color: AppColors.blackColor,
                                   fontSize: 14.sp,

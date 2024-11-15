@@ -6,6 +6,7 @@ import 'package:alkhatouna/features/auth/data/models/check_number_model.dart';
 import 'package:alkhatouna/features/auth/data/models/google_model.dart';
 import 'package:alkhatouna/features/auth/data/models/reset_password_model.dart';
 import 'package:alkhatouna/features/auth/data/models/sign_up_model.dart';
+import 'package:alkhatouna/features/auth/data/models/whatsapp_settings_model.dart';
 import 'package:alkhatouna/features/auth/data/repositories/sign_up_repo.dart';
 import 'package:alkhatouna/features/auth/presentation/pages/reset_password.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
@@ -243,6 +244,30 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
     emit(state.copyWith(loading: false));
+  }
+
+  Future<void> getWhatssappSettings() async {
+    emit(state.copyWith(loadingWhatsAppSettings: true));
+    try {
+      WhatsappSettingsModel? response = await signUpRepo.getWhatsappSettings();
+      emit(state.copyWith(whatsappData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString().contains('Invalid login credentials')
+                ? "Invalid login credentials".tr(navigatorKey.currentContext!)
+                : e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingWhatsAppSettings: false));
   }
 
   Future<void> cacheData(SignUpModel response) async {

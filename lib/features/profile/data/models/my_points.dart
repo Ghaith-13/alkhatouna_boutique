@@ -49,11 +49,11 @@ class MyPointsData {
 
 class PointRecords {
   int? id;
-  String? userId;
-  String? points;
-  String? type;
-  String? createdAt;
-  String? updatedAt;
+  var userId;
+  var points;
+  var type;
+  var createdAt;
+  var updatedAt;
 
   PointRecords(
       {this.id,

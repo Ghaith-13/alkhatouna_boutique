@@ -252,6 +252,7 @@ class HomeCubit extends Cubit<HomeState> {
       }
       emit(state.copyWith(pageNumberForSub: state.pageNumberForSub + 1));
     } catch (e) {
+      // print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -287,18 +288,18 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   dealWithListIdForBrand(String value) {
-    print(value);
+    // print(value);
     List<String> mylist = state.selectedlistbrandId ?? [];
     if (mylist.contains(value)) {
       // Remove the value if it exists
       mylist.remove(value);
-      print("Removed $value from the list.");
+      // print("Removed $value from the list.");
     } else {
       // Add the value if it doesn't exist
       mylist.add(value);
-      print("Added $value to the list.");
+      // print("Added $value to the list.");
     }
-    print(mylist);
+    // print(mylist);
     emit(state.copyWith(selectedlistbrandId: mylist));
   }
 
@@ -323,7 +324,7 @@ class HomeCubit extends Cubit<HomeState> {
   changeMinPrice(double minPrice) => emit(state.copyWith(minPrice: minPrice));
   changeColorList(List<String> colorList) {
     emit(state.copyWith(colorList: colorList));
-    print(state.colorList);
+    // print(state.colorList);
   }
 
   changeSizesList(List<String> sizesList) {
@@ -332,12 +333,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   changewiegthsList(List<String> wiegthsList) {
     emit(state.copyWith(wiegthsList: wiegthsList));
-    print(state.wiegthsList);
+    // print(state.wiegthsList);
   }
 
   changedimensionsList(List<String> dimensionsList) {
     emit(state.copyWith(dimensionsList: dimensionsList));
-    print(state.dimensionsList);
+    // print(state.dimensionsList);
   }
 
   changeColorSelected(String value) {
@@ -366,9 +367,9 @@ class HomeCubit extends Cubit<HomeState> {
       body['product_id'] = productID;
       body['review'] = "${state.review}";
       body['rate'] = "${state.rating}";
-      print(state.review);
-      print(state.rating);
-      print(productID);
+      // print(state.review);
+      // print(state.rating);
+      // print(productID);
       ReviewModel? response = await homeRepo.sendReview(body: body);
       if (response.data!.message == "Review Updated successfully" ||
           response.data!.message == "Review Added successfully") {

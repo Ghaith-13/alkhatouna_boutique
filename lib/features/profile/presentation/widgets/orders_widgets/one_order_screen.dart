@@ -125,7 +125,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                     BlocBuilder<LocaleCubit, LocaleState>(
                       builder: (context, loclae) {
                         return Text(
-                          "${(formatCurrency.format(double.parse(widget.orderDetails.grandTotal!)))}",
+                          "${(formatCurrency.format(double.parse(widget.orderDetails.grandTotal!.toString())))}",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 12.sp,

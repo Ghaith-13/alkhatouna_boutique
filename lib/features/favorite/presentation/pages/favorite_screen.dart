@@ -41,7 +41,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       loadingToken = true;
     });
     token = await CacheHelper.getData(key: "USER_TOKEN");
-    print(token);
+    // print(token);
     if (token != null) {
       context.read<FavoriteCubit>().getFavoritesProduct(context);
       controller.addListener(() {

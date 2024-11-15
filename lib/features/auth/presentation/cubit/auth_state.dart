@@ -9,21 +9,37 @@ class AuthState extends Equatable {
       this.phone = "",
       this.password = "",
       this.loading = false,
+      this.whatsappData,
+      this.loadingWhatsAppSettings = false,
       this.logInmethod = ""});
   String? email, name, phone, password, logInmethod;
-  bool loading;
+  bool loading, loadingWhatsAppSettings;
+  WhatsappData? whatsappData;
   @override
-  List<Object?> get props =>
-      [email, name, phone, password, loading, logInmethod];
+  List<Object?> get props => [
+        email,
+        name,
+        phone,
+        password,
+        whatsappData,
+        loading,
+        logInmethod,
+        loadingWhatsAppSettings
+      ];
   AuthState copyWith(
           {String? email,
           String? name,
           String? logInmethod,
           String? phone,
           String? password,
-          bool? loading}) =>
+          bool? loading,
+          bool? loadingWhatsAppSettings,
+          WhatsappData? whatsappData}) =>
       AuthState(
           email: email ?? this.email,
+          whatsappData: whatsappData ?? this.whatsappData,
+          loadingWhatsAppSettings:
+              loadingWhatsAppSettings ?? this.loadingWhatsAppSettings,
           logInmethod: logInmethod ?? this.logInmethod,
           loading: loading ?? this.loading,
           name: name ?? this.name,

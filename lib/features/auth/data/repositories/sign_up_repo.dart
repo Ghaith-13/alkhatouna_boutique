@@ -5,6 +5,7 @@ import 'package:alkhatouna/features/auth/data/models/check_number_model.dart';
 import 'package:alkhatouna/features/auth/data/models/google_model.dart';
 import 'package:alkhatouna/features/auth/data/models/reset_password_model.dart';
 import 'package:alkhatouna/features/auth/data/models/sign_up_model.dart';
+import 'package:alkhatouna/features/auth/data/models/whatsapp_settings_model.dart';
 
 class SignUpRepo {
   final SignUpDs dataSource;
@@ -44,6 +45,13 @@ class SignUpRepo {
   Future<CheckNumberModel> checkNumber({required String number}) async {
     CheckNumberModel response = CheckNumberModel.fromJson(
       await dataSource.checkNumber(number),
+    );
+    return response;
+  }
+
+  Future<WhatsappSettingsModel> getWhatsappSettings() async {
+    WhatsappSettingsModel response = WhatsappSettingsModel.fromJson(
+      await dataSource.getWhatsappSettings(),
     );
     return response;
   }

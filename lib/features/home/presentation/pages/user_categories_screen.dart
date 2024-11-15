@@ -60,10 +60,12 @@ class _UserCategoriesScreenState extends State<UserCategoriesScreen> {
       builder: (context, state) {
         return BlocBuilder<LocaleCubit, LocaleState>(
           builder: (context, locale) {
+            print(state.userCategoriesData);
+
             return state.loadingUserCategories
                 ? UserCategoriesSkeleton()
                 : DefaultTabController(
-                    length: state.userCategoriesData!.categories!.length,
+                    length: state.userCategoriesData?.categories?.length ?? 0,
                     child: Scaffold(
                       appBar: AppBar(
                         // iconTheme: IconThemeData(color: AppColors.primaryColor),

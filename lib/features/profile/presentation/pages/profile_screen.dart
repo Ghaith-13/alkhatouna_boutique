@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       loadingToken = true;
     });
     token = await CacheHelper.getData(key: "USER_TOKEN");
-    print(token);
+    // print(token);
     if (token != null) {
       setState(() {
         name = CacheHelper.getData(key: "EMAIL") ?? "";

@@ -28,7 +28,7 @@ class _ProductPriceWidgetState extends State<ProductPriceWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  '${(formatCurrency.format(double.parse(widget.productDetails.price ?? "")))} د.ع',
+                  '${(formatCurrency.format(double.parse(widget.productDetails.price.toString())))} د.ع',
                   style: TextStyle(
                       decoration: TextDecoration.lineThrough,
                       fontSize: 12.sp,
@@ -36,7 +36,7 @@ class _ProductPriceWidgetState extends State<ProductPriceWidget> {
                       fontWeight: FontWeight.w500)),
               // 20.pw,
               Text(
-                "${formatCurrency.format(double.parse(widget.productDetails.finalPrice ?? ""))} د.ع",
+                "${formatCurrency.format(double.parse(widget.productDetails.finalPrice.toString()))} د.ع",
                 style: TextStyle(
                     color: AppColors.redColor,
                     fontSize: 12.sp,
@@ -45,7 +45,7 @@ class _ProductPriceWidgetState extends State<ProductPriceWidget> {
             ],
           )
         : Text(
-            "${formatCurrency.format(double.parse(widget.productDetails.price ?? ""))} د.ع",
+            "${formatCurrency.format(double.parse(widget.productDetails.price.toString()))} د.ع",
             style: TextStyle(
                 color: AppColors.blackColor,
                 fontSize: 12.sp,

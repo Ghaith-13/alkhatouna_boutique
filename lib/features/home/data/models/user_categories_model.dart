@@ -46,16 +46,16 @@ class UserCategoriesData {
 
 class Categories {
   int? id;
-  String? name;
-  String? orderCount;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  String? nameAr;
-  String? nameKu;
-  String? descriptionAr;
-  String? descriptionEn;
-  String? descriptionKu;
+  var name;
+  var orderCount;
+  var status;
+  var createdAt;
+  var updatedAt;
+  var nameAr;
+  var nameKu;
+  var descriptionAr;
+  var descriptionEn;
+  var descriptionKu;
   List<Benefits>? benefits;
 
   Categories(
@@ -114,14 +114,14 @@ class Categories {
 
 class Benefits {
   int? id;
-  String? userCategoryId;
-  String? benefitType;
-  String? value;
-  String? durationDays;
-  String? limit;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  var userCategoryId;
+  var benefitType;
+  var value;
+  var durationDays;
+  var limit;
+  var status;
+  var createdAt;
+  var updatedAt;
 
   Benefits(
       {this.id,

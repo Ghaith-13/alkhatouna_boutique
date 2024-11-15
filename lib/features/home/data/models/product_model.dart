@@ -53,37 +53,37 @@ class ProductData {
 
 class Product {
   var id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? paragraphAr;
-  String? paragraphEn;
-  String? paragraphKu;
-  String? descriptionAr;
-  String? descriptionEn;
-  String? descriptionKu;
-  String? isVisible;
-  String? isOutOfStock;
-  String? currentQuantity;
-  String? minAvailableQuantity;
-  String? price;
-  String? finalPrice;
-  String? points;
-  String? isFeatured;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var paragraphAr;
+  var paragraphEn;
+  var paragraphKu;
+  var descriptionAr;
+  var descriptionEn;
+  var descriptionKu;
+  var isVisible;
+  var isOutOfStock;
+  var currentQuantity;
+  var minAvailableQuantity;
+  var price;
+  var finalPrice;
+  var points;
+  var isFeatured;
   var createdBy;
   var updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  String? brandId;
-  String? discount;
+  var createdAt;
+  var updatedAt;
+  var brandId;
+  var discount;
   var reviewCount;
   var reviewAvg;
   bool? isDiscount;
   bool? isFavorite;
   var priceAfterDiscount;
-  String? isVisibleBadge;
-  String? isOutOfStockBadge;
-  String? isFeaturedBadge;
+  var isVisibleBadge;
+  var isOutOfStockBadge;
+  var isFeaturedBadge;
   List<Attachments>? attachments;
   List<Reviews>? reviews;
   List<ProductColors>? colors;
@@ -277,12 +277,12 @@ class Product {
 
 class Attachments {
   var id;
-  String? productId;
-  String? type;
-  String? attachment;
-  String? createdAt;
-  String? updatedAt;
-  String? imageUrl;
+  var productId;
+  var type;
+  var attachment;
+  var createdAt;
+  var updatedAt;
+  var imageUrl;
 
   Attachments(
       {this.id,
@@ -318,12 +318,12 @@ class Attachments {
 
 class Reviews {
   var id;
-  String? productId;
-  String? userId;
-  String? review;
-  String? rate;
-  String? createdAt;
-  String? updatedAt;
+  var productId;
+  var userId;
+  var review;
+  var rate;
+  var createdAt;
+  var updatedAt;
 
   Reviews(
       {this.id,
@@ -359,10 +359,10 @@ class Reviews {
 
 class ProductColors {
   var id;
-  String? colorHex;
-  String? productId;
-  String? createdAt;
-  String? updatedAt;
+  var colorHex;
+  var productId;
+  var createdAt;
+  var updatedAt;
 
   ProductColors(
       {this.id, this.colorHex, this.productId, this.createdAt, this.updatedAt});
@@ -388,10 +388,10 @@ class ProductColors {
 
 class Sizes {
   var id;
-  String? productId;
-  String? name;
-  String? createdAt;
-  String? updatedAt;
+  var productId;
+  var name;
+  var createdAt;
+  var updatedAt;
 
   Sizes({this.id, this.productId, this.name, this.createdAt, this.updatedAt});
 
@@ -416,13 +416,13 @@ class Sizes {
 
 class Brand {
   var id;
-  String? name;
-  String? logo;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  String? createdBy;
-  String? updatedBy;
+  var name;
+  var logo;
+  var status;
+  var createdAt;
+  var updatedAt;
+  var createdBy;
+  var updatedBy;
 
   Brand(
       {this.id,
@@ -461,17 +461,17 @@ class Brand {
 
 class Categories {
   var id;
-  String? type;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? image;
-  String? isVisible;
-  String? parentId;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var type;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var image;
+  var isVisible;
+  var parentId;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
   Pivot? pivot;
 
   Categories(
@@ -527,8 +527,8 @@ class Categories {
 }
 
 class Pivot {
-  String? productId;
-  String? categoryId;
+  var productId;
+  var categoryId;
 
   Pivot({this.productId, this.categoryId});
 
@@ -548,34 +548,34 @@ class Pivot {
 class RelatedProducts {
   var id;
   bool? isFavorite;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? paragraphAr;
-  String? paragraphEn;
-  String? paragraphKu;
-  String? descriptionAr;
-  String? descriptionEn;
-  String? descriptionKu;
-  String? isVisible;
-  String? isOutOfStock;
-  String? currentQuantity;
-  String? minAvailableQuantity;
-  String? price;
-  String? finalPrice;
-  String? points;
-  String? isFeatured;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var paragraphAr;
+  var paragraphEn;
+  var paragraphKu;
+  var descriptionAr;
+  var descriptionEn;
+  var descriptionKu;
+  var isVisible;
+  var isOutOfStock;
+  var currentQuantity;
+  var minAvailableQuantity;
+  var price;
+  var finalPrice;
+  var points;
+  var isFeatured;
   var createdBy;
   var updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  String? brandId;
-  String? discount;
+  var createdAt;
+  var updatedAt;
+  var brandId;
+  var discount;
   var reviewCount;
   var reviewAvg;
-  String? isVisibleBadge;
-  String? isOutOfStockBadge;
-  String? isFeaturedBadge;
+  var isVisibleBadge;
+  var isOutOfStockBadge;
+  var isFeaturedBadge;
   List<Attachments>? attachments;
   List<Reviews>? reviews;
   List<ProductColors>? colors;

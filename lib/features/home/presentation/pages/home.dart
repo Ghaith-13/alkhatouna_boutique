@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       loadingToken = true;
     });
     token = await CacheHelper.getData(key: "USER_TOKEN");
-    print(token);
+    // print(token);
     setState(() {
       loadingToken = false;
     });
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                             number = newNumber;
                           }
-                          print(number);
+                          // print(number);
                           String url =
                               Uri.encodeFull('https://wa.me/${number}');
                           await canLaunch(url)
@@ -457,108 +457,108 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class Zasin extends StatefulWidget {
-  const Zasin({super.key});
+// class Zasin extends StatefulWidget {
+//   const Zasin({super.key});
 
-  @override
-  State<Zasin> createState() => _ZasinState();
-}
+//   @override
+//   State<Zasin> createState() => _ZasinState();
+// }
 
-class _ZasinState extends State<Zasin> {
-  Widget _zaincash = Container();
-  String paymentState = '';
+// class _ZasinState extends State<Zasin> {
+//   Widget _zaincash = Container();
+//   String paymentState = '';
 
-  final TextEditingController _controller = TextEditingController();
+//   final TextEditingController _controller = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    /**
-     * to listen for the state of the transaction, it returns a json objects you can fetch like state['success']
-     */
-    ZaincashService.paymentStateListener.listen((state) {
-      setState(() {
-        paymentState = state.toString();
-      });
-    });
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     /**
+//      * to listen for the state of the transaction, it returns a json objects you can fetch like state['success']
+//      */
+//     ZaincashService.paymentStateListener.listen((state) {
+//       setState(() {
+//         paymentState = state.toString();
+//       });
+//     });
+//   }
 
-  void _triggerPayment() {
-    setState(() {
-      _zaincash = Container(
-          child: new ZainCash(
-              transactionId: _controller.text,
-              production: false,
-              closeOnSuccess: true,
-              closeOnError: true));
-    });
-  }
+//   void _triggerPayment() {
+//     setState(() {
+//       _zaincash = Container(
+//           child: new ZainCash(
+//               transactionId: _controller.text,
+//               production: false,
+//               closeOnSuccess: true,
+//               closeOnError: true));
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Ghaith"),
-      ),
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Enter the transaction id'),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text('Payment listener state ' + paymentState),
-              ],
-            ),
-            _zaincash,
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _triggerPayment,
-        tooltip: 'Pay',
-        child: Icon(Icons.payment),
-      ),
-    );
-    // InkWell(
-    //     onTap: () {
-    //       // ZaincashService.paymentStateListener
-    //       //     .listen((state) {
-    //       //   print("Done");
-    //       // });
-    //       ZainCash(
-    //           transactionId: "61b3976de65fb79d1b5ffc3c",
-    //           production: false,
-    //           closeOnSuccess: true,
-    //           closeOnError: true);
-    //       // showFlexibleBottomSheet(
-    //       //   bottomSheetColor:
-    //       //       AppColors.whiteColor,
-    //       //   barrierColor:
-    //       //       Color.fromARGB(94, 83, 83, 83),
-    //       //   bottomSheetBorderRadius:
-    //       //       BorderRadius.only(
-    //       //           topLeft:
-    //       //               Radius.circular(40.sp),
-    //       //           topRight:
-    //       //               Radius.circular(40.sp)),
-    //       //   minHeight: 0,
-    //       //   initHeight: 0.3,
-    //       //   maxHeight: 0.3,
-    //       //   anchors: [0, 0.3],
-    //       //   isSafeArea: true,
-    //       //   context: context,
-    //       //   builder: sortingSectionsBottomSheet,
-    //       // );
-    //     },
-    //     child: Icon(Icons.filter_list_outlined));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Ghaith"),
+//       ),
+//       body: Center(
+//         child: Stack(
+//           children: <Widget>[
+//             Column(
+//               children: [
+//                 Container(
+//                   padding: EdgeInsets.all(10),
+//                   child: TextFormField(
+//                     controller: _controller,
+//                     decoration: const InputDecoration(
+//                         border: UnderlineInputBorder(),
+//                         labelText: 'Enter the transaction id'),
+//                   ),
+//                 ),
+//                 SizedBox(height: 20),
+//                 Text('Payment listener state ' + paymentState),
+//               ],
+//             ),
+//             _zaincash,
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: _triggerPayment,
+//         tooltip: 'Pay',
+//         child: Icon(Icons.payment),
+//       ),
+//     );
+//     // InkWell(
+//     //     onTap: () {
+//     //       // ZaincashService.paymentStateListener
+//     //       //     .listen((state) {
+//     //       //   print("Done");
+//     //       // });
+//     //       ZainCash(
+//     //           transactionId: "61b3976de65fb79d1b5ffc3c",
+//     //           production: false,
+//     //           closeOnSuccess: true,
+//     //           closeOnError: true);
+//     //       // showFlexibleBottomSheet(
+//     //       //   bottomSheetColor:
+//     //       //       AppColors.whiteColor,
+//     //       //   barrierColor:
+//     //       //       Color.fromARGB(94, 83, 83, 83),
+//     //       //   bottomSheetBorderRadius:
+//     //       //       BorderRadius.only(
+//     //       //           topLeft:
+//     //       //               Radius.circular(40.sp),
+//     //       //           topRight:
+//     //       //               Radius.circular(40.sp)),
+//     //       //   minHeight: 0,
+//     //       //   initHeight: 0.3,
+//     //       //   maxHeight: 0.3,
+//     //       //   anchors: [0, 0.3],
+//     //       //   isSafeArea: true,
+//     //       //   context: context,
+//     //       //   builder: sortingSectionsBottomSheet,
+//     //       // );
+//     //     },
+//     //     child: Icon(Icons.filter_list_outlined));
+//   }
+// }

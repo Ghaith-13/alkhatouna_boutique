@@ -44,15 +44,15 @@ class CartData {
 
 class Carts {
   int? id;
-  String? userId;
-  String? productId;
-  String? hexColor;
-  String? size;
-  String? weight;
-  String? dimension;
-  String? quantity;
-  String? createdAt;
-  String? updatedAt;
+  var userId;
+  var productId;
+  var hexColor;
+  var size;
+  var weight;
+  var dimension;
+  var quantity;
+  var createdAt;
+  var updatedAt;
   Product? product;
 
   Carts(
@@ -105,38 +105,38 @@ class Carts {
 
 class Product {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? paragraphAr;
-  String? paragraphEn;
-  String? paragraphKu;
-  String? descriptionAr;
-  String? descriptionEn;
-  String? descriptionKu;
-  String? isVisible;
-  String? isOutOfStock;
-  String? currentQuantity;
-  String? minAvailableQuantity;
-  String? price;
-  String? finalPrice;
-  String? points;
-  String? isFeatured;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var paragraphAr;
+  var paragraphEn;
+  var paragraphKu;
+  var descriptionAr;
+  var descriptionEn;
+  var descriptionKu;
+  var isVisible;
+  var isOutOfStock;
+  var currentQuantity;
+  var minAvailableQuantity;
+  var price;
+  var finalPrice;
+  var points;
+  var isFeatured;
   var createdBy;
   var updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  String? brandId;
-  String? discount;
+  var createdAt;
+  var updatedAt;
+  var brandId;
+  var discount;
   int? reviewCount;
   var reviewAvg;
   bool? isFavorite;
   bool? isDiscount;
-  String? imageUrl;
+  var imageUrl;
   var priceAfterDiscount;
-  String? isVisibleBadge;
-  String? isOutOfStockBadge;
-  String? isFeaturedBadge;
+  var isVisibleBadge;
+  var isOutOfStockBadge;
+  var isFeaturedBadge;
   List<Attachments>? attachments;
   List<Reviews>? reviews;
 
@@ -272,11 +272,11 @@ class Product {
 
 class Attachments {
   int? id;
-  String? productId;
-  String? type;
-  String? attachment;
-  String? createdAt;
-  String? updatedAt;
+  var productId;
+  var type;
+  var attachment;
+  var createdAt;
+  var updatedAt;
 
   Attachments(
       {this.id,
@@ -309,12 +309,12 @@ class Attachments {
 
 class Reviews {
   int? id;
-  String? productId;
-  String? userId;
-  String? review;
-  String? rate;
-  String? createdAt;
-  String? updatedAt;
+  var productId;
+  var userId;
+  var review;
+  var rate;
+  var createdAt;
+  var updatedAt;
 
   Reviews(
       {this.id,

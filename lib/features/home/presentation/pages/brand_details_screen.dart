@@ -93,7 +93,7 @@ class _BrandDetailsScreenState extends State<BrandDetailsScreen> {
                                       ],
                                       image: DecorationImage(
                                         image: imageProvider,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.scaleDown,
                                       ),
                                     ),
                                   ),

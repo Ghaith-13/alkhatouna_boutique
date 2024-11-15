@@ -57,8 +57,8 @@ class _CategoreyChildrenScreenState extends State<CategoreyChildrenScreen> {
                                 return FadeInUp(
                                     child: InkWell(
                                   onTap: () {
-                                    print(state.categoreyChildrenData!
-                                        .categories![index].hasChildren!);
+                                    // print(state.categoreyChildrenData!
+                                    // .categories![index].hasChildren!);
                                     if (state.categoreyChildrenData!
                                         .categories![index].hasChildren!) {
                                       AppConstant.customNavigation(

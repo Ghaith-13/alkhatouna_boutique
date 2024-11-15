@@ -37,4 +37,10 @@ class SignUpDs {
         await apiHelper.get("/auth/check-number?phone=$number", headers: {});
     return response;
   }
+
+  Future<Map<String, dynamic>?> getWhatsappSettings() async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/whatsapp-settings", headers: {});
+    return response;
+  }
 }

@@ -371,7 +371,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                       BlocBuilder<LocaleCubit, LocaleState>(
                         builder: (context, state) {
                           return Text(
-                            "${formatCurrency.format(double.parse(widget.oneItem.productTotalAmountAfterDiscount ?? ""))} د.ع",
+                            "${formatCurrency.format(double.parse(widget.oneItem.productTotalAmountAfterDiscount.toString()))} د.ع",
                             style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.blackColor,

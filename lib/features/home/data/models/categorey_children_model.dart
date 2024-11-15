@@ -46,18 +46,18 @@ class CategoreyChildrenData {
 
 class Categories {
   int? id;
-  String? type;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? image;
-  String? isVisible;
-  String? parentId;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
-  String? imageUrl;
+  var type;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var image;
+  var isVisible;
+  var parentId;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
+  var imageUrl;
   bool? hasChildren;
   List<dynamic>? children;
 

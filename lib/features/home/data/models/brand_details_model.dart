@@ -51,22 +51,22 @@ class OneBrandDetails {
 
 class Products {
   int? id;
-  String? nameAr;
-  String? nameEn;
+  var nameAr;
+  var nameEn;
   var nameKu;
-  String? price;
+  var price;
   bool? isDiscount;
-  String? discount;
-  String? priceAfterDiscount;
+  var discount;
+  var priceAfterDiscount;
   int? reviewCount;
   int? reviewAvg;
-  String? imageUrl;
-  String? isFeatured;
-  String? createdAt;
-  String? finalPrice;
-  String? minAvailableQuantity;
-  String? currentQuantity;
-  String? isOutOfStock;
+  var imageUrl;
+  var isFeatured;
+  var createdAt;
+  var finalPrice;
+  var minAvailableQuantity;
+  var currentQuantity;
+  var isOutOfStock;
   bool? displayProduct;
   bool? is_favorite;
 
@@ -140,8 +140,8 @@ class Products {
 
 class Brand {
   int? id;
-  String? name;
-  String? logo;
+  var name;
+  var logo;
 
   Brand({this.id, this.name, this.logo});
 

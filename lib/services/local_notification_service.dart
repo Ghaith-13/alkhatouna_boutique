@@ -69,12 +69,12 @@ class LocalNotificationService {
   void onTapLocalNotification(NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
 
-    print(payload);
+    // print(payload);
 
     var data = json.decode(payload!);
-    print(data);
-    print("Notification is");
-    print("///////////////////////////////////////");
+    // print(data);
+    // print("Notification is");
+    // print("///////////////////////////////////////");
     if (data["product"] != "0") {
       AppConstant.customNavigation(navigatorKey.currentContext!,
           ProductDetailsScreen(productId: data["product"]), -1, 0);
@@ -140,18 +140,18 @@ class LocalNotificationService {
   }
 
   void showMessagefromServer(RemoteMessage message) async {
-    print(message.data);
+    // print(message.data);
     // print(message);
-    print(message.category);
-    print(message.messageType);
-    print(message.notification?.android?.imageUrl);
-    print(message.notification?.apple);
-    print(message.notification?.body);
-    print(message.notification?.bodyLocArgs);
-    print(message.notification?.title);
-    print(message.notification?.titleLocArgs);
-    print(message.notification?.titleLocKey);
-    print("message");
+    // print(message.category);
+    // print(message.messageType);
+    // print(message.notification?.android?.imageUrl);
+    // print(message.notification?.apple);
+    // print(message.notification?.body);
+    // print(message.notification?.bodyLocArgs);
+    // print(message.notification?.title);
+    // print(message.notification?.titleLocArgs);
+    // print(message.notification?.titleLocKey);
+    // print("message");
     showLocalNotifications(
       id: 0,
       title: "${message.notification?.title}",

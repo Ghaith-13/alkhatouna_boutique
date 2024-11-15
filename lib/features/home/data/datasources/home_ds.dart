@@ -9,8 +9,8 @@ class HomeDs {
 
   Future<Map<String, dynamic>?> getHomeInfo() async {
     String? userID = await CacheHelper.getData(key: "USER_ID");
-    print(userID);
-    print("Ghaith");
+    // print(userID);
+    // print("Ghaith");
     Map<String, dynamic>? response =
         await apiHelper.get("/home", queryParameters: {"user_id": userID});
     return response;

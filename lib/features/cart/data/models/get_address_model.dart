@@ -55,19 +55,19 @@ class AdressData {
 
 class Addresses {
   int? id;
-  String? userId;
-  String? title;
-  String? phone;
-  String? countryId;
-  String? provinceId;
-  String? areaId;
-  String? subAreaId;
-  String? longitude;
-  String? latitude;
-  String? notes;
-  String? isDefault;
-  String? createdAt;
-  String? updatedAt;
+  var userId;
+  var title;
+  var phone;
+  var countryId;
+  var provinceId;
+  var areaId;
+  var subAreaId;
+  var longitude;
+  var latitude;
+  var notes;
+  var isDefault;
+  var createdAt;
+  var updatedAt;
   Country? country;
   Province? province;
   Province? area;
@@ -154,16 +154,16 @@ class Addresses {
 
 class Country {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? type;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var type;
   var parentId;
-  String? deliveryFees;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var deliveryFees;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
 
   Country(
       {this.id,
@@ -211,16 +211,16 @@ class Country {
 
 class Province {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? type;
-  String? parentId;
-  String? deliveryFees;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var type;
+  var parentId;
+  var deliveryFees;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
 
   Province(
       {this.id,
@@ -268,16 +268,16 @@ class Province {
 
 class Regions {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? type;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var type;
   var parentId;
-  String? deliveryFees;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var deliveryFees;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
   List<Children>? children;
 
   Regions(
@@ -336,16 +336,16 @@ class Regions {
 
 class Children {
   int? id;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
-  String? type;
-  String? parentId;
-  String? deliveryFees;
-  String? createdBy;
-  String? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+  var type;
+  var parentId;
+  var deliveryFees;
+  var createdBy;
+  var updatedBy;
+  var createdAt;
+  var updatedAt;
   List<Children>? children;
 
   Children(

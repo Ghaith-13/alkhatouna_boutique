@@ -135,7 +135,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   break;
                                                 }
                                               }
-                                              print(imageUrl);
+                                              // print(imageUrl);
                                               final url = Uri.parse(imageUrl);
                                               final response =
                                                   await http.get(url);

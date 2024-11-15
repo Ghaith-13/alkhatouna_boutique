@@ -31,7 +31,7 @@ class CheckOutData {
   var totalAmountAfterDiscount;
   var grandTotal;
   PromoCode? promoCode;
-  String? orderConfirmationMessage;
+  var orderConfirmationMessage;
   var total_points;
   var paid_points;
   var total_tax;
@@ -571,15 +571,15 @@ class PromoCode {
 
 class AvailableBenefits {
   int? id;
-  String? userId;
-  String? userCategoryId;
-  String? benefitId;
-  String? startDate;
-  String? endDate;
-  String? usedCount;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  var userId;
+  var userCategoryId;
+  var benefitId;
+  var startDate;
+  var endDate;
+  var usedCount;
+  var status;
+  var createdAt;
+  var updatedAt;
   Benefit? benefit;
 
   AvailableBenefits(
@@ -631,14 +631,14 @@ class AvailableBenefits {
 
 class Benefit {
   int? id;
-  String? userCategoryId;
-  String? benefitType;
-  String? value;
-  String? durationDays;
-  String? limit;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  var userCategoryId;
+  var benefitType;
+  var value;
+  var durationDays;
+  var limit;
+  var status;
+  var createdAt;
+  var updatedAt;
 
   Benefit(
       {this.id,
@@ -680,10 +680,10 @@ class Benefit {
 
 class AppliedBenefit {
   int? id;
-  String? type;
-  String? description_en;
-  String? description_ar;
-  String? description_ku;
+  var type;
+  var description_en;
+  var description_ar;
+  var description_ku;
 
   AppliedBenefit(
       {this.id,

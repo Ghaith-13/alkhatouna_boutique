@@ -416,12 +416,12 @@ class _LogInScreenState extends State<LogInScreen> {
                                     .changeLogInMethodValue(
                                         phone.completeNumber);
 
-                                print("Yesss");
+                                // print("Yesss");
                               } else {
                                 return;
                               }
                             } catch (e) {
-                              print(e);
+                              // print(e);
                             }
                             // Additional validation for specific use cases (optional)
                             // For example, advanced server-side validation

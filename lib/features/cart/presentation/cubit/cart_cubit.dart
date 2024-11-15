@@ -139,8 +139,9 @@ class CartCubit extends Cubit<CartState> {
       double amount = 0;
       for (int i = 0; i < response.data!.carts!.length; i++) {
         amount = amount +
-            double.parse(response.data!.carts![i].product!.finalPrice!) *
-                double.parse(response.data!.carts![i].quantity!);
+            double.parse(
+                    response.data!.carts![i].product!.finalPrice!.toString()) *
+                double.parse(response.data!.carts![i].quantity!.toString());
       }
       emit(state.copyWith(totalCartPrice: amount));
     } catch (e) {
@@ -364,8 +365,8 @@ class CartCubit extends Cubit<CartState> {
           await cartRepo.makeAdressDefault(addressID: addressID);
       AdressData? newadressData = state.adressData;
       for (int i = 0; i < newadressData!.addresses!.length; i++) {
-        print(newadressData.addresses![i].id);
-        print(addressID);
+        // print(newadressData.addresses![i].id);
+        // print(addressID);
         if (newadressData.addresses![i].id == int.parse(addressID)) {
           newadressData.addresses![i].isDefault = "1";
         } else {
