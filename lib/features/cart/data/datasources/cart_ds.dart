@@ -39,11 +39,17 @@ class CartDS {
     return response;
   }
 
-  Future<Map<String, dynamic>?> sendOrder(String promoCode) async {
+  Future<Map<String, dynamic>?> sendOrder(
+      String promoCode, String paymentMethod, String selectedBenefitId) async {
     Map<String, String> body = {};
     body['promo_code'] = promoCode;
-    Map<String, dynamic>? response = await apiHelper.post("/add-order",
-        body: promoCode.isEmpty ? null : body);
+    body['selected_benefit_id'] = selectedBenefitId;
+
+    body['payment_method'] =
+        paymentMethod == "Points" ? "points" : paymentMethod;
+
+    Map<String, dynamic>? response =
+        await apiHelper.post("/add-order", body: body);
     return response;
   }
 
@@ -64,10 +70,9 @@ class CartDS {
   }
 
   Future<Map<String, dynamic>?> getCheckOut(
-      bool fromPromoCode, String promoCode) async {
+      bool fromPromoCode, String promoCode, String benefit) async {
     Map<String, dynamic>? response = await apiHelper.get(
-      fromPromoCode ? "/get-checkout?promo_code=$promoCode" : "/get-checkout",
-    );
+        "/get-checkout?promo_code=$promoCode&selected_benefit_id=$benefit");
     return response;
   }
 }

@@ -52,25 +52,19 @@ Widget sortingProductsBotomSheet(
 
                 context.read<HomeCubit>().changeSortName("Popular");
                 Navigator.pop(context);
-                List<SubCategoryData> newsubCategoriesData =
-                    state.subCategoriesData ?? [];
+                SubCategoryData newsubCategoriesData = state.subCategoriesData!;
                 List<Products>? product = [];
                 for (int i = 0;
-                    i <
-                        state.subCategoriesData![state.subCategoryId].products!
-                            .length;
+                    i < state.subCategoriesData!.products!.length;
                     i++) {
-                  if (state.subCategoriesData![state.subCategoryId].products![i]
-                          .isFeatured ==
-                      "1") {
-                    product.add(state
-                        .subCategoriesData![state.subCategoryId].products![i]);
+                  if (state.subCategoriesData!.products![i].isFeatured == "1") {
+                    product.add(state.subCategoriesData!.products![i]);
                   }
                 }
 
-                newsubCategoriesData[state.subCategoryId].products = [];
-                newsubCategoriesData[state.subCategoryId].products = product;
-                context.read<HomeCubit>().changeSubCategory([]);
+                newsubCategoriesData.products = [];
+                newsubCategoriesData.products = product;
+                context.read<HomeCubit>().changeSubCategory(SubCategoryData());
                 context
                     .read<HomeCubit>()
                     .changeSubCategory(newsubCategoriesData);
@@ -102,12 +96,11 @@ Widget sortingProductsBotomSheet(
 
                 context.read<HomeCubit>().changeSortName("Newest");
                 Navigator.pop(context);
-                List<SubCategoryData> newsubCategoriesData =
-                    state.subCategoriesData ?? [];
-                newsubCategoriesData[state.subCategoryId].products!.sort(
-                    (b, a) => DateTime.parse(a.createdAt ?? "")
+                SubCategoryData newsubCategoriesData = state.subCategoriesData!;
+                newsubCategoriesData.products!.sort((b, a) =>
+                    DateTime.parse(a.createdAt ?? "")
                         .compareTo(DateTime.parse(b.createdAt ?? "")));
-                context.read<HomeCubit>().changeSubCategory([]);
+                context.read<HomeCubit>().changeSubCategory(SubCategoryData());
                 context
                     .read<HomeCubit>()
                     .changeSubCategory(newsubCategoriesData);
@@ -138,10 +131,8 @@ Widget sortingProductsBotomSheet(
                 context.read<HomeCubit>().changeSortName("Customer Review");
 
                 Navigator.pop(context);
-                List<SubCategoryData> newsubCategoriesData =
-                    state.subCategoriesData ?? [];
-                newsubCategoriesData[state.subCategoryId]
-                    .products!
+                SubCategoryData newsubCategoriesData = state.subCategoriesData!;
+                newsubCategoriesData.products!
                     .sort((b, a) => a.reviewAvg!.compareTo(b.reviewAvg!));
                 context
                     .read<HomeCubit>()
@@ -174,12 +165,11 @@ Widget sortingProductsBotomSheet(
                 context
                     .read<HomeCubit>()
                     .changeSortName("Price : lowest to high");
-                List<SubCategoryData> newsubCategoriesData =
-                    state.subCategoriesData ?? [];
-                newsubCategoriesData[state.subCategoryId].products!.sort(
-                    (b, a) => double.parse(b.finalPrice ?? "0")
+                SubCategoryData newsubCategoriesData = state.subCategoriesData!;
+                newsubCategoriesData.products!.sort((b, a) =>
+                    double.parse(b.finalPrice ?? "0")
                         .compareTo(double.parse(a.finalPrice ?? "0")));
-                context.read<HomeCubit>().changeSubCategory([]);
+                context.read<HomeCubit>().changeSubCategory(SubCategoryData());
                 Future.delayed(Duration(seconds: 3));
 
                 context
@@ -216,12 +206,11 @@ Widget sortingProductsBotomSheet(
                     .read<HomeCubit>()
                     .changeSortName("Price : highest to low");
 
-                List<SubCategoryData> newsubCategoriesData =
-                    state.subCategoriesData ?? [];
-                newsubCategoriesData[state.subCategoryId].products!.sort(
-                    (b, a) => double.parse(a.finalPrice ?? "0")
+                SubCategoryData newsubCategoriesData = state.subCategoriesData!;
+                newsubCategoriesData.products!.sort((b, a) =>
+                    double.parse(a.finalPrice ?? "0")
                         .compareTo(double.parse(b.finalPrice ?? "0")));
-                context.read<HomeCubit>().changeSubCategory([]);
+                context.read<HomeCubit>().changeSubCategory(SubCategoryData());
                 Future.delayed(Duration(seconds: 3));
 
                 context

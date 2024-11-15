@@ -223,9 +223,7 @@ Widget passwordDropDown(
                               );
                             } else {
                               context.read<AuthCubit>().resetPassword(
-                                  state.userInfo!.phone,
-                                  state.newPassword!,
-                                  context,
+                                  state.userInfo!.phone, state.newPassword!,
                                   fromProfile: true);
                             }
                           },

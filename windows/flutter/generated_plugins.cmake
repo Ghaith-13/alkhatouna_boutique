@@ -3,8 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  app_links
   firebase_auth
   firebase_core
+  flutter_inappwebview_windows
   geolocator_windows
   permission_handler_windows
   share_plus

@@ -33,20 +33,19 @@ class _SizesFilterWidgetState extends State<SizesFilterWidget> {
         width: 1.sw,
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            return state
-                  .subCategoriesData![state.subCategoryId].uniqueSizes==null?SizedBox(): ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: state
-                  .subCategoriesData![state.subCategoryId].uniqueSizes!.length,
-              itemBuilder: (context, index) {
-                return SizeWidget(
-                  size: state.subCategoriesData![state.subCategoryId]
-                      .uniqueSizes![index],
-                  checkAndModifySizesList: checkAndModifySizesList,
-                );
-              },
-            );
+            return state.subCategoriesData!.uniqueSizes == null
+                ? SizedBox()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.subCategoriesData!.uniqueSizes!.length,
+                    itemBuilder: (context, index) {
+                      return SizeWidget(
+                        size: state.subCategoriesData!.uniqueSizes![index],
+                        checkAndModifySizesList: checkAndModifySizesList,
+                      );
+                    },
+                  );
           },
         ),
       ),

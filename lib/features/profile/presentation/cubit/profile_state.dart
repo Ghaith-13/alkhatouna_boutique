@@ -8,23 +8,31 @@ class ProfileState extends Equatable {
       this.laodingGetSettings = false,
       this.myOrders,
       this.articles,
+      this.myPointsData,
       this.repeateNewPassword = "",
       this.newPassword = "",
       this.tutorial,
+      this.faqData,
       this.settings,
       this.walletData,
       this.feedback = "",
       this.orderId = "",
       this.loaidngProfile = false,
+      this.laodingFaq = false,
+      this.loadingPoints = false,
       this.loadingArticles = false,
       this.laodingfeedback = false,
       this.userInfo});
   bool laodingOrders,
       laodingGetSettings,
+      loadingPoints,
       loaidngProfile,
       laodingfeedback,
+      laodingFaq,
       loadingArticles;
+  MyPointsData? myPointsData;
   OrdersList? myOrders;
+  FaqData? faqData;
   SettingsDataModel? settings;
   UserInfo? userInfo;
   WalletData? walletData;
@@ -37,8 +45,12 @@ class ProfileState extends Equatable {
         laodingOrders,
         laodingGetSettings,
         myOrders,
+        faqData,
         articles,
+        loadingPoints,
+        myPointsData,
         repeateNewPassword,
+        laodingFaq,
         newPassword,
         orderId,
         settings,
@@ -55,7 +67,11 @@ class ProfileState extends Equatable {
           loadingArticles,
           laodingGetSettings,
           laodingfeedback,
+          loadingPoints,
+          laodingFaq,
           loaidngProfile,
+          MyPointsData? myPointsData,
+          FaqData? faqData,
           String? feedback,
           orderId,
           repeateNewPassword,
@@ -69,7 +85,11 @@ class ProfileState extends Equatable {
       ProfileState(
         feedback: feedback ?? this.feedback,
         settings: settings ?? this.settings,
+        faqData: faqData ?? this.faqData,
         laodingGetSettings: laodingGetSettings ?? this.laodingGetSettings,
+        myPointsData: myPointsData ?? this.myPointsData,
+        loadingPoints: loadingPoints ?? this.loadingPoints,
+        laodingFaq: laodingFaq ?? this.laodingFaq,
         articles: articles ?? this.articles,
         walletData: walletData ?? this.walletData,
         orderId: orderId ?? this.orderId,

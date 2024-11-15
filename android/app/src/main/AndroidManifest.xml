@@ -35,7 +35,7 @@
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
                 android:scheme="https"
-                android:host="alkhatouna-boutique-8d85a.web.app"
+                android:host="alkhatouna-boutique-8d85a.firebaseapp.com"
                 android:pathPrefix="/productDetails/" />
             </intent-filter>
         </activity>

@@ -1,4 +1,3 @@
-
 class HomeModel {
   HomeData? data;
   bool? errors;
@@ -27,6 +26,7 @@ class HomeData {
   List<BestSellingProducts>? bestSellingProducts;
   List<DiscountedProducts>? discountedProducts;
   String? phone_number;
+  UserCategoryData? userCategoryData;
 
   HomeData(
       {this.banners,
@@ -34,8 +34,8 @@ class HomeData {
       this.brands,
       this.bestSellingProducts,
       this.discountedProducts,
-      this.phone_number
-      });
+      this.phone_number,
+      this.userCategoryData});
 
   HomeData.fromJson(Map<String, dynamic>? json) {
     if (json?['banners'] != null) {
@@ -68,8 +68,10 @@ class HomeData {
         discountedProducts!.add(new DiscountedProducts.fromJson(v));
       });
     }
-        phone_number = json?['phone_number'];
-
+    phone_number = json?['phone_number'];
+    userCategoryData = json?['user_category_data'] != null
+        ? new UserCategoryData.fromJson(json?['user_category_data'])
+        : null;
   }
 
   Map<String, dynamic>? toJson() {
@@ -91,8 +93,10 @@ class HomeData {
       data?['discounted_products'] =
           this.discountedProducts!.map((v) => v.toJson()).toList();
     }
-        data?['phone_number'] = this.phone_number;
-
+    data?['phone_number'] = this.phone_number;
+    if (this.userCategoryData != null) {
+      data?['user_category_data'] = this.userCategoryData!.toJson();
+    }
     return data;
   }
 }
@@ -112,6 +116,7 @@ class Banners {
   var createdAt;
   var updatedAt;
   var imageUrl;
+  var redirection_url;
 
   Banners(
       {this.id,
@@ -126,6 +131,7 @@ class Banners {
       this.createdBy,
       this.updatedBy,
       this.createdAt,
+      this.redirection_url,
       this.updatedAt,
       this.imageUrl});
 
@@ -144,6 +150,7 @@ class Banners {
     createdAt = json?['created_at'];
     updatedAt = json?['updated_at'];
     imageUrl = json?['image_url'];
+    redirection_url = json?['redirection_url'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -162,6 +169,7 @@ class Banners {
     data?['created_at'] = this.createdAt;
     data?['updated_at'] = this.updatedAt;
     data?['image_url'] = this.imageUrl;
+    data?['redirection_url'] = this.redirection_url;
     return data;
   }
 }
@@ -538,6 +546,67 @@ class DiscountedProducts {
     data?['display_product'] = this.displayProduct;
     data?['brand_name'] = this.brandName;
     data?['is_favorite'] = this.is_favorite;
+    return data;
+  }
+}
+
+class UserCategoryData {
+  String? currentCategoryEn;
+  String? currentCategoryAr;
+  String? currentCategoryKu;
+  int? completedOrdersCount;
+  String? nextCategoryEn;
+  String? nextCategoryAr;
+  String? nextCategoryKu;
+  int? progressPercentage;
+  int? ordersNeeded;
+  String? messageEn;
+  String? messageAr;
+  String? messageKu;
+
+  UserCategoryData(
+      {this.currentCategoryEn,
+      this.currentCategoryAr,
+      this.currentCategoryKu,
+      this.completedOrdersCount,
+      this.nextCategoryEn,
+      this.nextCategoryAr,
+      this.nextCategoryKu,
+      this.progressPercentage,
+      this.ordersNeeded,
+      this.messageEn,
+      this.messageAr,
+      this.messageKu});
+
+  UserCategoryData.fromJson(Map<String, dynamic> json) {
+    currentCategoryEn = json['current_category_en'];
+    currentCategoryAr = json['current_category_ar'];
+    currentCategoryKu = json['current_category_ku'];
+    completedOrdersCount = json['completed_orders_count'];
+    nextCategoryEn = json['next_category_en'];
+    nextCategoryAr = json['next_category_ar'];
+    nextCategoryKu = json['next_category_ku'];
+    progressPercentage = json['progress_percentage'];
+    ordersNeeded = json['orders_needed'];
+    messageEn = json['message_en'];
+    messageAr = json['message_ar'];
+    messageKu = json['message_ku'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['current_category_en'] = this.currentCategoryEn;
+    data['current_category_ar'] = this.currentCategoryAr;
+    data['current_category_ku'] = this.currentCategoryKu;
+    data['completed_orders_count'] = this.completedOrdersCount;
+    data['next_category_en'] = this.nextCategoryEn;
+    data['next_category_ar'] = this.nextCategoryAr;
+    data['next_category_ku'] = this.nextCategoryKu;
+    data['progress_percentage'] = this.progressPercentage;
+    data['orders_needed'] = this.ordersNeeded;
+    data['message_en'] = this.messageEn;
+    data['message_ar'] = this.messageAr;
+    data['message_ku'] = this.messageKu;
     return data;
   }
 }

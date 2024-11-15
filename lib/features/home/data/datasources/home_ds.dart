@@ -1,3 +1,5 @@
+import 'package:alkhatouna/core/utils/cache_helper.dart';
+
 import '../../../../core/utils/http_helper.dart';
 
 class HomeDs {
@@ -6,13 +8,27 @@ class HomeDs {
   HomeDs({required this.apiHelper});
 
   Future<Map<String, dynamic>?> getHomeInfo() async {
-    Map<String, dynamic>? response = await apiHelper.get("/home");
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+    print(userID);
+    print("Ghaith");
+    Map<String, dynamic>? response =
+        await apiHelper.get("/home", queryParameters: {"user_id": userID});
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getUserCategories() async {
+    Map<String, dynamic>? response = await apiHelper.get(
+      "/get-user-categories",
+    );
     return response;
   }
 
   Future<Map<String, dynamic>?> getProductDetails(String prouctid) async {
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
     Map<String, String> body = {};
     body['product_id'] = "$prouctid";
+    body['user_id'] = "$userID";
     Map<String, dynamic>? response =
         await apiHelper.get("/get-product", queryParameters: body);
     return response;
@@ -20,8 +36,23 @@ class HomeDs {
 
   Future<Map<String, dynamic>?> getBrandDetails(
       String brandId, int pagenumber) async {
-    Map<String, dynamic>? response = await apiHelper
-        .get("/brands/$brandId/products-with-pagination?page=$pagenumber");
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
+    Map<String, dynamic>? response = await apiHelper.get(
+        "/brands/$brandId/products-with-pagination?page=$pagenumber",
+        queryParameters: {"user_id": userID});
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getFullSearch(String catID) async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/full-search?keyword=$catID");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getCategoreyChildren(String keyword) async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/get-category-children?category_id=$keyword");
     return response;
   }
 
@@ -68,11 +99,14 @@ class HomeDs {
       bool filterDiscount,
       bool filterFeature,
       String searchValue) async {
-    Map<String, String> body = {};
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
+    Map<String, String?> body = {};
     body['page'] = "$pageNumber";
     body['is_feautred'] = "${filterFeature ? "1" : "0"}";
     body['is_discount'] = "${filterDiscount ? "1" : "0"}";
     body['category_id'] = "$category_id";
+    body['user_id'] = userID;
 
     if (minPrice != -100) {
       body['min_price'] = "$minPrice";
@@ -103,7 +137,7 @@ class HomeDs {
         body['brands[$i]'] = "${selectedlistbrandId[i]}";
     }
     Map<String, dynamic>? response =
-        await apiHelper.get("/get-sub-categories", queryParameters: body);
+        await apiHelper.get("/get-category-products", queryParameters: body);
     return response;
   }
 }

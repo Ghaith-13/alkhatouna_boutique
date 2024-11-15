@@ -11,8 +11,12 @@ class HomeState extends Equatable {
       this.dontshowSearchIcon = false,
       this.filterDiscount = false,
       this.stopLoadingBrand = false,
+      this.loadingUserCategories = false,
+      this.loadingSendFavorite = false,
+      this.laodingFullSearch = false,
       this.loading = false,
       this.loadingBrands = false,
+      this.loadingCatChildren = false,
       this.loadingAddToCart = false,
       this.rating = 0,
       this.activeTabIndex = 0,
@@ -25,6 +29,8 @@ class HomeState extends Equatable {
       this.selectedWeight = "",
       this.review = "",
       this.brands,
+      this.searchData,
+      this.categoreyChildrenData,
       this.loadingProductDetails = false,
       this.stopLoading = false,
       this.loadingSubCateogries = false,
@@ -42,6 +48,7 @@ class HomeState extends Equatable {
       this.sizesList,
       this.wiegthsList,
       this.oneBrandDetails,
+      this.userCategoriesData,
       this.dimensionsList,
       this.pageNumberBeforeFilter = 1});
 
@@ -51,18 +58,25 @@ class HomeState extends Equatable {
   List<String>? selectedlistbrandId;
   List<String>? sizesList;
   List<String>? dimensionsList;
+  UserCategoriesData? userCategoriesData;
   OneBrandDetails? oneBrandDetails;
+  SearchData? searchData;
   String? review;
   BrandsData? brandsData;
   String? searchValue;
   List<Brands>? brands;
+  CategoreyChildrenData? categoreyChildrenData;
   bool showmeshProducts,
       loading,
+      loadingUserCategories,
+      loadingSendFavorite,
       loadingBrands,
       stopLoadingBrand,
       laodingReview,
       loadingProductDetails,
       dontshowSearchIcon,
+      loadingCatChildren,
+      laodingFullSearch,
       filterDiscount,
       filterFeature,
       loadingSubCateogries,
@@ -70,8 +84,8 @@ class HomeState extends Equatable {
       loadingAddToCart,
       stopLoading;
   HomeData? homeInfo;
-  List<SubCategoryData>? subCategoriesData;
-  List<SubCategoryData>? subCategoriesDataBeforeFilter;
+  SubCategoryData? subCategoriesData;
+  SubCategoryData? subCategoriesDataBeforeFilter;
   int subCategoryId,
       pageNumberForSub,
       pageNumberBeforeFilter,
@@ -91,14 +105,21 @@ class HomeState extends Equatable {
         subCategoriesDataBeforeFilter,
         review,
         showmeshProducts,
+        loadingUserCategories,
+        loadingSendFavorite,
         homeInfo,
         stopLoadingBrand,
         searchValue,
         oneBrandDetails,
+        userCategoriesData,
+        laodingFullSearch,
+        loadingCatChildren,
         selectedlistbrandId,
         brandsData,
+        categoreyChildrenData,
         pageNumberForBrand,
         laodingReview,
+        searchData,
         filterFeature,
         dontshowSearchIcon,
         brands,
@@ -134,12 +155,18 @@ class HomeState extends Equatable {
           bool? loadingFilter,
           bool? loadingAddToCart,
           bool? laodingReview,
+          bool? loadingUserCategories,
           bool? filterFeature,
           bool? stopLoadingBrand,
           bool? filterDiscount,
+          bool? loadingCatChildren,
           bool? dontshowSearchIcon,
+          bool? loadingSendFavorite,
           bool? loadingProductDetails,
+          bool? laodingFullSearch,
           bool? stopLoading,
+          UserCategoriesData? userCategoriesData,
+          CategoreyChildrenData? categoreyChildrenData,
           bool? loadingBrands,
           String? searchValue,
           String? selectedColor,
@@ -148,6 +175,7 @@ class HomeState extends Equatable {
           String? selectedWeight,
           OneBrandDetails? oneBrandDetails,
           String? selectedSize,
+          SearchData? searchData,
           int? subCategoryId,
           int? rating,
           int? pageNumberForBrand,
@@ -166,16 +194,25 @@ class HomeState extends Equatable {
           int? pageNumberBeforeFilter,
           bool? loadingSubCateogries,
           HomeData? homeInfo,
-          List<SubCategoryData>? subCategoriesData,
-          List<SubCategoryData>? subCategoriesDataBeforeFilter,
+          SubCategoryData? subCategoriesData,
+          SubCategoryData? subCategoriesDataBeforeFilter,
           bool? loading}) =>
       HomeState(
         sortName: sortName ?? this.sortName,
         dontshowSearchIcon: dontshowSearchIcon ?? this.dontshowSearchIcon,
+        categoreyChildrenData:
+            categoreyChildrenData ?? this.categoreyChildrenData,
         stopLoadingBrand: stopLoadingBrand ?? this.stopLoadingBrand,
         loadingBrands: loadingBrands ?? this.loadingBrands,
+        loadingUserCategories:
+            loadingUserCategories ?? this.loadingUserCategories,
+        loadingCatChildren: loadingCatChildren ?? this.loadingCatChildren,
         oneBrandDetails: oneBrandDetails ?? this.oneBrandDetails,
+        userCategoriesData: userCategoriesData ?? this.userCategoriesData,
+        searchData: searchData ?? this.searchData,
         stopLoading: stopLoading ?? this.stopLoading,
+        laodingFullSearch: laodingFullSearch ?? this.laodingFullSearch,
+        loadingSendFavorite: loadingSendFavorite ?? this.loadingSendFavorite,
         filterFeature: filterFeature ?? this.filterFeature,
         filterDiscount: filterDiscount ?? this.filterDiscount,
         pageNumberForBrand: pageNumberForBrand ?? this.pageNumberForBrand,

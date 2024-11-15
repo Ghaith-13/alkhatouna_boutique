@@ -1,17 +1,130 @@
+// class SubCategoriesModel {
+//   SubCategoryData? data;
+//   List<Brands>? brands;
+//   bool? errors;
+
+//   SubCategoriesModel({this.data, this.brands, this.errors});
+
+//   SubCategoriesModel.fromJson(Map<String, dynamic>? json) {
+//     // if (json?['data'] != null) {
+//     //   data = <SubCategoryData>[];
+//     //   json?['data'].forEach((v) {
+//     //     data!.add(new SubCategoryData.fromJson(v));
+//     //   });
+//     // }
+//     data = json?['data'];
+
+//     if (json?['brands'] != null) {
+//       brands = <Brands>[];
+//       json?['brands'].forEach((v) {
+//         brands!.add(new Brands.fromJson(v));
+//       });
+//     }
+//     errors = json?['errors'];
+//   }
+
+//   Map<String, dynamic>? toJson() {
+//     final Map<String, dynamic>? data = new Map<String, dynamic>();
+//     // if (this.data != null) {
+//     //   data?['data'] = this.data!.map((v) => v.toJson()).toList();
+//     // }
+//     data?['data'] = this.data;
+
+//     if (this.brands != null) {
+//       data?['brands'] = this.brands!.map((v) => v.toJson()).toList();
+//     }
+//     data?['errors'] = this.errors;
+//     return data;
+//   }
+// }
+
+// class SubCategoryData {
+//   var id;
+//   String? nameAr;
+//   String? nameEn;
+//   String? nameKu;
+//   List<Products>? products;
+//   Pagination? pagination;
+//   String? minPrice;
+//   String? maxPrice;
+//   List<String>? uniqueColors;
+//   List<String>? uniqueSizes;
+//   List<String>? uniqueWeights;
+//   List<String>? uniqueDimensions;
+//   String? imageUrl;
+
+//   SubCategoryData({
+//     this.id,
+//     this.nameAr,
+//     this.nameEn,
+//     this.nameKu,
+//     this.products,
+//     this.pagination,
+//     this.minPrice,
+//     this.maxPrice,
+//     this.uniqueColors,
+//     this.uniqueSizes,
+//     this.uniqueWeights,
+//     this.uniqueDimensions,
+//     this.imageUrl,
+//   });
+
+//   SubCategoryData.fromJson(Map<String, dynamic>? json) {
+//     id = json?['id'];
+//     nameAr = json?['name_ar'];
+//     nameEn = json?['name_en'];
+//     nameKu = json?['name_ku'];
+//     imageUrl = json?['image_url'];
+//     if (json?['products'] != null) {
+//       products = <Products>[];
+//       json?['products'].forEach((v) {
+//         products!.add(new Products.fromJson(v));
+//       });
+//     }
+//     pagination = json?['pagination'] != null
+//         ? new Pagination.fromJson(json?['pagination'])
+//         : null;
+//     minPrice = json?['min_price'];
+//     maxPrice = json?['max_price'];
+//     uniqueColors = json?['unique_colors'].cast<String>();
+//     uniqueSizes = json?['unique_sizes'].cast<String>();
+//     uniqueWeights = json?['unique_weights'].cast<String>();
+//     uniqueDimensions = json?['unique_dimensions'].cast<String>();
+//   }
+
+//   Map<String, dynamic>? toJson() {
+//     final Map<String, dynamic>? data = new Map<String, dynamic>();
+//     data?['id'] = this.id;
+//     data?['name_ar'] = this.nameAr;
+//     data?['name_en'] = this.nameEn;
+//     data?['name_ku'] = this.nameKu;
+//     if (this.products != null) {
+//       data?['products'] = this.products!.map((v) => v.toJson()).toList();
+//     }
+//     if (this.pagination != null) {
+//       data?['pagination'] = this.pagination!.toJson();
+//     }
+//     data?['min_price'] = this.minPrice;
+//     data?['max_price'] = this.maxPrice;
+//     data?['unique_colors'] = this.uniqueColors;
+//     data?['unique_sizes'] = this.uniqueSizes;
+//     data?['unique_weights'] = this.uniqueWeights;
+//     data?['unique_dimensions'] = this.uniqueDimensions;
+//     data?['image_url'] = this.imageUrl;
+//     return data;
+//   }
+// }
 class SubCategoriesModel {
-  List<SubCategoryData>? data;
+  SubCategoryData? data;
   List<Brands>? brands;
   bool? errors;
 
   SubCategoriesModel({this.data, this.brands, this.errors});
 
   SubCategoriesModel.fromJson(Map<String, dynamic>? json) {
-    if (json?['data'] != null) {
-      data = <SubCategoryData>[];
-      json?['data'].forEach((v) {
-        data!.add(new SubCategoryData.fromJson(v));
-      });
-    }
+    data = json?['data'] != null
+        ? new SubCategoryData.fromJson(json?['data'])
+        : null;
     if (json?['brands'] != null) {
       brands = <Brands>[];
       json?['brands'].forEach((v) {
@@ -24,7 +137,7 @@ class SubCategoriesModel {
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic>? data = new Map<String, dynamic>();
     if (this.data != null) {
-      data?['data'] = this.data!.map((v) => v.toJson()).toList();
+      data?['data'] = this.data!.toJson();
     }
     if (this.brands != null) {
       data?['brands'] = this.brands!.map((v) => v.toJson()).toList();
@@ -35,10 +148,11 @@ class SubCategoriesModel {
 }
 
 class SubCategoryData {
-  var id;
+  int? id;
   String? nameAr;
   String? nameEn;
   String? nameKu;
+  String? imageUrl;
   List<Products>? products;
   Pagination? pagination;
   String? minPrice;
@@ -47,23 +161,20 @@ class SubCategoryData {
   List<String>? uniqueSizes;
   List<String>? uniqueWeights;
   List<String>? uniqueDimensions;
-  String? imageUrl;
-
-  SubCategoryData({
-    this.id,
-    this.nameAr,
-    this.nameEn,
-    this.nameKu,
-    this.products,
-    this.pagination,
-    this.minPrice,
-    this.maxPrice,
-    this.uniqueColors,
-    this.uniqueSizes,
-    this.uniqueWeights,
-    this.uniqueDimensions,
-    this.imageUrl,
-  });
+  SubCategoryData(
+      {this.id,
+      this.nameAr,
+      this.nameEn,
+      this.nameKu,
+      this.imageUrl,
+      this.products,
+      this.pagination,
+      this.minPrice,
+      this.maxPrice,
+      this.uniqueColors,
+      this.uniqueSizes,
+      this.uniqueWeights,
+      this.uniqueDimensions});
 
   SubCategoryData.fromJson(Map<String, dynamic>? json) {
     id = json?['id'];
@@ -94,6 +205,7 @@ class SubCategoryData {
     data?['name_ar'] = this.nameAr;
     data?['name_en'] = this.nameEn;
     data?['name_ku'] = this.nameKu;
+    data?['image_url'] = this.imageUrl;
     if (this.products != null) {
       data?['products'] = this.products!.map((v) => v.toJson()).toList();
     }
@@ -102,11 +214,35 @@ class SubCategoryData {
     }
     data?['min_price'] = this.minPrice;
     data?['max_price'] = this.maxPrice;
+    //     data?['min_price'] = this.minPrice;
+//     data?['max_price'] = this.maxPrice;
     data?['unique_colors'] = this.uniqueColors;
     data?['unique_sizes'] = this.uniqueSizes;
     data?['unique_weights'] = this.uniqueWeights;
     data?['unique_dimensions'] = this.uniqueDimensions;
-    data?['image_url'] = this.imageUrl;
+//     data?['image_url'] = this.imageUrl;
+    return data;
+  }
+}
+
+class Brands {
+  int? id;
+  String? name;
+  String? logo;
+
+  Brands({this.id, this.name, this.logo});
+
+  Brands.fromJson(Map<String, dynamic>? json) {
+    id = json?['id'];
+    name = json?['name'];
+    logo = json?['logo'];
+  }
+
+  Map<String, dynamic>? toJson() {
+    final Map<String, dynamic>? data = new Map<String, dynamic>();
+    data?['id'] = this.id;
+    data?['name'] = this.name;
+    data?['logo'] = this.logo;
     return data;
   }
 }
@@ -229,28 +365,6 @@ class Pagination {
     data?['last_page'] = this.lastPage;
     data?['from'] = this.from;
     data?['to'] = this.to;
-    return data;
-  }
-}
-
-class Brands {
-  var id;
-  String? name;
-  String? logo;
-
-  Brands({this.id, this.name, this.logo});
-
-  Brands.fromJson(Map<String, dynamic>? json) {
-    id = json?['id'];
-    name = json?['name'];
-    logo = json?['logo'];
-  }
-
-  Map<String, dynamic>? toJson() {
-    final Map<String, dynamic>? data = new Map<String, dynamic>();
-    data?['id'] = this.id;
-    data?['name'] = this.name;
-    data?['logo'] = this.logo;
     return data;
   }
 }

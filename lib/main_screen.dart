@@ -7,6 +7,7 @@ import 'package:alkhatouna/features/all_products/presentation/pages/all_products
 import 'package:alkhatouna/features/home/presentation/pages/product_details_screen.dart';
 import 'package:alkhatouna/main.dart';
 import 'package:alkhatouna/services/local_notification_service.dart';
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +18,6 @@ import 'package:alkhatouna/features/favorite/presentation/pages/favorite_screen.
 import 'package:alkhatouna/features/home/presentation/pages/home.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/profile_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:uni_links/uni_links.dart';
 
 class mainScreen extends StatefulWidget {
   final int? navigateIndex;
@@ -63,12 +63,25 @@ class _mainScreenState extends State<mainScreen> {
     FavoriteScreen(),
     ProfileScreen(),
   ];
+
   Future deeplinkHandling() async {
-    final Uri? uri = await getInitialUri();
-    if (uri != null) {
-      getproductIdFromUri(uri);
-    }
-    uriLinkStream.listen((Uri? uri) {
+    final AppLinks? appLinks = await AppLinks();
+    // print(appLinks);
+    // print("-1");
+
+    // print(appLinks!.getInitialLink());
+    // print("0");
+    // print(appLinks.getInitialLinkString().asStream());
+    // print("1");
+
+    // print(appLinks.getLatestLink().asStream());
+    // print("2");
+
+    // print(appLinks.getLatestLinkString());
+    // if (appLinks != null) {
+    //   getproductIdFromUri(appLinks);
+    // }
+    appLinks?.uriLinkStream.listen((Uri? uri) {
       if (uri != null) {
         getproductIdFromUri(uri);
       }
@@ -79,6 +92,9 @@ class _mainScreenState extends State<mainScreen> {
 
   getproductIdFromUri(Uri uri) {
     refcode = uri.queryParameters['id'] ?? "";
+    // refcode = uri.getInitialLink().queryParameters['id'] ?? "";
+    // refcode = uri.getInitialLink() as String;
+    // print(refcode);
     if (refcode != "") {
       AppConstant.customNavigation(
           context, ProductDetailsScreen(productId: refcode), -1, 0);

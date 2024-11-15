@@ -38,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
 
     token = await CacheHelper.getData(key: "USER_TOKEN");
     if (token != null) {
-      context.read<CartCubit>().getCarts(context);
+      context.read<CartCubit>().getCarts();
     }
     setState(() {
       loadingToken = false;

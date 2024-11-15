@@ -150,24 +150,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             EdgeInsets.symmetric(vertical: 10),
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: state
-                                                    .subCategoriesData![
-                                                        state.subCategoryId]
-                                                    .products ==
-                                                null
-                                            ? 0
-                                            : state
-                                                    .subCategoriesData![
-                                                        state.subCategoryId]
-                                                    .products!
-                                                    .length +
-                                                1,
+                                        itemCount:
+                                            state.subCategoriesData!.products ==
+                                                    null
+                                                ? 0
+                                                : state.subCategoriesData!
+                                                        .products!.length +
+                                                    1,
                                         itemBuilder: (context, index) {
                                           if (index ==
-                                              state
-                                                  .subCategoriesData![
-                                                      state.subCategoryId]
-                                                  .products!
+                                              state.subCategoriesData!.products!
                                                   .length) {
                                             return index == 0
                                                 ? Center(
@@ -208,24 +200,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 ? FadeInLeft(
                                                     child: ProductListWidget(
                                                     productDetails: state
-                                                        .subCategoriesData![
-                                                            state.subCategoryId]
+                                                        .subCategoriesData!
                                                         .products![index],
                                                   ))
                                                 : FadeInRight(
                                                     child: ProductListWidget(
                                                     productDetails: state
-                                                        .subCategoriesData![
-                                                            state.subCategoryId]
+                                                        .subCategoriesData!
                                                         .products![index],
                                                   ));
                                           }
                                         },
                                       )
-                                    : state
-                                                .subCategoriesData![
-                                                    state.subCategoryId]
-                                                .products!
+                                    : state.subCategoriesData!.products!
                                                 .length ==
                                             0
                                         ? Center(
@@ -253,26 +240,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             crossAxisSpacing: 10,
                                             childAspectRatio: (1 / 2),
                                             children: List.generate(
-                                                state
-                                                            .subCategoriesData![
-                                                                state
-                                                                    .subCategoryId]
+                                                state.subCategoriesData!
                                                             .products ==
                                                         null
                                                     ? 0
-                                                    : state
-                                                            .subCategoriesData![
-                                                                state
-                                                                    .subCategoryId]
-                                                            .products!
-                                                            .length +
+                                                    : state.subCategoriesData!
+                                                            .products!.length +
                                                         2, (index) {
                                               if (index >=
-                                                  state
-                                                      .subCategoriesData![
-                                                          state.subCategoryId]
-                                                      .products!
-                                                      .length) {
+                                                  state.subCategoriesData!
+                                                      .products!.length) {
                                                 return index % 20 == 0
                                                     ? Shimmer.fromColors(
                                                         baseColor: Colors
@@ -296,17 +273,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                     ? FadeInLeft(
                                                         child: ProductCardWidget(
                                                             productDetails: state
-                                                                    .subCategoriesData![
-                                                                        state
-                                                                            .subCategoryId]
+                                                                    .subCategoriesData!
                                                                     .products![
                                                                 index]))
                                                     : FadeInRight(
                                                         child: ProductCardWidget(
                                                             productDetails: state
-                                                                .subCategoriesData![
-                                                                    state
-                                                                        .subCategoryId]
+                                                                .subCategoriesData!
                                                                 .products![index]));
                                             }),
                                           ),

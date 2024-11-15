@@ -26,9 +26,9 @@ class _SectionsWidgetState extends State<BrandsSection> {
               padding: EdgeInsets.symmetric(vertical: 10),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 3,
+              crossAxisCount: 4,
               crossAxisSpacing: 15,
-              childAspectRatio: (1.0 / 1.0),
+              childAspectRatio: (1.0 / 1.8),
               mainAxisSpacing: 30,
               children: List.generate(state.homeInfo!.brands!.length, (index) {
                 return FadeInUp(
@@ -42,76 +42,102 @@ class _SectionsWidgetState extends State<BrandsSection> {
                         -1,
                         0);
                   },
-                  child: Container(
-                    // margin: EdgeInsetsDirectional.only(end: 10),
-                    // width: 60,
-                    // height: 110,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 7.0,
-                          spreadRadius: 1.0,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          // margin: EdgeInsetsDirectional.only(end: 10),
+                          // width: 60,
+                          // height: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                blurRadius: 7.0,
+                                spreadRadius: 1.0,
                               ),
-                              child: CachedNetworkImage(
-                                width: 65,
-                                height: 65,
-                                fit: BoxFit.scaleDown,
-                                imageUrl:
-                                    state.homeInfo!.brands![index].logoUrl ??
-                                        "",
-                                errorWidget: (context, name, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.r),
-                                    // image:
-                                  ),
-                                  child: Image.asset(
-                                    "assets/images/logo.jpg",
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15.r),
-                                    image: DecorationImage(
-                                      image: imageProvider,
+                            ],
+                          ),
+                          child: Center(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color:
+                                              const Color.fromARGB(255, 0, 0, 0)
+                                                  .withOpacity(0.3),
+                                          blurRadius: 2.0,
+                                          spreadRadius: 1.0,
+                                        ),
+                                      ],
+                                    ),
+                                    child: CachedNetworkImage(
+                                      width: 90,
+                                      height: 90,
                                       fit: BoxFit.scaleDown,
+                                      imageUrl: state.homeInfo!.brands![index]
+                                              .logoUrl ??
+                                          "",
+                                      errorWidget:
+                                          (context, name, imageProvider) =>
+                                              Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.r),
+                                          // image:
+                                        ),
+                                        child: Image.asset(
+                                          "assets/images/logo.jpg",
+                                          fit: BoxFit.scaleDown,
+                                        ),
+                                      ),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        width: 90,
+                                        height: 90,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.3),
+                                              blurRadius: 7.0,
+                                              spreadRadius: 1.0,
+                                            ),
+                                          ],
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.scaleDown,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                            2.verticalSpace,
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 15),
-                              child: Text(
-                                state.homeInfo!.brands![index].name ?? "",
-                                // overflow: TextOverflow.fade,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
+                        5.verticalSpace,
+                        Text(
+                          state.homeInfo!.brands![index].name ?? "",
+                          // overflow: TextOverflow.fade,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 12.sp, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ));

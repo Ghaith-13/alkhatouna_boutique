@@ -10,6 +10,7 @@ import 'package:alkhatouna/features/cart/data/models/remove_from_cart_model.dart
 import 'package:alkhatouna/features/cart/data/models/send_check_out.dart';
 import 'package:alkhatouna/features/cart/data/repositories/cart_repo.dart';
 import 'package:alkhatouna/features/cart/presentation/pages/confetti_screen.dart';
+import 'package:alkhatouna/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class CartCubit extends Cubit<CartState> {
   changeareaName(String value) => emit(state.copyWith(areaName: value));
   changesubAreaName(String value) => emit(state.copyWith(subAreaName: value));
 
-  Future<void> getAdress(BuildContext context) async {
+  Future<void> getAdress() async {
     emit(state.copyWith(loadingAddress: true));
     try {
       GetAdressModel response = await cartRepo.getAddress();
@@ -43,9 +44,9 @@ class CartCubit extends Cubit<CartState> {
         }
       }
       emit(state.copyWith(countries: countries));
-      getCheckOut(context);
+      getCheckOut(navigatorKey.currentContext);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -61,16 +62,25 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(loadingAddress: false));
   }
 
-  Future<void> getCheckOut(BuildContext context,
-      {bool fromPromoCode = false}) async {
+  void selectedBenefitId(value) =>
+      emit(state.copyWith(selectedBenefitId: value));
+
+  Future<void> getCheckOut(
+    context, {
+    bool fromPromoCode = false,
+  }) async {
     emit(state.copyWith(laodingCheckOut: true));
     try {
-      CheckOutModel response =
-          await cartRepo.getCheckOut(fromPromoCode, state.promoCode ?? "");
+      CheckOutModel response = await cartRepo.getCheckOut(
+          fromPromoCode, state.promoCode ?? "", state.selectedBenefitId ?? "");
 
       emit(state.copyWith(checkData: response.data));
+
+      if (response.data!.can_pay_with_points == false) {
+        emit(state.copyWith(paymentMethod: "Cash"));
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -86,11 +96,13 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(laodingCheckOut: false));
   }
 
-  Future<void> removeFromCart(
-      BuildContext context, String quantity, String cartID,
+  changepaymentMethod(String value) =>
+      emit(state.copyWith(paymentMethod: value));
+  cahngeclcikedCartId(value) => emit(state.copyWith(clcikedCartId: value));
+  Future<void> removeFromCart(String quantity, String cartID,
       {bool deleteAll = false, String FinalPrice = "0.0"}) async {
     emit(state.copyWith(laodingUpdateItem: true));
-    emit(state.copyWith(loadingGetCart: true));
+    // emit(state.copyWith(loadingGetCart: true));
 
     try {
       Map<String, String> body = {};
@@ -98,9 +110,12 @@ class CartCubit extends Cubit<CartState> {
       body['quantity'] = quantity;
 
       RemoveFromCartModel? response = await cartRepo.removeFromCart(body: body);
-      getCarts(context);
+      if (deleteAll) {
+        getCarts();
+      }
+      emit(state.copyWith(clcikedCartId: -100));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -116,7 +131,7 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(laodingUpdateItem: false));
   }
 
-  Future<void> getCarts(BuildContext context) async {
+  Future<void> getCarts() async {
     emit(state.copyWith(loadingGetCart: true));
     try {
       GetCartModel response = await cartRepo.getCarts();
@@ -129,7 +144,7 @@ class CartCubit extends Cubit<CartState> {
       }
       emit(state.copyWith(totalCartPrice: amount));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -147,7 +162,7 @@ class CartCubit extends Cubit<CartState> {
 
   addToTotalPrice(double price) {
     double newTotal = state.totalCartPrice;
-    newTotal = newTotal - price;
+    newTotal = newTotal + price;
     emit(state.copyWith(totalCartPrice: newTotal));
   }
 
@@ -279,8 +294,7 @@ class CartCubit extends Cubit<CartState> {
         adressIsDefault: address.isDefault));
   }
 
-  Future<void> addAdress(
-      BuildContext context, String longitude, String latitude,
+  Future<void> addAdress(String longitude, String latitude,
       {String? addressID}) async {
     emit(state.copyWith(loadingAddAdress: true));
     try {
@@ -298,10 +312,10 @@ class CartCubit extends Cubit<CartState> {
 
       AddAdressModel? response =
           await cartRepo.addAdress(body: body, addressID: addressID);
-      Navigator.pop(context);
-      getAdress(context);
+      Navigator.pop(navigatorKey.currentContext!);
+      getAdress();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -317,17 +331,18 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(loadingAddAdress: false));
   }
 
-  Future<void> sendOrder(BuildContext context, String promoCode) async {
+  Future<void> sendOrder(String promoCode) async {
     emit(state.copyWith(loadingSendOrder: true));
     try {
-      SendCheckOut? response = await cartRepo.sendOrder(promoCode);
-      Navigator.of(context).pushAndRemoveUntil(
+      SendCheckOut? response = await cartRepo.sendOrder(
+          promoCode, state.paymentMethod!, state.selectedBenefitId ?? "");
+      Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => ConfettiScreen()),
         (Route route) => false,
       );
-      // AppConstant.customNavigation(context, ConfettiScreen(), 0, 1);
+      // AppConstant.customNavigation(navigatorKey.currentContext, ConfettiScreen(), 0, 1);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -343,7 +358,7 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(loadingSendOrder: false));
   }
 
-  Future<void> makeAdressDefault(BuildContext context, String addressID) async {
+  Future<void> makeAdressDefault(String addressID) async {
     try {
       MakeDefaultModel? response =
           await cartRepo.makeAdressDefault(addressID: addressID);
@@ -360,9 +375,9 @@ class CartCubit extends Cubit<CartState> {
       emit(state.copyWith(loadingAddress: true));
       emit(state.copyWith(adressData: newadressData));
       emit(state.copyWith(loadingAddress: false));
-      getCheckOut(context);
+      getCheckOut(navigatorKey.currentContext);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:
@@ -377,7 +392,7 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> deleteAddress(BuildContext context, String addressID) async {
+  Future<void> deleteAddress(String addressID) async {
     try {
       DeleteAddressModel? response =
           await cartRepo.deleteAddress(addressID: addressID);
@@ -394,7 +409,7 @@ class CartCubit extends Cubit<CartState> {
       emit(state.copyWith(adressData: newadressData));
       emit(state.copyWith(loadingAddress: false));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           padding:

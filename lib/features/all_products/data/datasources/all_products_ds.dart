@@ -1,3 +1,5 @@
+import 'package:alkhatouna/core/utils/cache_helper.dart';
+
 import '../../../../core/utils/http_helper.dart';
 
 class AllProductsDS {
@@ -9,8 +11,13 @@ class AllProductsDS {
     int pageNumber,
     String? type,
   ) async {
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
     Map<String, String> body = {};
     body['page'] = "$pageNumber";
+    if (userID != null) {
+      body['user_id'] = "$userID";
+    }
     if (type != null) {
       body['type'] = "$type";
     }

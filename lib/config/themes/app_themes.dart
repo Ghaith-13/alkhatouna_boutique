@@ -5,6 +5,8 @@ import '../../core/utils/app_colors.dart';
 
 ThemeData appTheme(String languageCode) {
   return ThemeData(
+    splashColor: Colors.transparent,
+
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

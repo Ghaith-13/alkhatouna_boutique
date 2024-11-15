@@ -161,7 +161,7 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                               );
                             } else {
-                              context.read<CartCubit>().addAdress(context,
+                              context.read<CartCubit>().addAdress(
                                   widget.log.toString(), widget.lat.toString(),
                                   addressID: widget.address!.id.toString());
                             }
@@ -231,8 +231,9 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                 ),
                               );
                             } else {
-                              context.read<CartCubit>().addAdress(
-                                  context, log.toString(), lat.toString());
+                              context
+                                  .read<CartCubit>()
+                                  .addAdress(log.toString(), lat.toString());
                             }
                           }
                         }

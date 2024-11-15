@@ -5,6 +5,8 @@ import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dar
 import 'package:alkhatouna/features/profile/presentation/pages/about_us.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/articles_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/contact_us.dart';
+import 'package:alkhatouna/features/profile/presentation/pages/faq_questions.dart';
+import 'package:alkhatouna/features/profile/presentation/pages/my_points_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/profile_skeleton.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/terms_and_conditions_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/tutorials_screen.dart';
@@ -113,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Profile Page",
+                                    "Profile Page".tr(context),
                                     style: TextStyle(
                                         fontSize: 34.sp,
                                         fontWeight: FontWeight.w700,
@@ -169,6 +171,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   40.ph,
+                                  InkWell(
+                                    onTap: () {
+                                      AppConstant.customNavigation(
+                                          context, MyPointsScreen(), -1, 0);
+                                    },
+                                    child: FadeInLeft(
+                                      child: OnOptionWidget(
+                                          title: "Points records",
+                                          subTitle:
+                                              "${"Already have".tr(context)} 12 ${"orders".tr(context)}"),
+                                    ),
+                                  ),
+                                  40.ph,
                                   FadeInRight(
                                     child: InkWell(
                                       onTap: () {
@@ -202,6 +217,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     },
                                     child: OnOptionWidget(
                                         title: "Articles", subTitle: ""),
+                                  )),
+                                  40.ph,
+                                  FadeInRight(
+                                      child: InkWell(
+                                    onTap: () {
+                                      AppConstant.customNavigation(
+                                          context, FaqQuestionsScreen(), -1, 0);
+                                    },
+                                    child: OnOptionWidget(
+                                        title: "Frequently Asked Questions",
+                                        subTitle: ""),
                                   )),
                                   40.ph,
 
@@ -327,7 +353,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    "Log out",
+                                                    "Log out".tr(context),
                                                     style: TextStyle(
                                                         fontSize: 16.sp,
                                                         fontWeight:

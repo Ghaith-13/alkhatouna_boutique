@@ -1,11 +1,12 @@
 import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/product_details_widgets/video_player_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 
 class ProductSliderWidget extends StatefulWidget {
   const ProductSliderWidget({super.key});
@@ -26,8 +27,8 @@ class _ProductSliderWidgetState extends State<ProductSliderWidget> {
             : Column(
                 children: [
                   Stack(children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
+                    FlutterCarousel(
+                      options: FlutterCarouselOptions(
                         height: 413.h,
                         initialPage: 0,
                         viewportFraction: 1,
@@ -48,24 +49,28 @@ class _ProductSliderWidgetState extends State<ProductSliderWidget> {
                             i++)
                           state.productData!.product!.attachments![i].type ==
                                   "image"
-                              ? CachedNetworkImage(
-                                  width: 1.sw,
-                                  fit: BoxFit.fill,
-                                  imageUrl: state.productData!.product!
-                                          .attachments![i].imageUrl ??
-                                      '',
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    "assets/images/logo.jpg",
+                              ? WidgetZoom(
+                                  heroAnimationTag: 'tag$i',
+                                  zoomWidget: CachedNetworkImage(
+                                    width: 1.sw,
                                     fit: BoxFit.scaleDown,
-                                  ),
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.r),
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
+                                    imageUrl: state.productData!.product!
+                                            .attachments![i].imageUrl ??
+                                        '',
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                      "assets/images/logo.jpg",
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.r),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
                                   ),

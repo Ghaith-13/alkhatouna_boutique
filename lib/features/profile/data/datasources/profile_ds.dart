@@ -15,6 +15,16 @@ class ProfileDs {
     return response;
   }
 
+  Future<Map<String, dynamic>?> getPoints() async {
+    Map<String, dynamic>? response = await apiHelper.get("/get-point-records");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getFaq() async {
+    Map<String, dynamic>? response = await apiHelper.get("/get-faqs");
+    return response;
+  }
+
   Future<Map<String, dynamic>?> sendFeedBack(Map<String, String>? body) async {
     Map<String, dynamic>? response = await apiHelper.post(
       "/add-feedback",

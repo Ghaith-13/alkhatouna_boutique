@@ -2,16 +2,21 @@
 
 import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
+import 'package:alkhatouna/features/all_products/presentation/cubit/all_products_cubit.dart';
+import 'package:alkhatouna/features/favorite/presentation/cubit/favorite_cubit.dart';
 import 'package:alkhatouna/features/home/data/models/add_to_cart_model.dart';
 import 'package:alkhatouna/features/home/data/models/brand_details_model.dart';
 import 'package:alkhatouna/features/home/data/models/brands_model.dart';
+import 'package:alkhatouna/features/home/data/models/categorey_children_model.dart';
 import 'package:alkhatouna/features/home/data/models/favorite_model.dart';
+import 'package:alkhatouna/features/home/data/models/full_search_model.dart';
 import 'package:alkhatouna/features/home/data/models/product_model.dart';
 import 'package:alkhatouna/features/home/data/models/review_model.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
-import 'package:bloc/bloc.dart';
+import 'package:alkhatouna/features/home/data/models/user_categories_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/models/get_home_model.dart';
@@ -44,6 +49,51 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
     emit(state.copyWith(loading: false));
+  }
+
+  Future<void> getFullSearch(BuildContext context, String keyword) async {
+    emit(state.copyWith(laodingFullSearch: true));
+    try {
+      FullSearchModel response = await homeRepo.getFullSearch(keyword);
+      emit(state.copyWith(searchData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(laodingFullSearch: false));
+  }
+
+  Future<void> getCategoreyChildren(BuildContext context, String catId) async {
+    emit(state.copyWith(loadingCatChildren: true));
+    try {
+      CategoreyChildrenModel response =
+          await homeRepo.getCategoreyChildren(catId);
+      emit(state.copyWith(categoreyChildrenData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingCatChildren: false));
   }
 
   Future<void> getBrands(BuildContext context) async {
@@ -142,7 +192,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(filterFeature: false));
     emit(state.copyWith(selectedlistbrandId: []));
     emit(state.copyWith(pageNumberForSub: 1));
-    emit(state.copyWith(subCategoriesData: []));
+    emit(state.copyWith(subCategoriesData: SubCategoryData()));
   }
 
   Future<void> getSubCategoriesInfo(BuildContext context, String categorryId,
@@ -194,11 +244,9 @@ class HomeCubit extends Cubit<HomeState> {
         emit(state.copyWith(subCategoriesData: response.data));
         emit(state.copyWith(brands: response.brands));
       } else {
-        List<SubCategoryData> newsubCategoriesData =
-            state.subCategoriesData ?? [];
-        for (int i = 0; i < state.subCategoriesData!.length; i++) {
-          newsubCategoriesData[i].products!.addAll(response.data![i].products!);
-        }
+        SubCategoryData newsubCategoriesData = state.subCategoriesData!;
+        newsubCategoriesData.products!.addAll(response.data!.products!);
+
         emit(state.copyWith(subCategoriesData: newsubCategoriesData));
         emit(state.copyWith(brands: response.brands));
       }
@@ -230,7 +278,7 @@ class HomeCubit extends Cubit<HomeState> {
   deleteFilter(BuildContext context, String ctegoreyId) {
     // emit(
     // state.copyWith(subCategoriesData: state.subCategoriesDataBeforeFilter));
-    emit(state.copyWith(subCategoriesData: []));
+    emit(state.copyWith(subCategoriesData: SubCategoryData()));
     // emit(state.copyWith(subCategoriesDataBeforeFilter: []));
     emit(state.copyWith(pageNumberForSub: 1));
     removeAllFilters();
@@ -260,7 +308,7 @@ class HomeCubit extends Cubit<HomeState> {
   changeLoadingSubCateogries(bool value) =>
       emit(state.copyWith(loadingSubCateogries: value));
 
-  changeSubCategory(List<SubCategoryData>? subCategoriesData) =>
+  changeSubCategory(SubCategoryData subCategoriesData) =>
       emit(state.copyWith(subCategoriesData: subCategoriesData));
 
   changePageNumberForSub(int pageNumberForSub) =>
@@ -361,46 +409,54 @@ class HomeCubit extends Cubit<HomeState> {
   ///////////////Favorite
   Future<void> toggleFavorite(BuildContext context, productID,
       {bool fromProductDetails = false,
-      bool fromSimilarProduct = false}) async {
-    emit(state.copyWith(loading: true));
+      bool fromSimilarProduct = false,
+      bool fromHome = false}) async {
+    emit(state.copyWith(loadingSendFavorite: true));
     try {
       Map<String, String> body = {};
       body['product_id'] = productID;
 
       FavoriteModel? response = await homeRepo.toggleFavorite(body: body);
-      if (response.data!.message == "Product added to favorites") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppColors.primaryColor,
-            padding: EdgeInsets.only(
-                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
-            content: Text(
-              "Product added successfully".tr(context),
-              style: const TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
-      if (response.data!.message == "Product removed from favorites") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppColors.primaryColor,
-            padding: EdgeInsets.only(
-                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
-            content: Text(
-              "Product removed successfully".tr(context),
-              style: const TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
+      // if (response.data!.message == "Product added to favorites") {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       backgroundColor: AppColors.primaryColor,
+      //       padding: EdgeInsets.only(
+      //           bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+      //       content: Text(
+      //         "Product added successfully".tr(context),
+      //         style: const TextStyle(color: Colors.white),
+      //       ),
+      //       duration: const Duration(seconds: 2),
+      //     ),
+      //   );
+      // }
+      // if (response.data!.message == "Product removed from favorites") {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       backgroundColor: AppColors.primaryColor,
+      //       padding: EdgeInsets.only(
+      //           bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+      //       content: Text(
+      //         "Product removed successfully".tr(context),
+      //         style: const TextStyle(color: Colors.white),
+      //       ),
+      //       duration: const Duration(seconds: 2),
+      //     ),
+      //   );
+      // }
       if (fromProductDetails) {
         ProductData newProductData = state.productData!;
         newProductData.product!.isFavorite =
             !newProductData.product!.isFavorite!;
         emit(state.copyWith(productData: newProductData));
+        context.read<FavoriteCubit>().clearAll();
+        context.read<FavoriteCubit>().removeAllFilters();
+
+        context.read<FavoriteCubit>().getFavoritesProduct(context);
+        context.read<AllProductsCubit>().exitAllProductsScreen();
+
+        context.read<AllProductsCubit>().getAllProducts(context, null);
       }
       if (fromSimilarProduct) {
         ProductData newData = state.productData!;
@@ -413,10 +469,31 @@ class HomeCubit extends Cubit<HomeState> {
             }
           }
         }
+        context.read<FavoriteCubit>().clearAll();
+        context.read<FavoriteCubit>().removeAllFilters();
 
+        context.read<FavoriteCubit>().getFavoritesProduct(context);
         emit(state.copyWith(loadingProductDetails: true));
         emit(state.copyWith(productData: newData));
         emit(state.copyWith(loadingProductDetails: false));
+      }
+      if (fromHome) {
+        HomeData newHomeModel = state.homeInfo!;
+
+        for (int i = 0; i < newHomeModel.bestSellingProducts!.length; i++) {
+          if (newHomeModel.bestSellingProducts![i].id.toString() == productID) {
+            newHomeModel.bestSellingProducts![i].is_favorite =
+                !newHomeModel.bestSellingProducts![i].is_favorite!;
+          }
+        }
+        for (int i = 0; i < newHomeModel.discountedProducts!.length; i++) {
+          if (newHomeModel.discountedProducts![i].id.toString() == productID) {
+            newHomeModel.discountedProducts![i].is_favorite =
+                !newHomeModel.discountedProducts![i].is_favorite!;
+          }
+        }
+
+        emit(state.copyWith(homeInfo: newHomeModel));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -432,7 +509,7 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     }
-    emit(state.copyWith(loading: false));
+    emit(state.copyWith(loadingSendFavorite: false));
   }
 
   removeProductInfoForCart() {
@@ -513,5 +590,28 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
     emit(state.copyWith(loadingProductDetails: false));
+  }
+
+  Future<void> getUserCategories(BuildContext context) async {
+    emit(state.copyWith(loadingUserCategories: true));
+    try {
+      UserCategoriesModel response = await homeRepo.getUserCategories();
+
+      emit(state.copyWith(userCategoriesData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingUserCategories: false));
   }
 }

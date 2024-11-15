@@ -1,9 +1,10 @@
 import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/one_section_widget.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'one_section_widget.dart';
 
 class SectionsWidget extends StatefulWidget {
   const SectionsWidget({super.key});
@@ -25,7 +26,7 @@ class _SectionsWidgetState extends State<SectionsWidget> {
               physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 4,
               crossAxisSpacing: 15,
-              childAspectRatio: (1.0 / 1.0),
+              childAspectRatio: (1.0 / 1.8),
               mainAxisSpacing: 30,
               children:
                   List.generate(state.homeInfo!.categories!.length, (index) {

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:alkhatouna/core/utils/app_constant.dart';
+import 'package:alkhatouna/core/utils/cache_helper.dart';
 import 'package:alkhatouna/features/all_products/presentation/cubit/all_products.dart';
 import 'package:alkhatouna/features/all_products/presentation/cubit/all_products_cubit.dart';
 import 'package:alkhatouna/features/all_products/presentation/pages/all_products_skeleton.dart';
@@ -26,6 +27,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
   @override
   void initState() {
     super.initState();
+    checkIfGuest();
     context.read<AllProductsCubit>().getAllProducts(context, widget.type);
 
     controller.addListener(() {
@@ -41,9 +43,24 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
     context.read<AllProductsCubit>().exitAllProductsScreen();
   }
 
+  bool loadingToken = false;
+  String? token;
+  Future checkIfGuest() async {
+    setState(() {
+      loadingToken = true;
+    });
+    token = await CacheHelper.getData(key: "USER_TOKEN");
+
+    setState(() {
+      loadingToken = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:
+          loadingToken ? SizedBox() : AppConstant.CustomDrawer(context, token),
       appBar: AppConstant.customAppBar(
           context,
           widget.type == null

@@ -142,74 +142,142 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                 ),
                 10.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Price range".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                state.subCategoriesData?[state.subCategoryId] == null
+                state.subCategoriesData!.minPrice ==
+                        state.subCategoriesData!.maxPrice
                     ? SizedBox()
-                    : RangeWidget(
-                        subCategoryData:
-                            state.subCategoriesData![state.subCategoryId]),
+                    : Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: Text(
+                          "Price range".tr(context),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.sp,
+                              color: AppColors.blackColor),
+                        ),
+                      ),
+
+                state.subCategoriesData!.minPrice ==
+                        state.subCategoriesData!.maxPrice
+                    ? SizedBox()
+                    : 10.ph,
+                state.subCategoriesData == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.minPrice ==
+                            state.subCategoriesData!.maxPrice
+                        ? SizedBox()
+                        : RangeWidget(
+                            subCategoryData: state.subCategoriesData!),
                 30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Colors".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                ColorsFilterWidget(),
+                state.subCategoriesData!.uniqueColors == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueColors!.length == 0
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "Colors".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+
+                state.subCategoriesData!.uniqueColors == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueColors!.length == 0
+                        ? SizedBox()
+                        : 10.ph,
+
+                state.subCategoriesData!.uniqueColors == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueColors!.length == 0
+                        ? SizedBox()
+                        : ColorsFilterWidget(),
                 30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Sizes".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                SizesFilterWidget(),
+
+                state.subCategoriesData!.uniqueSizes == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueSizes!.length == 0
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "Sizes".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+
+                state.subCategoriesData!.uniqueSizes == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueSizes!.length == 0
+                        ? SizedBox()
+                        : 10.ph,
+
+                state.subCategoriesData!.uniqueSizes == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueSizes!.length == 0
+                        ? SizedBox()
+                        : SizesFilterWidget(),
                 30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "weights".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                WeightsFilterWidget(),
+
+                state.subCategoriesData!.uniqueWeights == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueWeights!.length == 0
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "weights".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+
+                state.subCategoriesData!.uniqueWeights == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueWeights!.length == 0
+                        ? SizedBox()
+                        : 10.ph,
+
+                state.subCategoriesData!.uniqueWeights == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueWeights!.length == 0
+                        ? SizedBox()
+                        : WeightsFilterWidget(),
                 30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "dimensions".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                DimensionsFilterWidget(),
+
+                state.subCategoriesData!.uniqueDimensions == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueDimensions!.length == 0
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "dimensions".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+
+                state.subCategoriesData!.uniqueDimensions == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueDimensions!.length == 0
+                        ? SizedBox()
+                        : 10.ph,
+
+                state.subCategoriesData!.uniqueDimensions == null
+                    ? SizedBox()
+                    : state.subCategoriesData!.uniqueDimensions!.length == 0
+                        ? SizedBox()
+                        : DimensionsFilterWidget(),
                 30.ph,
                 // Padding(
                 //   padding: EdgeInsets.symmetric(horizontal: 12.w),

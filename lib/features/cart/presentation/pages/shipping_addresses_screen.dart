@@ -22,7 +22,7 @@ class _ShippingAddressesScreenState extends State<ShippingAddressesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CartCubit>().getAdress(context);
+    context.read<CartCubit>().getAdress();
   }
 
   @override

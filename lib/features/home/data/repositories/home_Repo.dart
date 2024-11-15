@@ -4,10 +4,13 @@ import 'package:alkhatouna/features/home/data/datasources/home_ds.dart';
 import 'package:alkhatouna/features/home/data/models/add_to_cart_model.dart';
 import 'package:alkhatouna/features/home/data/models/brand_details_model.dart';
 import 'package:alkhatouna/features/home/data/models/brands_model.dart';
+import 'package:alkhatouna/features/home/data/models/categorey_children_model.dart';
 import 'package:alkhatouna/features/home/data/models/favorite_model.dart';
+import 'package:alkhatouna/features/home/data/models/full_search_model.dart';
 import 'package:alkhatouna/features/home/data/models/product_model.dart';
 import 'package:alkhatouna/features/home/data/models/review_model.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
+import 'package:alkhatouna/features/home/data/models/user_categories_model.dart';
 
 import '../models/get_home_model.dart';
 
@@ -19,6 +22,27 @@ class HomeRepo {
   Future<HomeModel> getHomeInfo() async {
     HomeModel MyOrdersResponse = HomeModel.fromJson(
       await dataSource.getHomeInfo(),
+    );
+    return MyOrdersResponse;
+  }
+
+  Future<FullSearchModel> getFullSearch(String keyword) async {
+    FullSearchModel MyOrdersResponse = FullSearchModel.fromJson(
+      await dataSource.getFullSearch(keyword),
+    );
+    return MyOrdersResponse;
+  }
+
+  Future<UserCategoriesModel> getUserCategories() async {
+    UserCategoriesModel MyOrdersResponse = UserCategoriesModel.fromJson(
+      await dataSource.getUserCategories(),
+    );
+    return MyOrdersResponse;
+  }
+
+  Future<CategoreyChildrenModel> getCategoreyChildren(String catID) async {
+    CategoreyChildrenModel MyOrdersResponse = CategoreyChildrenModel.fromJson(
+      await dataSource.getCategoreyChildren(catID),
     );
     return MyOrdersResponse;
   }

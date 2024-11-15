@@ -5,12 +5,17 @@ import 'package:alkhatouna/core/extensions/padding_extensions.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/player/youtube_player.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/utils/youtube_player_controller.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/utils/youtube_player_flags.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/widgets/duration_widgets.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/widgets/playback_speed_button.dart';
+import 'package:alkhatouna/services/youtube_video_player/src/widgets/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TutorialsScreen extends StatefulWidget {
   const TutorialsScreen({super.key});
@@ -35,7 +40,7 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
             context,
             "Tutorials videos",
             true,
-            withTranslate: false,
+            withTranslate: true,
             IconColor: AppColors.blackColor,
             backgroundColor: Colors.white,
             elvation: 0,

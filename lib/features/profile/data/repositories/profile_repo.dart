@@ -3,7 +3,9 @@
 import 'package:alkhatouna/features/profile/data/datasources/profile_ds.dart';
 import 'package:alkhatouna/features/profile/data/models/aricales_model.dart';
 import 'package:alkhatouna/features/profile/data/models/delete_account_model.dart';
+import 'package:alkhatouna/features/profile/data/models/faq_model.dart';
 import 'package:alkhatouna/features/profile/data/models/feedback_model.dart';
+import 'package:alkhatouna/features/profile/data/models/my_points.dart';
 import 'package:alkhatouna/features/profile/data/models/orders_model.dart';
 import 'package:alkhatouna/features/profile/data/models/settings_model.dart';
 import 'package:alkhatouna/features/profile/data/models/tutorilas_model.dart';
@@ -18,6 +20,20 @@ class ProfileRepo {
   Future<MyOrdersModel> getOrders() async {
     MyOrdersModel MyOrdersResponse = MyOrdersModel.fromJson(
       await dataSource.getOrders(),
+    );
+    return MyOrdersResponse;
+  }
+
+  Future<MyPointsModel> getPoints() async {
+    MyPointsModel MyOrdersResponse = MyPointsModel.fromJson(
+      await dataSource.getPoints(),
+    );
+    return MyOrdersResponse;
+  }
+
+  Future<faqModel> getFaq() async {
+    faqModel MyOrdersResponse = faqModel.fromJson(
+      await dataSource.getFaq(),
     );
     return MyOrdersResponse;
   }

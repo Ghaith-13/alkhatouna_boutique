@@ -68,6 +68,7 @@ class Products {
   String? currentQuantity;
   String? isOutOfStock;
   bool? displayProduct;
+  bool? is_favorite;
 
   Products(
       {this.id,
@@ -87,6 +88,7 @@ class Products {
       this.minAvailableQuantity,
       this.currentQuantity,
       this.isOutOfStock,
+      this.is_favorite,
       this.displayProduct});
 
   Products.fromJson(Map<String, dynamic>? json) {
@@ -108,6 +110,7 @@ class Products {
     currentQuantity = json?['current_quantity'];
     isOutOfStock = json?['is_out_of_stock'];
     displayProduct = json?['display_product'];
+    is_favorite = json?['is_favorite'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -130,6 +133,7 @@ class Products {
     data?['current_quantity'] = this.currentQuantity;
     data?['is_out_of_stock'] = this.isOutOfStock;
     data?['display_product'] = this.displayProduct;
+    data?['is_favorite'] = this.is_favorite;
     return data;
   }
 }

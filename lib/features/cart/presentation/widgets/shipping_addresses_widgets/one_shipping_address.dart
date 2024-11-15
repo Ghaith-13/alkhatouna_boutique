@@ -76,8 +76,9 @@ class _OneShippingAddressState extends State<OneShippingAddress> {
                             0);
                       } else if (value == 2) {
                         // Handle delete action
-                        context.read<CartCubit>().deleteAddress(
-                            context, widget.adress.id.toString());
+                        context
+                            .read<CartCubit>()
+                            .deleteAddress(widget.adress.id.toString());
                         print('Delete pressed');
                       }
                     },
@@ -140,8 +141,9 @@ class _OneShippingAddressState extends State<OneShippingAddress> {
                       activeColor: Colors.black,
                       value: widget.adress.isDefault == "0" ? false : true,
                       onChanged: (value) {
-                        context.read<CartCubit>().makeAdressDefault(
-                            context, widget.adress.id.toString());
+                        context
+                            .read<CartCubit>()
+                            .makeAdressDefault(widget.adress.id.toString());
                       },
                     ),
                   ),

@@ -21,7 +21,7 @@ class GoogleModel {
 
 class Data {
   User? user;
-  String? token;
+  var token;
 
   Data({this.user, this.token});
 
@@ -42,21 +42,21 @@ class Data {
 
 class User {
   var id;
-  String? name;
+  var name;
   var phone;
-  String? email;
-  String? isActive;
-  String? type;
-  String? referralCode;
-  String? points;
-  String? fcmToken;
+  var email;
+  var isActive;
+  var type;
+  var referralCode;
+  var points;
+  var fcmToken;
   var emailVerifiedAt;
-  String? createdAt;
-  String? updatedAt;
+  var createdAt;
+  var updatedAt;
   var createdBy;
   var updatedBy;
-  String? isBlogger;
-  String? walletBalance;
+  var isBlogger;
+  var walletBalance;
 
   User(
       {this.id,

@@ -8,7 +8,9 @@ class CartState extends Equatable {
       this.countryName = "",
       this.provicesName = "",
       this.promoCode = "",
+      this.selectedBenefitId = "",
       this.areaName = "",
+      this.paymentMethod = "",
       this.subAreaName = "",
       this.loadingAddAdress = false,
       this.loadingSendOrder = false,
@@ -16,6 +18,7 @@ class CartState extends Equatable {
       this.laodingCheckOut = false,
       this.loadingGetCart = false,
       this.adressData,
+      this.clcikedCartId = -100,
       this.countries,
       this.countryId = "-100",
       this.addressTitle = "",
@@ -43,7 +46,9 @@ class CartState extends Equatable {
       countryId,
       provinceId,
       promoCode,
+      selectedBenefitId,
       countryName,
+      paymentMethod,
       areaName,
       provicesName,
       areaId,
@@ -58,7 +63,7 @@ class CartState extends Equatable {
   List<Children>? province;
   List<Children>? areas;
   List<Children>? subAreas;
-
+  int? clcikedCartId;
   @override
   List<Object?> get props => [
         loadingAddress,
@@ -66,9 +71,12 @@ class CartState extends Equatable {
         adressNotes,
         addressTitle,
         promoCode,
+        selectedBenefitId,
         laodingUpdateItem,
         loadingSendOrder,
         subAreaName,
+        clcikedCartId,
+        paymentMethod,
         totalCartPrice,
         areaName,
         cartData,
@@ -99,7 +107,10 @@ class CartState extends Equatable {
           AdressData? adressData,
           String? countryId,
           String? promoCode,
+          String? selectedBenefitId,
           String? subAreaName,
+          String? paymentMethod,
+          int? clcikedCartId,
           CheckOutData? checkData,
           String? provicesName,
           String? areaName,
@@ -120,9 +131,12 @@ class CartState extends Equatable {
       CartState(
         loadingAddress: loadingAddress ?? this.loadingAddress,
         checkData: checkData ?? this.checkData,
+        clcikedCartId: clcikedCartId ?? this.clcikedCartId,
         countryName: countryName ?? this.countryName,
         promoCode: promoCode ?? this.promoCode,
+        selectedBenefitId: selectedBenefitId ?? this.selectedBenefitId,
         laodingCheckOut: laodingCheckOut ?? this.laodingCheckOut,
+        paymentMethod: paymentMethod ?? this.paymentMethod,
         subAreaName: subAreaName ?? this.subAreaName,
         loadingGetCart: loadingGetCart ?? this.loadingGetCart,
         laodingUpdateItem: laodingUpdateItem ?? this.laodingUpdateItem,

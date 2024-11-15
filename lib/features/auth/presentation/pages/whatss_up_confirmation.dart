@@ -81,6 +81,7 @@ class _WhatsappConfirmScreenState extends State<WhatsappConfirmScreen> {
                                 });
                                 generateRandomNumber();
                                 String phoneNumber = state.phone!;
+                                print(phoneNumber);
                                 if (phoneNumber.startsWith("07")) {
                                   phoneNumber =
                                       phoneNumber.replaceFirst("0", "+964");
@@ -93,11 +94,12 @@ class _WhatsappConfirmScreenState extends State<WhatsappConfirmScreen> {
                                 var request = http.Request(
                                     'POST',
                                     Uri.parse(
-                                        'https://api.ultramsg.com/instance94229/messages/chat'));
+                                        'https://api.ultramsg.com/instance96986/messages/chat'));
                                 request.bodyFields = {
-                                  'token': 'rpdb0atj976asg61',
+                                  'token': 'xyzg078g8vltuj3a',
                                   'to': '$phoneNumber',
-                                  'body': '$number'
+                                  'body':
+                                      'Your code to activate account in ALKHATOUNA BOUTIQUE is  $number'
                                 };
                                 request.headers.addAll(headers);
 
@@ -190,56 +192,59 @@ class _WhatsappConfirmScreenState extends State<WhatsappConfirmScreen> {
                   showLoader
                       ? CircularProgressIndicator()
                       : ShowPinCode
-                          ? PinCodeTextField(
-                              keyboardType: TextInputType.number,
-                              appContext: context,
-                              length: 4,
-                              onChanged: (value) {},
-                              onCompleted: (value) {
-                                if (int.parse(value) == number) {
-                                  Navigator.pop(context);
-                                  context.read<AuthCubit>().SignUp(context);
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: AppColors.redColor,
-                                      padding: EdgeInsets.only(
-                                          bottom: 20.h,
-                                          top: 20.h,
-                                          left: 20.w,
-                                          right: 20.w),
-                                      content: Text(
-                                        'The PIN code does not match the code sent.'
-                                            .tr(context),
-                                        style: const TextStyle(
-                                            color: Colors.white),
+                          ? Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: PinCodeTextField(
+                                keyboardType: TextInputType.number,
+                                appContext: context,
+                                length: 4,
+                                onChanged: (value) {},
+                                onCompleted: (value) {
+                                  if (int.parse(value) == number) {
+                                    Navigator.pop(context);
+                                    context.read<AuthCubit>().SignUp();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: AppColors.redColor,
+                                        padding: EdgeInsets.only(
+                                            bottom: 20.h,
+                                            top: 20.h,
+                                            left: 20.w,
+                                            right: 20.w),
+                                        content: Text(
+                                          'The PIN code does not match the code sent.'
+                                              .tr(context),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        duration: const Duration(seconds: 2),
                                       ),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                }
-                              },
-                              textStyle: TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 75.sp,
-                                  fontWeight: FontWeight.bold),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              enableActiveFill: true,
-                              pinTheme: PinTheme(
-                                  disabledColor: Colors.white,
-                                  selectedFillColor: Colors.white,
-                                  activeFillColor: Colors.white,
-                                  inactiveFillColor: Colors.white,
-                                  fieldHeight: 100.h,
-                                  fieldWidth: 75.w,
-                                  shape: PinCodeFieldShape.box,
-                                  activeColor: AppColors.primaryColor,
-                                  inactiveColor: AppColors.primaryColor,
-                                  selectedColor:
-                                      const Color.fromARGB(153, 0, 0, 0),
-                                  borderRadius: BorderRadius.circular(8.sp)),
+                                    );
+                                  }
+                                },
+                                textStyle: TextStyle(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 75.sp,
+                                    fontWeight: FontWeight.bold),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                enableActiveFill: true,
+                                pinTheme: PinTheme(
+                                    disabledColor: Colors.white,
+                                    selectedFillColor: Colors.white,
+                                    activeFillColor: Colors.white,
+                                    inactiveFillColor: Colors.white,
+                                    fieldHeight: 100.h,
+                                    fieldWidth: 75.w,
+                                    shape: PinCodeFieldShape.box,
+                                    activeColor: AppColors.primaryColor,
+                                    inactiveColor: AppColors.primaryColor,
+                                    selectedColor:
+                                        const Color.fromARGB(153, 0, 0, 0),
+                                    borderRadius: BorderRadius.circular(8.sp)),
+                              ),
                             )
                           : const SizedBox()
                 ],

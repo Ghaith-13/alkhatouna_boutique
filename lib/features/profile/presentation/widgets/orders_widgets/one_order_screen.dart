@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/features/profile/data/models/orders_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +27,7 @@ class OneOrderScreen extends StatefulWidget {
 
 class _OneOrderScreenState extends State<OneOrderScreen> {
   final formatCurrency = new NumberFormat.simpleCurrency(
-    decimalDigits: 0,
+    decimalDigits: 2,
     name: "",
   );
   @override
@@ -55,14 +57,14 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                   "${"Order".tr(context)} ${widget.orderDetails.number}",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 16.sp,
+                    fontSize: 12.sp,
                   ),
                 ),
                 Text(
                   "${DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.parse(widget.orderDetails.createdAt!))}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       color: AppColors.greyColor),
                 )
               ],
@@ -74,7 +76,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
             //       "${"Tracking number".tr(context)} :",
             //       style: TextStyle(
             //           fontWeight: FontWeight.w400,
-            //           fontSize: 14.sp,
+            //           fontSize: 12.sp,
             //           color: AppColors.greyColor),
             //     ),
             //     5.pw,
@@ -82,7 +84,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
             //       "IW3475453455",
             //       style: TextStyle(
             //           fontWeight: FontWeight.w500,
-            //           fontSize: 14.sp,
+            //           fontSize: 12.sp,
             //           color: AppColors.blackColor),
             //     )
             //   ],
@@ -97,7 +99,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                       "${"Quantity".tr(context)} :",
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           color: AppColors.greyColor),
                     ),
                     5.pw,
@@ -105,7 +107,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                       "${widget.orderDetails.items!.length}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
+                          fontSize: 12.sp,
                           color: AppColors.blackColor),
                     )
                   ],
@@ -116,16 +118,20 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                       "${"Total Amount".tr(context)} :",
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           color: AppColors.greyColor),
                     ),
                     5.pw,
-                    Text(
-                      "${(formatCurrency.format(double.parse(widget.orderDetails.totalAmountAfterDiscount!)))} د.ع",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
-                          color: AppColors.blackColor),
+                    BlocBuilder<LocaleCubit, LocaleState>(
+                      builder: (context, loclae) {
+                        return Text(
+                          "${(formatCurrency.format(double.parse(widget.orderDetails.grandTotal!)))}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.sp,
+                              color: AppColors.blackColor),
+                        );
+                      },
                     )
                   ],
                 )
@@ -163,14 +169,14 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                         child: Text(
                           "Details".tr(context),
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 14.sp),
+                              fontWeight: FontWeight.w500, fontSize: 12.sp),
                         ),
                       )),
                 ),
                 Text(
                   widget.status.tr(context),
                   style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
                       color: widget.color),
                 )

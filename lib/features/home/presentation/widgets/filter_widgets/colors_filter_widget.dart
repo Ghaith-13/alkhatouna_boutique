@@ -27,8 +27,7 @@ class _ColorsFilterWidgetState extends State<ColorsFilterWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return state.subCategoriesData![state.subCategoryId].uniqueColors ==
-                null
+        return state.subCategoriesData!.uniqueColors == null
             ? SizedBox()
             : Container(
                 color: Colors.white,
@@ -36,12 +35,10 @@ class _ColorsFilterWidgetState extends State<ColorsFilterWidget> {
                 height: 100.h,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: state.subCategoriesData![state.subCategoryId]
-                      .uniqueColors?.length,
+                  itemCount: state.subCategoriesData!.uniqueColors?.length,
                   itemBuilder: (context, index) {
                     return ColorWidget(
-                      color: state.subCategoriesData![state.subCategoryId]
-                          .uniqueColors![index],
+                      color: state.subCategoriesData!.uniqueColors![index],
                       checkAndModifyColorList: checkAndModifyColorList,
                     );
                   },

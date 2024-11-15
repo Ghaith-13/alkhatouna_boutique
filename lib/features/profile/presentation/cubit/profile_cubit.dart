@@ -4,7 +4,9 @@ import 'package:alkhatouna/core/utils/http_helper.dart';
 import 'package:alkhatouna/features/auth/presentation/pages/sign_up_screen.dart';
 import 'package:alkhatouna/features/profile/data/models/aricales_model.dart';
 import 'package:alkhatouna/features/profile/data/models/delete_account_model.dart';
+import 'package:alkhatouna/features/profile/data/models/faq_model.dart';
 import 'package:alkhatouna/features/profile/data/models/feedback_model.dart';
+import 'package:alkhatouna/features/profile/data/models/my_points.dart';
 import 'package:alkhatouna/features/profile/data/models/orders_model.dart';
 import 'package:alkhatouna/features/profile/data/models/settings_model.dart';
 import 'package:alkhatouna/features/profile/data/models/tutorilas_model.dart';
@@ -29,6 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }) : super(ProfileInitial());
   changefeedback(String value) => emit(state.copyWith(feedback: value));
   changeorderId(String value) => emit(state.copyWith(orderId: value));
+
   Future<void> getOrders(BuildContext context) async {
     emit(state.copyWith(laodingOrders: true));
     try {
@@ -49,6 +52,50 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
     }
     emit(state.copyWith(laodingOrders: false));
+  }
+
+  Future<void> getMyPoints(BuildContext context) async {
+    emit(state.copyWith(loadingPoints: true));
+    try {
+      MyPointsModel response = await profileRepo.getPoints();
+      emit(state.copyWith(myPointsData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingPoints: false));
+  }
+
+  Future<void> getFaq(BuildContext context) async {
+    emit(state.copyWith(laodingFaq: true));
+    try {
+      faqModel response = await profileRepo.getFaq();
+      emit(state.copyWith(faqData: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(laodingFaq: false));
   }
 
   Future<void> getuserInfo(BuildContext context) async {

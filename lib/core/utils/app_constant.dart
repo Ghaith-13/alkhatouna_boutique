@@ -401,7 +401,6 @@ class AppConstant {
       title: Text(
         withTranslate ? title.tr(context) : title,
         style: TextStyle(
-            fontFamily: "El Messiri",
             color: AppColors.blackColor,
             fontSize: 14.sp,
             fontWeight: FontWeight.w600),

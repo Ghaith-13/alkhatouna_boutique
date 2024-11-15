@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             animate: true,
             duration: Duration(milliseconds: 150),
             child: Image.asset(
-              'assets/images/logo.jpg',
+              'assets/images/logo-removebg-preview.png',
               width: 1.sw,
               height: 0.5.sh,
             ),
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.sp,
-                    color: AppColors.primaryColor),
+                    color: Colors.white),
                 speed: const Duration(milliseconds: 150),
               ),
             ],
@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         },
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.primaryColor,
       splashIconSize: 500,
       duration: 2500,
       splashTransition: SplashTransition.scaleTransition,

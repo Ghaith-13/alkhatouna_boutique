@@ -63,7 +63,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         ],
         systemUIOverlay: [],
         flickVideoWithControls: FlickVideoWithControls(
-          videoFit: BoxFit.fill,
+          videoFit: BoxFit.scaleDown,
           controls: FlickPortraitControls(
             progressBarSettings:
                 FlickProgressBarSettings(playedColor: AppColors.primaryColor),

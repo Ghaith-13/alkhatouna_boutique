@@ -33,19 +33,15 @@ class _WeightsFilterWidgetState extends State<WeightsFilterWidget> {
         width: 1.sw,
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            return state.subCategoriesData![state.subCategoryId]
-                        .uniqueWeights ==
-                    null
+            return state.subCategoriesData!.uniqueWeights == null
                 ? SizedBox()
                 : ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.subCategoriesData![state.subCategoryId]
-                        .uniqueWeights!.length,
+                    itemCount: state.subCategoriesData!.uniqueWeights!.length,
                     itemBuilder: (context, index) {
                       return SizeWidget(
-                        size: state.subCategoriesData![state.subCategoryId]
-                            .uniqueWeights![index],
+                        size: state.subCategoriesData!.uniqueWeights![index],
                         checkAndModifySizesList: checkAndModifySizesList,
                       );
                     },

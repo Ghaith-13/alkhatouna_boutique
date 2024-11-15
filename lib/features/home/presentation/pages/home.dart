@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use, must_be_immutable
+
+import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/core/utils/cache_helper.dart';
@@ -6,6 +9,7 @@ import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/pages/brands_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/home_search_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/home_skeleton.dart';
+import 'package:alkhatouna/features/home/presentation/pages/user_categories_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/zain_cash.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/brands_section.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/most_selling_product.dart';
@@ -18,6 +22,7 @@ import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/core/extensions/padding_extensions.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/sections_widget.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/slider_widget.dart';
+import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -70,9 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           String number = state.homeInfo!.phone_number ?? "";
 
                           if (number.startsWith("07")) {
-                            print("Yesy");
                             number.replaceFirst("0", "+964");
-                            print(number);
                             String newNumber = "+964";
 
                             for (int i = 1; i < number.length; i++) {
@@ -112,13 +115,161 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? HomeSkeleton()
                       : Column(
                           children: [
+                            token == null
+                                ? SizedBox()
+                                : Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 20.sp),
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.greyColor,
+                                          width: 0.5),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsetsDirectional.only(
+                                                // start: 20.sp,
+                                                end: 5.sp,
+                                              ),
+                                              child: BlocBuilder<LocaleCubit,
+                                                  LocaleState>(
+                                                builder: (context, locale) {
+                                                  return Text(
+                                                    "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.currentCategoryEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.currentCategoryAr : state.homeInfo?.userCategoryData?.currentCategoryKu}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontSize: 20.sp),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            InkWell(
+                                                onTap: () {
+                                                  AppConstant.customNavigation(
+                                                      context,
+                                                      UserCategoriesScreen(),
+                                                      -1,
+                                                      0);
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 0),
+                                                  child: Icon(
+                                                    Icons.info_rounded,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    size: 25,
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                        5.ph,
+                                        token == null
+                                            ? SizedBox()
+                                            : Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 0.sp),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                        width: 0.5.sw,
+                                                        child:
+                                                            LinearProgressBar(
+                                                          maxSteps: state
+                                                                  .homeInfo!
+                                                                  .userCategoryData!
+                                                                  .ordersNeeded! +
+                                                              state
+                                                                  .homeInfo!
+                                                                  .userCategoryData!
+                                                                  .completedOrdersCount!,
+                                                          progressType:
+                                                              LinearProgressBar
+                                                                  .progressTypeLinear,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          currentStep: state
+                                                              .homeInfo!
+                                                              .userCategoryData!
+                                                              .completedOrdersCount,
+                                                          progressColor:
+                                                              AppColors
+                                                                  .primaryColor,
+                                                          backgroundColor:
+                                                              const Color
+                                                                  .fromARGB(
+                                                                  104,
+                                                                  158,
+                                                                  158,
+                                                                  158),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                        5.ph,
+                                        token == null
+                                            ? SizedBox()
+                                            : Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 0.sp),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: BlocBuilder<
+                                                          LocaleCubit,
+                                                          LocaleState>(
+                                                        builder:
+                                                            (context, locale) {
+                                                          return Text(
+                                                            "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.messageEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.messageAr : state.homeInfo?.userCategoryData?.messageKu}",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize:
+                                                                    12.sp),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  ),
+                            20.ph,
                             SizedBox(
                                 width: 0.9.sw,
                                 child: TextField(
                                   textInputAction: TextInputAction.search,
                                   onSubmitted: (value) {
-                                    AppConstant.customNavigation(
-                                        context, HomeSearchScreen(), 1, 0);
+                                    if (value.isNotEmpty) {
+                                      context
+                                          .read<HomeCubit>()
+                                          .getFullSearch(context, value);
+                                      AppConstant.customNavigation(
+                                          context, HomeSearchScreen(), 1, 0);
+                                    }
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -138,7 +289,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     hintText: "Find what you want".tr(context),
                                   ),
                                 )),
-                            SliderForAds(),
+                            state.homeInfo!.banners == null
+                                ? SizedBox()
+                                : state.homeInfo!.banners!.isEmpty
+                                    ? SizedBox()
+                                    : SliderForAds(),
                             10.ph,
                             Padding(
                               padding: EdgeInsets.all(15.0.sp),
@@ -153,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         "Sections".tr(context),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 34.sp),
+                                            fontSize: 24.sp),
                                       ),
                                       // Zasin()
                                     ],
@@ -174,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 34.sp),
+                                                        fontSize: 24.sp),
                                                   ),
                                                   InkWell(
                                                     onTap: () {
@@ -260,7 +415,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 34.sp),
+                                                      fontSize: 24.sp),
                                                 ),
                                                 InkWell(
                                                   onTap: () {

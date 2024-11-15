@@ -23,25 +23,43 @@ class _BrandsSkeletonState extends State<BrandsSkeleton> {
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
                     )),
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
-                    ))
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
               ],
             ),
             10.verticalSpace,
@@ -51,25 +69,43 @@ class _BrandsSkeletonState extends State<BrandsSkeleton> {
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
                     )),
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
-                    ))
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
               ],
             ),
             10.verticalSpace,
@@ -79,25 +115,365 @@ class _BrandsSkeletonState extends State<BrandsSkeleton> {
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
                     )),
                 Shimmer.fromColors(
                     baseColor: Colors.grey.shade300,
                     highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.sp),
+                    child: ClipOval(
                       child: Container(
                         color: Colors.black,
-                        width: 0.4.sw,
-                        height: 250.h,
+                        width: 75,
+                        height: 75,
                       ),
-                    ))
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+              ],
+            ),
+            10.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: ClipOval(
+                      child: Container(
+                        color: Colors.black,
+                        width: 75,
+                        height: 75,
+                      ),
+                    )),
               ],
             ),
             10.verticalSpace,

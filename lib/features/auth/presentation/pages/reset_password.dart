@@ -73,7 +73,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                           );
                         } else {
                           context.read<AuthCubit>().resetPassword(
-                              widget.phoeNumber, password, context);
+                                widget.phoeNumber,
+                                password,
+                              );
                         }
                       },
                         style: TextStyle(

@@ -86,7 +86,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onTap: () {
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => mainScreen(navigateIndex: 1)),
+                            builder: (context) => mainScreen(navigateIndex: 2)),
                         (Route route) => false,
                       );
                     },
@@ -152,7 +152,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               });
                                               await Share.shareXFiles([file],
                                                   text:
-                                                      '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.web.app/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع');
+                                                      '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع');
                                             }
                                           },
                                           child: loadingshare

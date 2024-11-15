@@ -2,6 +2,7 @@
 
 import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/features/favorite/data/models/favorite_model.dart';
+import 'package:alkhatouna/features/favorite/presentation/cubit/favorite_cubit.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:alkhatouna/core/extensions/padding_extensions.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/favorite/presentation/widgets/favorite_widgets.dart/favorite_card_image.dart';
+import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/pages/product_details_screen.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/categories_widgets/product_price_widget.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/categories_widgets/stars_widget.dart';
@@ -89,7 +91,7 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                                         ? widget.favoriteProduct.nameAr
                                         : widget.favoriteProduct.nameKu,
                                 style: TextStyle(
-                                    fontSize: 16.sp,
+                                    fontSize: 10.sp,
                                     color: AppColors.blackColor,
                                     fontWeight: FontWeight.w600),
                               );
@@ -99,7 +101,7 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                           // // Row(
                           // //   children: [
                           // //     Text(
-                          // //       "${"Color".tr(context)} :",
+                          // //       "${"Color".tr()} :",
                           // //       style: TextStyle(
                           // //           fontSize: 11.sp,
                           // //           fontWeight: FontWeight.w400,
@@ -115,7 +117,7 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                           // //     ),
                           //     30.pw,
                           //     Text(
-                          //       "${"Size".tr(context)} :",
+                          //       "${"Size".tr()} :",
                           //       style: TextStyle(
                           //           fontSize: 11.sp,
                           //           fontWeight: FontWeight.w400,
@@ -134,9 +136,11 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                           2.ph,
                           ProductPriceWidget(
                             productDetails: Products(
-                                finalPrice: widget.favoriteProduct.finalPrice,
-                                price: widget.favoriteProduct.price,
-                                discount: widget.favoriteProduct.discount),
+                                finalPrice: widget.favoriteProduct.finalPrice
+                                    .toString(),
+                                price: widget.favoriteProduct.price.toString(),
+                                discount:
+                                    widget.favoriteProduct.discount.toString()),
                             haveOffer: widget.favoriteProduct.isDiscount!,
                           )
                         ],
@@ -154,18 +158,43 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                   width: 1.sw,
                   color: const Color.fromARGB(185, 255, 255, 255),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 1.sw,
-                        color: Colors.white,
-                        child: Text(
-                          "Sorry, this item is currently sold out".tr(context),
-                          style: TextStyle(
-                              fontSize: 11.sp,
-                              color: AppColors.blackColor,
-                              fontWeight: FontWeight.w400),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: InkWell(
+                              onTap: () {
+                                context.read<HomeCubit>().toggleFavorite(
+                                    context,
+                                    widget.favoriteProduct.id.toString());
+                                context.read<FavoriteCubit>().toggleFavorite(
+                                    widget.favoriteProduct.id ?? -1);
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: AppColors.greyColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 1.sw,
+                          color: Colors.white,
+                          child: Text(
+                            "Sorry, this item is currently sold out"
+                                .tr(context),
+                            style: TextStyle(
+                                fontSize: 11.sp,
+                                color: AppColors.blackColor,
+                                fontWeight: FontWeight.w400),
+                          ),
                         ),
                       )
                     ],

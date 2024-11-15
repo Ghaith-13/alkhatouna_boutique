@@ -225,15 +225,15 @@ class _HeaderSectionState extends State<HeaderSection> {
                             children: [
                               SvgPicture.asset(
                                 'assets/icons/filter.svg',
-                                width: 24.sp,
-                                height: 24.sp,
+                                width: 20.sp,
+                                height: 20.sp,
                               ),
                               5.pw,
                               Text(
                                 "Filters",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 11.sp),
+                                    fontSize: 10.sp),
                               )
                             ],
                           ),
@@ -246,15 +246,15 @@ class _HeaderSectionState extends State<HeaderSection> {
                               children: [
                                 SvgPicture.asset(
                                   'assets/icons/filter.svg',
-                                  width: 24.sp,
-                                  height: 24.sp,
+                                  width: 20.sp,
+                                  height: 20.sp,
                                 ),
                                 5.pw,
                                 Text(
                                   "Filters by brand",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 11.sp),
+                                      fontSize: 10.sp),
                                 )
                               ],
                             ),
@@ -280,14 +280,14 @@ class _HeaderSectionState extends State<HeaderSection> {
                               children: [
                                 SvgPicture.asset(
                                   'assets/icons/sort.svg',
-                                  width: 24.sp,
-                                  height: 24.sp,
+                                  width: 20.sp,
+                                  height: 20.sp,
                                 ),
                                 5.pw,
                                 Text("${state.sortName}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 11.sp))
+                                        fontSize: 10.sp))
                               ],
                             ),
                           ),

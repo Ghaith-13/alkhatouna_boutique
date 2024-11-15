@@ -67,15 +67,18 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BlocBuilder<LocaleCubit, LocaleState>(
                         builder: (context, locale) {
-                          return Text(
-                            "${locale.locale.languageCode == "en" ? widget.cartItem.product!.nameEn ?? "" : locale.locale.languageCode == "ar" ? widget.cartItem.product!.nameAr ?? "" : widget.cartItem.product!.nameKu ?? ""}",
-                            style: TextStyle(
-                                color: AppColors.blackColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600),
+                          return Expanded(
+                            child: Text(
+                              "${locale.locale.languageCode == "en" ? widget.cartItem.product!.nameEn ?? "" : locale.locale.languageCode == "ar" ? widget.cartItem.product!.nameAr ?? "" : widget.cartItem.product!.nameKu ?? ""}",
+                              style: TextStyle(
+                                  color: AppColors.blackColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           );
                         },
                       ),
@@ -102,7 +105,6 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                           onSelected: (value) {
                             if (value == 'delete') {
                               context.read<CartCubit>().removeFromCart(
-                                  context,
                                   "-${widget.cartItem.quantity}",
                                   widget.cartItem.id.toString(),
                                   FinalPrice:
@@ -139,19 +141,27 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                   fontSize: 11.sp,
                                   color: AppColors.blackColor),
                             )
-                          : Container(
-                              width: 20.sp,
-                              height: 20.sp,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    HexColor.fromHex(widget.cartItem.hexColor!),
-                                border: Border.all(
-                                  color: AppColors.primaryColor,
-                                  width: 1,
+                          : widget.cartItem.hexColor == "other"
+                              ? Text(
+                                  "Other".tr(context),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                )
+                              : Container(
+                                  width: 20.sp,
+                                  height: 20.sp,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: HexColor.fromHex(
+                                        widget.cartItem.hexColor!),
+                                    border: Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 1,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
                       20.pw,
                       Text(
                         "${"Size".tr(context)} : ",
@@ -196,7 +206,7 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                   color: AppColors.blackColor),
                             )
                           : Text(
-                              "${widget.cartItem.weight}",
+                              "${widget.cartItem.weight ?? "Other".tr(context)}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
@@ -219,7 +229,7 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                   color: AppColors.blackColor),
                             )
                           : Text(
-                              "${widget.cartItem.dimension}",
+                              "${widget.cartItem.dimension ?? "Other".tr(context)}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
@@ -248,7 +258,13 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    if (state.laodingUpdateItem) {
+                                    context
+                                        .read<CartCubit>()
+                                        .cahngeclcikedCartId(
+                                            widget.cartItem.id);
+                                    if (state.laodingUpdateItem &&
+                                        state.clcikedCartId ==
+                                            widget.cartItem.id) {
                                     } else {
                                       if (widget.cartItem.quantity == "1") {
                                       } else {
@@ -261,7 +277,7 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                         });
                                         context
                                             .read<CartCubit>()
-                                            .removeFromCart(context, "-1",
+                                            .removeFromCart("-1",
                                                 widget.cartItem.id.toString());
                                         context
                                             .read<CartCubit>()
@@ -274,10 +290,16 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: Colors.white,
-                                    child: Icon(
-                                      Icons.remove,
-                                      color: AppColors.greyColor,
-                                    ),
+                                    child: state.laodingUpdateItem &&
+                                            state.clcikedCartId ==
+                                                widget.cartItem.id
+                                        ? CircularProgressIndicator(
+                                            color: Colors.black,
+                                          )
+                                        : Icon(
+                                            Icons.remove,
+                                            color: AppColors.greyColor,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -307,7 +329,13 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    if (state.laodingUpdateItem) {
+                                    context
+                                        .read<CartCubit>()
+                                        .cahngeclcikedCartId(
+                                            widget.cartItem.id);
+                                    if (state.laodingUpdateItem &&
+                                        state.clcikedCartId ==
+                                            widget.cartItem.id) {
                                     } else {
                                       setState(() {
                                         widget.cartItem.quantity = (int.parse(
@@ -316,9 +344,7 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                             .toString();
                                       });
                                       context.read<CartCubit>().removeFromCart(
-                                          context,
-                                          "+1",
-                                          widget.cartItem.id.toString());
+                                          "+1", widget.cartItem.id.toString());
                                       context.read<CartCubit>().addToTotalPrice(
                                           double.parse(widget
                                               .cartItem.product!.finalPrice!));
@@ -326,8 +352,14 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: Colors.white,
-                                    child: Icon(Icons.add,
-                                        color: AppColors.greyColor),
+                                    child: state.laodingUpdateItem &&
+                                            state.clcikedCartId ==
+                                                widget.cartItem.id
+                                        ? CircularProgressIndicator(
+                                            color: Colors.black,
+                                          )
+                                        : Icon(Icons.add,
+                                            color: AppColors.greyColor),
                                   ),
                                 ),
                               )

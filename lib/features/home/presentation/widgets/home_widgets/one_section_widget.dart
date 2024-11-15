@@ -1,8 +1,8 @@
-import 'package:alkhatouna/features/home/presentation/pages/categories_screen.dart';
+import 'package:alkhatouna/core/utils/app_constant.dart';
+import 'package:alkhatouna/features/home/presentation/pages/categorey_children_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:alkhatouna/core/utils/app_constant.dart';
 
 class OneSectionWidget extends StatelessWidget {
   final String logo, title, categoryId;
@@ -18,36 +18,32 @@ class OneSectionWidget extends StatelessWidget {
       onTap: () {
         AppConstant.customNavigation(
             context,
-            CategoriesScreen(
-              title: title,
-              categoryId: categoryId,
-            ),
+            CategoreyChildrenScreen(title: title, categoreyId: categoryId),
+            // CategoriesScreen(
+            //   title: title,
+            //   categoryId: categoryId,
+            // ),
             -1,
             0);
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        width: 80,
-        height: 110,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              blurRadius: 7.0,
-              spreadRadius: 1.0,
-            ),
-          ],
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipOval(
-                  child: CachedNetworkImage(
-                width: 50,
-                height: 50,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                    blurRadius: 7.0,
+                    spreadRadius: 1.0,
+                  ),
+                ],
+              ),
+              child: CachedNetworkImage(
+                width: 90,
+                height: 90,
                 fit: BoxFit.fill,
                 imageUrl: logo,
                 errorWidget: (context, name, imageProvider) => Container(
@@ -57,29 +53,40 @@ class OneSectionWidget extends StatelessWidget {
                   ),
                   child: Image.asset(
                     "assets/images/logo.jpg",
-                    fit: BoxFit.cover,
+                    fit: BoxFit.scaleDown,
                   ),
                 ),
                 imageBuilder: (context, imageProvider) => Container(
+                  // padding: EdgeInsets.symmetric(vertical: 5),
+                  // padding: EdgeInsets.all(5),
+
+                  width: 90,
+                  height: 90,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 2.0,
+                        spreadRadius: 1.0,
+                      ),
+                    ],
                     image: DecorationImage(
                       image: imageProvider,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.scaleDown,
                     ),
                   ),
                 ),
-              )),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 15),
-                child: Text(
-                  title, // overflow: TextOverflow.fade,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 8.sp, fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          ),
+              ),
+            ),
+            5.verticalSpace,
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );

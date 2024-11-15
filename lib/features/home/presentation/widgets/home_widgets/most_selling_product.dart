@@ -32,7 +32,10 @@ class _SectionsWidgetState extends State<MostSellingProduct> {
                 return FadeInUp(
                     child: ProductCardWidget(
                   fromSimilarProduct: false,
+                  fromHome: true,
                   productDetails: Products(
+                      displayProduct: state
+                          .homeInfo!.bestSellingProducts![index].displayProduct,
                       finalPrice: state
                           .homeInfo!.bestSellingProducts![index].finalPrice,
                       discount:

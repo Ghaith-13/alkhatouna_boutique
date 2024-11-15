@@ -4,9 +4,9 @@ import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
@@ -34,7 +34,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
             context,
             "Articles",
             true,
-            withTranslate: false,
+            withTranslate: true,
             IconColor: AppColors.blackColor,
             backgroundColor: Colors.white,
             elvation: 0,
@@ -141,48 +141,60 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12.sp),
                                   ),
-                                  CarouselSlider(
-                                    options: CarouselOptions(
-                                      height: 300.h,
-                                      initialPage: 0,
-                                      // viewportFraction: 1,
-                                      enableInfiniteScroll: false,
-                                      reverse: false,
-                                      autoPlay: false,
-                                      autoPlayInterval:
-                                          const Duration(seconds: 5),
-                                      autoPlayAnimationDuration:
-                                          const Duration(milliseconds: 800),
-                                      autoPlayCurve: Curves.fastOutSlowIn,
-                                      enlargeCenterPage: true,
-                                      scrollDirection: Axis.horizontal,
-                                      onPageChanged: (index, reason) {},
-                                    ),
-                                    items: [
-                                      for (int i = 0;
-                                          i <
-                                              state.articles![index].images!
-                                                  .length;
-                                          i++)
-                                        CachedNetworkImage(
-                                          imageUrl: state.articles![index]
-                                                  .images![i].url ??
-                                              '',
-                                          imageBuilder:
-                                              (context, imageProvider) =>
-                                                  Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.r),
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.contain,
+                                  state.articles![index].images == null
+                                      ? SizedBox()
+                                      : state.articles![index].images!.length ==
+                                              0
+                                          ? SizedBox()
+                                          : FlutterCarousel(
+                                              options: FlutterCarouselOptions(
+                                                height: 300.h,
+                                                initialPage: 0,
+                                                // viewportFraction: 1,
+                                                enableInfiniteScroll: false,
+                                                reverse: false,
+                                                autoPlay: false,
+                                                autoPlayInterval:
+                                                    const Duration(seconds: 5),
+                                                autoPlayAnimationDuration:
+                                                    const Duration(
+                                                        milliseconds: 800),
+                                                autoPlayCurve:
+                                                    Curves.fastOutSlowIn,
+                                                enlargeCenterPage: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                onPageChanged:
+                                                    (index, reason) {},
                                               ),
+                                              items: [
+                                                for (int i = 0;
+                                                    i <
+                                                        state.articles![index]
+                                                            .images!.length;
+                                                    i++)
+                                                  CachedNetworkImage(
+                                                    imageUrl: state
+                                                            .articles![index]
+                                                            .images![i]
+                                                            .url ??
+                                                        '',
+                                                    imageBuilder: (context,
+                                                            imageProvider) =>
+                                                        Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.r),
+                                                        image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                              ],
                                             ),
-                                          ),
-                                        )
-                                    ],
-                                  ),
                                 ],
                               ),
                             );
