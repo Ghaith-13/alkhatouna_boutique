@@ -33,14 +33,25 @@ class SignUpDs {
   }
 
   Future<Map<String, dynamic>?> checkNumber(String number) async {
-    Map<String, dynamic>? response =
-        await apiHelper.get("/auth/check-number?phone=$number", headers: {});
+    Map<String, String> queryParams = {'phone': '$number'};
+    print(queryParams);
+    Map<String, dynamic>? response = await apiHelper.get(
+      "/auth/check-number",
+      queryParameters: queryParams,
+      headers: {},
+    );
     return response;
   }
 
   Future<Map<String, dynamic>?> getWhatsappSettings() async {
     Map<String, dynamic>? response =
         await apiHelper.get("/whatsapp-settings", headers: {});
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> sendOtp(Map<String, String>? body) async {
+    Map<String, dynamic>? response =
+        await apiHelper.post("/auth/send-otp", body: body, headers: {});
     return response;
   }
 }

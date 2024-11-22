@@ -65,7 +65,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   left: 50.w,
                                   right: 50.w),
                               content: Text(
-                                "Password not updated".tr(context),
+                                "The password field must be at least 8 characters"
+                                    .tr(context),
                                 style: const TextStyle(color: Colors.white),
                               ),
                               duration: const Duration(seconds: 2),

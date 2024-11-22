@@ -17,7 +17,7 @@
     "Forgot your password":"Forgot your password",
     "Forget Password":"Forget Password",
     "Enter Your Email":"Enter Your Email",
-    "Please, enter your email address. You will receive a link to create a new password via email.":"Please, enter your phone number.",
+    "Please, enter your email address. You will receive a link to create a new password via email.":"Please, enter your phone number or your email.",
     "Send":"Send",
     "See more":"See more",
     "Get discounts of up to 50% on selected products":"Get discounts of up to 50% on selected products",
@@ -280,5 +280,8 @@
     "Benefits":"Benefits",
     "Category Description":"Category Description",
     "Sorry, there are no benefits":"Sorry, there are no benefits",
-    "Please enter your email":"Please enter your email"
+    "Please enter your email":"Please enter your email",
+    "Send confirmation code via Email":"Send confirmation code via Email",
+    "Choose a method to verify your account":"Choose a method to verify your account",
+    "The password field must be at least 8 characters":"The password field must be at least 8 characters"
 }

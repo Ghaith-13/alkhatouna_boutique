@@ -4,6 +4,7 @@ import 'package:alkhatouna/features/auth/data/datasources/sign_up_ds.dart';
 import 'package:alkhatouna/features/auth/data/models/check_number_model.dart';
 import 'package:alkhatouna/features/auth/data/models/google_model.dart';
 import 'package:alkhatouna/features/auth/data/models/reset_password_model.dart';
+import 'package:alkhatouna/features/auth/data/models/send_otp_model.dart';
 import 'package:alkhatouna/features/auth/data/models/sign_up_model.dart';
 import 'package:alkhatouna/features/auth/data/models/whatsapp_settings_model.dart';
 
@@ -38,6 +39,13 @@ class SignUpRepo {
       {required Map<String, String> body}) async {
     ResetPasswordModel response = ResetPasswordModel.fromJson(
       await dataSource.resetPassword(body),
+    );
+    return response;
+  }
+
+  Future<SendOtpModel> sendOtp({required Map<String, String> body}) async {
+    SendOtpModel response = SendOtpModel.fromJson(
+      await dataSource.sendOtp(body),
     );
     return response;
   }

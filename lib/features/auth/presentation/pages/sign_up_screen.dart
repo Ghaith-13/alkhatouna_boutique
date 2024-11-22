@@ -243,6 +243,9 @@
 //   }
 // }
 
+import 'package:alkhatouna/features/auth/presentation/pages/otp_confirmation.dart';
+import 'package:alkhatouna/features/auth/presentation/widgets/sign_up_widgets/confirmation_type_bottom_sheet.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:alkhatouna/core/utils/app_logger.dart';
 import 'package:alkhatouna/features/auth/presentation/cubit/auth_cubit.dart';
@@ -519,7 +522,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return AppConstant.customElvatedButton(
                               context, "Sign Up",
                               loading: state.loading ? true : false, () {
-                            print(state.phone);
+                            // print(state.phone);
                             if (state.loading) {
                             } else {
                               if (state.name!.isEmpty) {
@@ -565,8 +568,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     true,
                                     true);
                               } else {
-                                AppConstant.customNavigation(
-                                    context, WhatsappConfirmScreen(), -1, 0);
+                                // AppConstant.customNavigation(
+                                //     context, WhatsappConfirmScreen(), -1, 0);
+                                // AppConstant.customNavigation(
+                                //     context, OtpConfirmationScreen(), -1, 0);
+                                showFlexibleBottomSheet(
+                                  bottomSheetColor: AppColors.whiteColor,
+                                  barrierColor: Color.fromARGB(94, 83, 83, 83),
+                                  bottomSheetBorderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(40.sp),
+                                      topRight: Radius.circular(40.sp)),
+                                  minHeight: 0,
+                                  initHeight: 0.5,
+                                  maxHeight: 0.5,
+                                  anchors: [0, 0.5],
+                                  isSafeArea: true,
+                                  context: context,
+                                  builder: ConfirmationTypeBottomSheet,
+                                );
                               }
                             }
                           },

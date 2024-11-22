@@ -17,7 +17,7 @@
     "Forgot your password":" نسيت كلمة السر الخاصة بك",
     "Forget Password":"نسيت كلمة السر",
     "Enter Your Email":"ادخل الأيميل الخاص بك",
-    "Please, enter your email address. You will receive a link to create a new password via email.":"الرجاء , ادخل رقمك الهاتف",
+    "Please, enter your email address. You will receive a link to create a new password via email.":"الرجاء , ادخل رقمك الهاتف أو بريدك الإلكتروني",
     "Send":"إرسال",
     "See more":"عرض المزيد",
     "Get discounts of up to 50% on selected products":"احصل على خصومات تصل إلى 50% على المنتجات المختارة",
@@ -280,7 +280,10 @@
     "benefits":"الميزات",
     "Category Description":"وصف الفئة ",
     "Sorry, there are no benefits":"عذراً , لا يوجد مزايا",
-    "Please enter your email":"الرجاء إدخال البريد الإلكتروني"
+    "Please enter your email":"الرجاء إدخال البريد الإلكتروني",
+    "Send confirmation code via Email":"ارسل رمز التحقيق عبر البريد الإلكتروني",
+    "Choose a method to verify your account":"اختر طريقة لتأكيد حسابك",
+    "The password field must be at least 8 characters":"كلمة السر يجب أن تكون أكثر من 8 محارف"
     
     
 }

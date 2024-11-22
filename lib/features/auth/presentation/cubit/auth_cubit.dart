@@ -5,6 +5,7 @@ import 'package:alkhatouna/core/utils/http_helper.dart';
 import 'package:alkhatouna/features/auth/data/models/check_number_model.dart';
 import 'package:alkhatouna/features/auth/data/models/google_model.dart';
 import 'package:alkhatouna/features/auth/data/models/reset_password_model.dart';
+import 'package:alkhatouna/features/auth/data/models/send_otp_model.dart';
 import 'package:alkhatouna/features/auth/data/models/sign_up_model.dart';
 import 'package:alkhatouna/features/auth/data/models/whatsapp_settings_model.dart';
 import 'package:alkhatouna/features/auth/data/repositories/sign_up_repo.dart';
@@ -34,6 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(logInmethod: logInmethod));
   changePasswordValue(String password) =>
       emit(state.copyWith(password: password));
+  changeOtpCode(String otpCode) => emit(state.copyWith(otpCode: otpCode));
 
   Future<void> SignUp() async {
     emit(state.copyWith(loading: true));
@@ -185,12 +187,39 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(loading: false));
   }
 
+  Future<void> sendOtp() async {
+    emit(state.copyWith(loadingOtp: true));
+    try {
+      Map<String, String> body = {};
+      body['email'] = state.email ?? "";
+
+      SendOtpModel? response = await signUpRepo.sendOtp(body: body);
+      emit(state.copyWith(otpCode: response.otp.toString()));
+    } catch (e) {
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString().contains('Invalid login credentials')
+                ? "Invalid login credentials".tr(navigatorKey.currentContext!)
+                : e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingOtp: false));
+  }
+
   Future<void> resetPassword(String phone, String password,
       {bool fromProfile = false}) async {
     emit(state.copyWith(loading: true));
     try {
       Map<String, String> body = {};
-      body['phone'] = phone;
+      body['login'] = phone;
       body['password'] = password;
       ResetPasswordModel? response = await signUpRepo.resetPassword(body: body);
       if (fromProfile) {
@@ -236,7 +265,9 @@ class AuthCubit extends Cubit<AuthState> {
           content: Text(
             e.toString().contains('Invalid login credentials')
                 ? "Invalid login credentials".tr(navigatorKey.currentContext!)
-                : e.toString(),
+                : e.toString().contains('The login field is required')
+                    ? "Invalid login credentials"
+                    : e.toString(),
             style: const TextStyle(color: Colors.white),
           ),
           duration: const Duration(seconds: 2),
@@ -306,24 +337,28 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> checkNumber(
+  Future<bool> checkNumber(
     String number,
   ) async {
     emit(state.copyWith(loading: true));
+    emit(state.copyWith(loadingOtp: true));
 
     try {
       CheckNumberModel? response = await signUpRepo.checkNumber(number: number);
 
       if (response.data!.message!
           .contains("The phone is registered with name")) {
-        Navigator.pushReplacement(
-          navigatorKey.currentContext!,
-          MaterialPageRoute<void>(
-            builder: (context) => ResetPassword(
-              phoeNumber: number,
-            ),
-          ),
-        );
+        // Navigator.pushReplacement(
+        //   navigatorKey.currentContext!,
+        //   MaterialPageRoute<void>(
+        //     builder: (context) => ResetPassword(
+        //       phoeNumber: number,
+        //     ),
+        //   ),
+        // );
+        emit(state.copyWith(loadingOtp: false));
+        emit(state.copyWith(loading: false));
+        return true;
       } else {
         ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
           SnackBar(
@@ -338,6 +373,9 @@ class AuthCubit extends Cubit<AuthState> {
             duration: const Duration(seconds: 2),
           ),
         );
+        emit(state.copyWith(loadingOtp: false));
+        emit(state.copyWith(loading: false));
+        return false;
       }
     } catch (e) {
       ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
@@ -359,6 +397,8 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     }
+    emit(state.copyWith(loadingOtp: false));
     emit(state.copyWith(loading: false));
+    return false;
   }
 }
