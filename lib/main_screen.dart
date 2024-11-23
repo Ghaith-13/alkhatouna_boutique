@@ -118,7 +118,7 @@ class _mainScreenState extends State<mainScreen> {
     return Scaffold(
         body: screens[myIndex],
         bottomNavigationBar: Container(
-            height: 83.h,
+            // height: 70.h,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.only(
@@ -132,12 +132,12 @@ class _mainScreenState extends State<mainScreen> {
               ),
               child: BottomNavigationBar(
                 elevation: 0,
-                unselectedLabelStyle: TextStyle(fontSize: 10.sp),
+                unselectedLabelStyle: TextStyle(fontSize: 8.sp),
                 selectedItemColor: AppColors.primaryColor,
                 selectedIconTheme:
-                    IconThemeData(size: 30, color: AppColors.primaryColor),
+                    IconThemeData(size: 27.sp, color: AppColors.primaryColor),
                 selectedLabelStyle: TextStyle(
-                  fontSize: 10.sp,
+                  fontSize: 8.sp,
                   fontWeight: FontWeight.bold,
                 ),
                 unselectedItemColor: Colors.black54,
@@ -158,30 +158,30 @@ class _mainScreenState extends State<mainScreen> {
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
                       'assets/icons/home.svg',
-                      width: 30.sp,
+                      width: 27.sp,
                       color: myIndex == 0
                           ? AppColors.primaryColor
                           : AppColors.greyColor,
-                      height: 30.sp,
+                      height: 27.sp,
                     ),
                     label: "Home".tr(context),
                   ),
                   BottomNavigationBarItem(
                     icon: Image.asset(
                       'assets/images/make_up_icon.png',
-                      width: 30.sp,
+                      width: 27.sp,
                       color: myIndex == 1
                           ? AppColors.primaryColor
                           : AppColors.greyColor,
-                      height: 30.sp,
+                      height: 27.sp,
                     ),
                     label: "All Products".tr(context),
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
                       "assets/icons/basket.svg",
-                      width: 30.sp,
-                      height: 30.sp,
+                      width: 27.sp,
+                      height: 27.sp,
                       color: myIndex == 2 ? AppColors.primaryColor : null,
                     ),
                     label: "Cart".tr(context),
@@ -189,8 +189,8 @@ class _mainScreenState extends State<mainScreen> {
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
                       "assets/icons/favorite.svg",
-                      width: 30.sp,
-                      height: 30.sp,
+                      width: 27.sp,
+                      height: 27.sp,
                       color: myIndex == 3 ? AppColors.primaryColor : null,
                     ),
                     label: "Favorite".tr(context),
@@ -198,8 +198,8 @@ class _mainScreenState extends State<mainScreen> {
                   BottomNavigationBarItem(
                       icon: SvgPicture.asset(
                         "assets/icons/profile.svg",
-                        width: 30.sp,
-                        height: 30.sp,
+                        width: 27.sp,
+                        height: 27.sp,
                         color: myIndex == 4 ? AppColors.primaryColor : null,
                       ),
                       label: "My Account".tr(context)),

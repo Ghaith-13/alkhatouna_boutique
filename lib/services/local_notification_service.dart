@@ -154,9 +154,12 @@ class LocalNotificationService {
     // print("message");
     showLocalNotifications(
       id: 0,
-      title: "${message.notification?.title}",
-      body: "${message.notification?.body}",
-      imageUrl: "${message.notification?.android?.imageUrl ?? ""}",
+      // title: "${message.notification?.title}",
+      // body: "${message.notification?.body}",
+      // imageUrl: "${message.notification?.android?.imageUrl ?? ""}",
+      title: "${message.data['title']}",
+      body: "${message.data['body']}",
+      imageUrl: "${message.data['image'] ?? ""}",
       payload: json.encode(message.data),
     );
   }

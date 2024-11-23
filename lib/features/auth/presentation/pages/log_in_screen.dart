@@ -322,8 +322,6 @@ class _LogInScreenState extends State<LogInScreen> {
           fromSignIn: true),
       body: SingleChildScrollView(
         child: Container(
-          height: 0.85.sh,
-          width: 1.sw,
           child: Padding(
             padding: EdgeInsets.all(15.sp),
             child: Column(
@@ -521,7 +519,8 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold)),
                 // const Expanded(child: SizedBox()),
-                Expanded(
+                50.ph,
+                Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

@@ -16,22 +16,43 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'injection_container.dart' as di;
 
+/// Handles background messages from Firebase Messaging.
 @pragma('vm:entry-point')
 Future<void> onBackgroundMessage(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   LocalNotificationService().showMessagefromServer(message);
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize other services
   await di.init();
   await CacheHelper.init();
+
+  // Firebase Messaging instance
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  await messaging.subscribeToTopic('all-users');
+
+  // Subscribe to topic with error handling
+  try {
+    await messaging.subscribeToTopic('all-users');
+    print('Subscribed to topic: all-users');
+  } catch (e) {
+    print('Error subscribing to topic: $e');
+  }
+
+  // Listen for foreground messages
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-    onBackgroundMessage(event);
+    LocalNotificationService().showMessagefromServer(event);
   });
+
+  // Set up background message handling
+  FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
+
+  // Run the app
   runApp(const MyApp());
 }
 
@@ -40,7 +61,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
