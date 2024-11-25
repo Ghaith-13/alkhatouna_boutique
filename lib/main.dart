@@ -37,12 +37,12 @@ void main() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   // Subscribe to topic with error handling
-  try {
-    await messaging.subscribeToTopic('all-users');
-    print('Subscribed to topic: all-users');
-  } catch (e) {
-    print('Error subscribing to topic: $e');
-  }
+  // try {
+  //   await messaging.subscribeToTopic('all-users');
+  //   print('Subscribed to topic: all-users');
+  // } catch (e) {
+  //   print('Error subscribing to topic: $e');
+  // }
 
   // Listen for foreground messages
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {

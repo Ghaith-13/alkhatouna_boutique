@@ -24,6 +24,8 @@
 		<string>http</string>
     	<string>https</string>
 	</array>
+	<key>GIDClientID</key>
+	<string>424543315235-620m481cv8tknvfe1704te6t7rhm4jht.apps.googleusercontent.com</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

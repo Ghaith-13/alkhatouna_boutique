@@ -2,22 +2,30 @@
   "project_info": {
     "project_number": "424543315235",
     "project_id": "alkhatouna-boutique-8d85a",
-    "storage_bucket": "alkhatouna-boutique-8d85a.appspot.com"
+    "storage_bucket": "alkhatouna-boutique-8d85a.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:424543315235:android:8d68fb932c4342c4895896",
+        "mobilesdk_app_id": "1:424543315235:android:faf73a795f4d4e8d895896",
         "android_client_info": {
-          "package_name": "com.example.alkhatouna"
+          "package_name": "com.alkhatouna.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "424543315235-8jcjr8v2la06i9ebi61lvdr8jbpvjsd0.apps.googleusercontent.com",
+          "client_id": "424543315235-1e63pdq760r6ehso8grddj8ejahod7pq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.alkhatouna",
+            "package_name": "com.alkhatouna.app",
+            "certificate_hash": "41128caf50d921fe63372aebbd51054052875162"
+          }
+        },
+        {
+          "client_id": "424543315235-g86kmiasq74gba5fv4flbl2cv6e3i44e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alkhatouna.app",
             "certificate_hash": "c742383a77afec28a890df97abe640043c5b88a3"
           }
         },
@@ -42,7 +50,7 @@
               "client_id": "424543315235-620m481cv8tknvfe1704te6t7rhm4jht.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.alkhatouna"
+                "bundle_id": "com.alkhatouna.app"
               }
             }
           ]
