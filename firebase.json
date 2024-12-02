@@ -1,1 +1,30 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"alkhatouna-boutique-8d85a","appId":"1:424543315235:android:faf73a795f4d4e8d895896","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"alkhatouna-boutique-8d85a","configurations":{"android":"1:424543315235:android:faf73a795f4d4e8d895896","ios":"1:424543315235:ios:d88c60e908b0d692895896"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "alkhatouna-boutique-8d85a",
+          "appId": "1:424543315235:android:faf73a795f4d4e8d895896",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "alkhatouna-boutique-8d85a",
+          "configurations": {
+            "android": "1:424543315235:android:faf73a795f4d4e8d895896",
+            "ios": "1:424543315235:ios:d88c60e908b0d692895896"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

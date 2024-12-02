@@ -41,14 +41,19 @@ class _SplashScreenState extends State<SplashScreen> {
       splash: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FadeInDownBig(
-            animate: true,
-            duration: Duration(milliseconds: 150),
-            child: Image.asset(
-              'assets/images/logo-removebg-preview.png',
-              width: 1.sw,
-              height: 0.5.sh,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeInDownBig(
+                animate: true,
+                duration: Duration(milliseconds: 150),
+                child: Image.asset(
+                  'assets/images/logo-removebg.png',
+                  width: 0.9.sw,
+                  height: 0.5.sh,
+                ),
+              ),
+            ],
           ),
           AnimatedTextKit(
             animatedTexts: [
