@@ -65,6 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'alkhatouna-boutique-8d85a.firebasestorage.app',
     androidClientId: '424543315235-8jcjr8v2la06i9ebi61lvdr8jbpvjsd0.apps.googleusercontent.com',
     iosClientId: '424543315235-kknfb3759d9bitm4112a9604fr6tdsku.apps.googleusercontent.com',
-    iosBundleId: 'com.alkhatouna.app',
+    iosBundleId: 'com.khatouna.Boutique',
   );
 }

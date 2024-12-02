@@ -5,7 +5,7 @@
       ],
       "target": {
       "namespace": "android_app",
-      "package_name": "com.alkhatouna.app",
+      "package_name": "com.khatouna.Boutique",
       "sha256_cert_fingerprints": [
           "23:E7:28:2A:21:07:B0:F0:48:F4:3C:E8:FF:5A:8C:2C:84:41:31:96:40:1C:20:DF:38:3E:CD:27:78:39:5F:2A",
           "1A:C7:BA:8B:3E:7D:66:25:56:00:34:C2:A9:AC:D5:F8:9D:16:5A:22:E8:88:4F:45:4E:1C:73:0A:96:D7:C1:14"
