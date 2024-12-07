@@ -3,7 +3,7 @@ description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
@@ -36,9 +36,9 @@ dependencies:
   rate_in_stars: ^0.0.3
   confetti: ^0.7.0
   firebase_core: ^2.24.2
-  google_sign_in: ^6.2.1
   firebase_auth: ^4.16.0
   firebase_messaging: ^14.7.10
+  google_sign_in: ^6.2.1
   permission_handler: ^11.3.1
   email_validator: ^3.0.0
   lottie: ^3.1.2

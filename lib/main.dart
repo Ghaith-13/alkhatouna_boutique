@@ -36,13 +36,13 @@ void main() async {
   // Firebase Messaging instance
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  // Subscribe to topic with error handling
-  // try {
-  //   await messaging.subscribeToTopic('all-users');
-  //   print('Subscribed to topic: all-users');
-  // } catch (e) {
-  //   print('Error subscribing to topic: $e');
-  // }
+  // Retrieve FCM Token for Debugging
+  try {
+    String? token = await messaging.getToken();
+    print("FCM Token: $token");
+  } catch (e) {
+    print("Error retrieving FCM token: $e");
+  }
 
   // Listen for foreground messages
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
@@ -51,6 +51,13 @@ void main() async {
 
   // Set up background message handling
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
+
+  // Listen for notification interaction
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    navigatorKey.currentState?.pushNamed("/productDetails", arguments: {
+      "productId": message.data['productId'],
+    });
+  });
 
   // Run the app
   runApp(const MyApp());
