@@ -520,35 +520,35 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontWeight: FontWeight.bold)),
                 // const Expanded(child: SizedBox()),
                 50.ph,
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Or log in with social account".tr(context),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      10.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // InkWell(
-                          //     onTap: () async {
+                // Container(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Text(
+                //         "Or log in with social account".tr(context),
+                //         style: const TextStyle(fontWeight: FontWeight.bold),
+                //       ),
+                //       10.ph,
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           // InkWell(
+                //           //     onTap: () async {
 
-                          //       signInWithFaceBook();
-                          //       // await FirebaseAuth.instance.signOut();
-                          //     },
-                          //     child: Image.asset("assets/images/Facebook.png")),
-                          InkWell(
-                              onTap: () {
-                                signInWithGoogle();
-                              },
-                              child: Image.asset("assets/images/Google.png")),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                //           //       signInWithFaceBook();
+                //           //       // await FirebaseAuth.instance.signOut();
+                //           //     },
+                //           //     child: Image.asset("assets/images/Facebook.png")),
+                //           // InkWell(
+                //           //     onTap: () {
+                //           //       signInWithGoogle();
+                //           //     },
+                //           //     child: Image.asset("assets/images/Google.png")),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

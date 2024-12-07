@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>Alkhatouna Boutique</string>
+    <string>الخاتونة بوتيك</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -22,10 +22,21 @@
     <string>$(FLUTTER_BUILD_NAME)</string>
     <key>CFBundleSignature</key>
     <string>????</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.424543315235-u3ofh7rrqc9v38sra3rd6mf4cft65kcm</string>
+            </array>
+        </dict>
+    </array>
     <key>CFBundleVersion</key>
     <string>$(FLUTTER_BUILD_NUMBER)</string>
     <key>FirebaseMessagingAutoInitEnabled</key>
-    <true/>
+    <false/>
     <key>GIDClientID</key>
     <string>424543315235-620m481cv8tknvfe1704te6t7rhm4jht.apps.googleusercontent.com</string>
     <key>LSApplicationQueriesSchemes</key>
@@ -38,18 +49,21 @@
     </array>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+    </dict>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>We require your location to ensure timely and accurate delivery of your orders, even when the app is running in the background.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to deliver your order accurately and efficiently.</string>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
     <key>UIBackgroundModes</key>
     <array>
-        <string>fetch</string>
         <string>remote-notification</string>
     </array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen</string>
     <key>UIMainStoryboardFile</key>
@@ -57,20 +71,11 @@
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
         <string>UIInterfaceOrientationPortraitUpsideDown</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
-<key>NSLocationWhenInUseUsageDescription</key>
-<string>We need your location to deliver your order accurately and efficiently.</string>
-<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-<string>We require your location to ensure timely and accurate delivery of your orders, even when the app is running in the background.</string>
-
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
 </dict>
 </plist>

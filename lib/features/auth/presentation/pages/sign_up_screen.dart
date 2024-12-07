@@ -603,29 +603,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
                 50.ph,
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Or sign up with social account".tr(context),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      10.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Image.asset("assets/images/Facebook.png"),
-                          InkWell(
-                              onTap: () {
-                                signInWithGoogle();
-                              },
-                              child: Image.asset("assets/images/Google.png")),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                // Container(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Text(
+                //         "Or sign up with social account".tr(context),
+                //         style: const TextStyle(fontWeight: FontWeight.bold),
+                //       ),
+                //       10.ph,
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           // Image.asset("assets/images/Facebook.png"),
+                //           InkWell(
+                //               onTap: () {
+                //                 signInWithGoogle();
+                //               },
+                //               child: Image.asset("assets/images/Google.png")),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

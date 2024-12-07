@@ -48,6 +48,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   String? token;
   bool loadingToken = false;
+
   Future checkIfGuest() async {
     setState(() {
       loadingToken = true;
@@ -65,6 +66,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   bool loadingshare = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +113,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         return InkWell(
                                           onTap: () async {
                                             if (loadingshare) {
+                                              return;
                                             } else {
                                               setState(() {
                                                 loadingshare = true;
@@ -135,7 +138,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   break;
                                                 }
                                               }
-                                              // print(imageUrl);
                                               final url = Uri.parse(imageUrl);
                                               final response =
                                                   await http.get(url);
@@ -146,13 +148,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   '${temp.path}/image.jpg';
                                               File(path)
                                                   .writeAsBytesSync(bytes);
-                                              XFile file = new XFile(path);
+                                              XFile file = XFile(path);
+                                              final box = context
+                                                  .findRenderObject() as RenderBox?;
+
                                               setState(() {
                                                 loadingshare = false;
                                               });
-                                              await Share.shareXFiles([file],
-                                                  text:
-                                                      '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع');
+
+                                              await Share.shareXFiles(
+                                                [file],
+                                                text:
+                                                    '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع',
+                                                sharePositionOrigin: box!
+                                                        .localToGlobal(
+                                                            Offset.zero) &
+                                                    box.size,
+                                              );
                                             }
                                           },
                                           child: loadingshare
@@ -181,212 +193,153 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ? ProductDetailsSkeleton()
                     : state.productData == null
                         ? ProductDetailsSkeleton()
-                        : BlocBuilder<HomeCubit, HomeState>(
-                            builder: (context, state) {
-                              return SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    ProductSliderWidget(),
-                                    20.ph,
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizesDropDown(
-                                            productdata: state.productData!,
-                                          ),
-                                          ColorDropDown(
-                                            productData: state.productData!,
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.all(10),
-                                              width: 36.0.sp,
-                                              height: 36.0.sp,
-                                              decoration: BoxDecoration(
-                                                // border: Border.all(
-                                                //   color: AppColors.blackColor,
-                                                //   width: 1.0,
-                                                // ),
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.3),
-                                                    blurRadius: 5.0,
-                                                    spreadRadius: 1.0,
-                                                  ),
-                                                ],
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ProductSliderWidget(),
+                                20.ph,
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizesDropDown(
+                                        productdata: state.productData!,
+                                      ),
+                                      ColorDropDown(
+                                        productData: state.productData!,
+                                      ),
+                                      Container(
+                                          padding: EdgeInsets.all(10),
+                                          width: 36.0.sp,
+                                          height: 36.0.sp,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                blurRadius: 5.0,
+                                                spreadRadius: 1.0,
                                               ),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  if (token == null) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                bottom: 30.h,
-                                                                top: 30.h,
-                                                                left: 50.w,
-                                                                right: 50.w),
-                                                        content: Text(
-                                                          "Log in to enjoy these features."
-                                                              .tr(context),
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .white),
-                                                        ),
-                                                        duration:
-                                                            const Duration(
-                                                                seconds: 2),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    context
-                                                        .read<HomeCubit>()
-                                                        .toggleFavorite(
-                                                            context,
-                                                            state.productData!
-                                                                .product!.id
-                                                                .toString(),
-                                                            fromProductDetails:
-                                                                true);
-                                                  }
-                                                },
-                                                child: state.productData!
-                                                        .product!.isFavorite!
-                                                    ? Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.red,
-                                                        size: 18.sp,
-                                                      )
-                                                    : SvgPicture.asset(
-                                                        "assets/icons/favorite.svg",
-                                                        width: 24.sp,
-                                                        height: 24.sp,
-                                                      ),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                    20.ph,
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          WeightsDropDown(
-                                            productdata: state.productData!,
+                                            ],
                                           ),
-                                          DimensionsDropDown(
-                                            productdata: state.productData!,
-                                          ),
-                                          Container(
-                                              padding: EdgeInsets.all(10),
-                                              width: 36.0.sp,
-                                              height: 36.0.sp,
-                                              child: Text(""))
-                                        ],
-                                      ),
-                                    ),
-                                    20.ph,
-                                    ProductDescriptionWidget(),
-                                    20.ph,
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12.w),
-                                      child:
-                                          BlocBuilder<LocaleCubit, LocaleState>(
-                                        builder: (context, locale) {
-                                          return Text(
-                                            locale.locale.languageCode == "en"
-                                                ? state.productData!.product!
-                                                        .descriptionEn ??
-                                                    ""
-                                                : locale.locale.languageCode ==
-                                                        "ar"
-                                                    ? state
-                                                            .productData!
-                                                            .product!
-                                                            .descriptionAr ??
-                                                        ""
-                                                    : state
-                                                            .productData!
-                                                            .product!
-                                                            .descriptionKu ??
-                                                        "",
-                                            style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400,
-                                                color: AppColors.blackColor),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    20.ph,
-                                    // Divider(),
-                                    // 5.ph,
-                                    // Padding(
-                                    //   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                    //   child: Row(
-                                    //     mainAxisAlignment:
-                                    //         MainAxisAlignment.spaceBetween,
-                                    //     children: [
-                                    //       Text(
-                                    //         "Shipping info".tr(context),
-                                    //         style: TextStyle(
-                                    //             fontSize: 16.sp,
-                                    //             fontWeight: FontWeight.w400,
-                                    //             color: AppColors.blackColor),
-                                    //       ),
-                                    //       Icon(Icons.arrow_forward_ios_outlined)
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    // 5.ph,
-                                    // Divider(),
-                                    // 5.ph,
-                                    // Padding(
-                                    //   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                    //   child: Row(
-                                    //     mainAxisAlignment:
-                                    //         MainAxisAlignment.spaceBetween,
-                                    //     children: [
-                                    //       Text(
-                                    //         "Support".tr(context),
-                                    //         style: TextStyle(
-                                    //             fontSize: 16.sp,
-                                    //             fontWeight: FontWeight.w400,
-                                    //             color: AppColors.blackColor),
-                                    //       ),
-                                    //       Icon(Icons.arrow_forward_ios_outlined)
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    // 5.ph,
-                                    Divider(),
-                                    5.ph,
-                                    state.productData!.relatedProducts == null
-                                        ? SizedBox()
-                                        : state.productData!.relatedProducts!
-                                                .isEmpty
-                                            ? SizedBox()
-                                            : SimilarProducts(),
-                                    20.ph,
-                                  ],
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (token == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor: Colors.red,
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 30.h,
+                                                        top: 30.h,
+                                                        left: 50.w,
+                                                        right: 50.w),
+                                                    content: Text(
+                                                      "Log in to enjoy these features."
+                                                          .tr(context),
+                                                      style: const TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    duration: const Duration(
+                                                        seconds: 2),
+                                                  ),
+                                                );
+                                              } else {
+                                                context
+                                                    .read<HomeCubit>()
+                                                    .toggleFavorite(
+                                                        context,
+                                                        state.productData!
+                                                            .product!.id
+                                                            .toString(),
+                                                        fromProductDetails:
+                                                            true);
+                                              }
+                                            },
+                                            child: state.productData!.product!
+                                                    .isFavorite!
+                                                ? Icon(
+                                                    Icons.favorite,
+                                                    color: Colors.red,
+                                                    size: 18.sp,
+                                                  )
+                                                : SvgPicture.asset(
+                                                    "assets/icons/favorite.svg",
+                                                    width: 24.sp,
+                                                    height: 24.sp,
+                                                  ),
+                                          ))
+                                    ],
+                                  ),
                                 ),
-                              );
-                            },
+                                20.ph,
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      WeightsDropDown(
+                                        productdata: state.productData!,
+                                      ),
+                                      DimensionsDropDown(
+                                        productdata: state.productData!,
+                                      ),
+                                      Container(
+                                          padding: EdgeInsets.all(10),
+                                          width: 36.0.sp,
+                                          height: 36.0.sp,
+                                          child: Text(""))
+                                    ],
+                                  ),
+                                ),
+                                20.ph,
+                                ProductDescriptionWidget(),
+                                20.ph,
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  child: BlocBuilder<LocaleCubit, LocaleState>(
+                                    builder: (context, locale) {
+                                      return Text(
+                                        locale.locale.languageCode == "en"
+                                            ? state.productData!.product!
+                                                    .descriptionEn ??
+                                                ""
+                                            : locale.locale.languageCode ==
+                                                    "ar"
+                                                ? state.productData!.product!
+                                                        .descriptionAr ??
+                                                    ""
+                                                : state.productData!.product!
+                                                        .descriptionKu ??
+                                                    "",
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.blackColor),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                20.ph,
+                                Divider(),
+                                5.ph,
+                                state.productData!.relatedProducts == null
+                                    ? SizedBox()
+                                    : state.productData!.relatedProducts!
+                                            .isEmpty
+                                        ? SizedBox()
+                                        : SimilarProducts(),
+                                20.ph,
+                              ],
+                            ),
                           );
               },
             ),

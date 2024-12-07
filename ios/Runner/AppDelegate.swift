@@ -3,8 +3,9 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate, MessagingDelegate {
+  
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -41,5 +42,17 @@ import FirebaseMessaging
   ) {
     Messaging.messaging().apnsToken = deviceToken
     super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  }
+
+  // Handle FCM registration token
+  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    guard let fcmToken = fcmToken else {
+      print("Failed to receive FCM token")
+      return
+    }
+    print("FCM Token: \(fcmToken)")
+
+    // You can send the token to your backend here, if needed
+    // Example: sendTokenToServer(fcmToken)
   }
 }
