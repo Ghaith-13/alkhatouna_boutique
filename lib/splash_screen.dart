@@ -23,17 +23,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  Future<void> requestNotificationPermissions() async {
-    final PermissionStatus status = await Permission.notification.request();
-    if (status.isGranted) {
-      // Notification permissions granted
-    } else if (status.isDenied) {
-      // Notification permissions denied
-    } else if (status.isPermanentlyDenied) {
-      // Notification permissions permanently denied, open app settings
-      await openAppSettings();
-    }
+Future<void> requestNotificationPermissions() async {
+  final PermissionStatus status = await Permission.notification.request();
+
+  if (status.isGranted) {
+    // Notification permissions granted, proceed as normal
+  } else if (status.isDenied || status.isPermanentlyDenied) {
+    // Skip handling and proceed to the app without opening settings
+    print("Notification permissions not granted. Proceeding without notifications.");
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
