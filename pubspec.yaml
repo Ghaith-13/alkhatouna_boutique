@@ -67,17 +67,28 @@ dependencies:
   # flutter_facebook_auth: ^7.0.1
   # flutter_typeahead: ^5.2.0
   # share_plus: ^10.0.2
+  flutter_native_splash: ^2.4.3
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.13.1"
 
+flutter_native_splash:
+  android: true
+  ios: true 
+  web: false
+  color: "#61b0b4"
+
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/logo-removebg.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#61b0b4"
+
 
   
   flutter_lints: ^3.0.0

@@ -286,5 +286,6 @@
     "The password field must be at least 8 characters":"The password field must be at least 8 characters",
     "Filters":"Filters",
     "Filters by brand":"Filters by brand",
-    "If you want help":"If you want help"
+    "If you want help":"If you want help",
+    "If you do not find the email in your inbox, check your junk mail.":"Note : If you do not find the email in your inbox, check your junk mail."
 }

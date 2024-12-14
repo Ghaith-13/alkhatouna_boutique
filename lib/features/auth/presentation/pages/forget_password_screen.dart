@@ -53,6 +53,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     context.read<AuthCubit>().getWhatssappSettings();
   }
 
+  bool showNote = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -346,6 +347,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             //     });
                             //   },
                             // ),
+                            5.ph,
+                            showNote && loginmethod == "email"
+                                ? Text(
+                                    "If you do not find the email in your inbox, check your junk mail."
+                                        .tr(context),
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                : SizedBox(),
                             50.verticalSpace,
                             state.loadingOtp
                                 ? CircularProgressIndicator(
@@ -363,6 +374,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                                 context
                                                     .read<AuthCubit>()
                                                     .sendOtp();
+                                                showNote = true;
                                               } else {
                                                 if (number == "null") {
                                                   AppConstant.CustomAlert(

@@ -286,7 +286,8 @@
     "The password field must be at least 8 characters":"كلمة السر يجب أن تكون أكثر من 8 محارف",
     "Filters":"الفلاتر",
     "Filters by brand":"الفلترة حسب الماركة",
-    "If you want help":"إذا كنت تريد المساعدة"
+    "If you want help":"إذا كنت تريد المساعدة",
+    "If you do not find the email in your inbox, check your junk mail.":"ملاحظة : إذا لم تتمكن من العثور على البريد الإلكتروني في صندوق الوارد الخاص بك، تحقق من البريد العشوائي."
     
     
 }

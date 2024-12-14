@@ -146,6 +146,13 @@ class _OtpConfirmationScreenState extends State<OtpConfirmationScreen> {
                                         const Color.fromARGB(153, 0, 0, 0),
                                     borderRadius: BorderRadius.circular(8.sp)),
                               ),
+                            ),
+                            5.ph,
+                            Text(
+                              "If you do not find the email in your inbox, check your junk mail."
+                                  .tr(context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
