@@ -229,6 +229,7 @@
 //   }
 // }
 
+import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:alkhatouna/features/auth/presentation/cubit/auth_cubit.dart';
@@ -247,6 +248,7 @@ import 'package:alkhatouna/features/auth/presentation/widgets/sign_up_widgets/cu
 import 'package:alkhatouna/main_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -312,6 +314,20 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
   String loginmethod = "number";
+
+  Future<void> openWhatsApp(String whatsappNumber) async {
+    String url = Uri.encodeFull('https://wa.me/$whatsappNumber');
+    // Check if WhatsApp is installed
+    await canLaunch(url) ? launch(url) : print('WhatsApp not installed');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileCubit>().getSettings(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -519,6 +535,35 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold)),
                 // const Expanded(child: SizedBox()),
+                20.ph,
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    return state.settings == null
+                        ? SizedBox()
+                        : state.settings!.settings == null
+                            ? SizedBox()
+                            : state.settings!.settings!.whatsappLink == null
+                                ? SizedBox()
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("If you want help".tr(context)),
+                                      5.pw,
+                                      InkWell(
+                                        onTap: () async {
+                                          await openWhatsApp(
+                                              "${state.settings!.settings!.whatsappLink}");
+                                        },
+                                        child: Text(
+                                          "Contact Us".tr(context),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                  },
+                ),
                 50.ph,
                 // Container(
                 //   child: Column(

@@ -1,3 +1,4 @@
+import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/features/home/presentation/pages/brand_filter_screen.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -249,7 +250,7 @@ class _FilterSectionWidgetState extends State<FilterSectionWidget> {
                               ),
                               5.pw,
                               Text(
-                                "Filters",
+                                "Filters".tr(context),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 10.sp),
@@ -275,7 +276,7 @@ class _FilterSectionWidgetState extends State<FilterSectionWidget> {
                                 ),
                                 5.pw,
                                 Text(
-                                  "Filters by brand",
+                                  "Filters by brand".tr(context),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 10.sp),
@@ -308,7 +309,7 @@ class _FilterSectionWidgetState extends State<FilterSectionWidget> {
                                   height: 20.sp,
                                 ),
                                 5.pw,
-                                Text("${state.sortName}",
+                                Text("${state.sortName}".tr(context),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 10.sp))

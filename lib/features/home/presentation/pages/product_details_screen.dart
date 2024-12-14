@@ -149,8 +149,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               File(path)
                                                   .writeAsBytesSync(bytes);
                                               XFile file = XFile(path);
-                                              final box = context
-                                                  .findRenderObject() as RenderBox?;
+                                              final box =
+                                                  context.findRenderObject()
+                                                      as RenderBox?;
 
                                               setState(() {
                                                 loadingshare = false;
@@ -312,8 +313,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             ? state.productData!.product!
                                                     .descriptionEn ??
                                                 ""
-                                            : locale.locale.languageCode ==
-                                                    "ar"
+                                            : locale.locale.languageCode == "ar"
                                                 ? state.productData!.product!
                                                         .descriptionAr ??
                                                     ""

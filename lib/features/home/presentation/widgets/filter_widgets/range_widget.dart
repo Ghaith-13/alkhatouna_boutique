@@ -23,8 +23,10 @@ class _RangeWidgetState extends State<RangeWidget> {
   void initState() {
     super.initState();
     setState(() {
-      _currentPriceStart = double.parse(widget.subCategoryData.minPrice ?? "0");
-      _currentPriceEnd = double.parse(widget.subCategoryData.maxPrice ?? "0");
+      _currentPriceStart =
+          double.parse(widget.subCategoryData.minPrice.toString() ?? "0");
+      _currentPriceEnd =
+          double.parse(widget.subCategoryData.maxPrice.toString() ?? "0");
       _currentPriceRange = RangeValues(_currentPriceStart, _currentPriceEnd);
     });
   }
@@ -48,14 +50,14 @@ class _RangeWidgetState extends State<RangeWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${formatCurrency.format(double.parse(widget.subCategoryData.minPrice ?? ""))} د.ع",
+                      "${formatCurrency.format(double.parse(widget.subCategoryData.minPrice.toString() ?? ""))} د.ع",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 14.sp,
                           color: AppColors.blackColor),
                     ),
                     Text(
-                      "${formatCurrency.format(double.parse(widget.subCategoryData.maxPrice ?? ""))} د.ع",
+                      "${formatCurrency.format(double.parse(widget.subCategoryData.maxPrice.toString() ?? ""))} د.ع",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 14.sp,
@@ -66,10 +68,13 @@ class _RangeWidgetState extends State<RangeWidget> {
                 RangeSlider(
                   activeColor: AppColors.primaryColor,
                   values: _currentPriceRange,
-                  min: double.parse(widget.subCategoryData.minPrice ?? ""),
-                  max: double.parse(widget.subCategoryData.maxPrice ?? ""),
+                  min: double.parse(
+                      widget.subCategoryData.minPrice.toString() ?? ""),
+                  max: double.parse(
+                      widget.subCategoryData.maxPrice.toString() ?? ""),
                   divisions: int.parse((int.parse(double.parse(
-                                  widget.subCategoryData.maxPrice ?? "")
+                                  widget.subCategoryData.maxPrice.toString() ??
+                                      "")
                               .toStringAsFixed(0)
                               .toString()) /
                           5)

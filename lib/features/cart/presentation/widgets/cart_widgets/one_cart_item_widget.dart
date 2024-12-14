@@ -107,8 +107,9 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                               context.read<CartCubit>().removeFromCart(
                                   "-${widget.cartItem.quantity}",
                                   widget.cartItem.id.toString(),
-                                  FinalPrice:
-                                      widget.cartItem.product!.finalPrice!,
+                                  FinalPrice: widget
+                                      .cartItem.product!.finalPrice!
+                                      .toString(),
                                   deleteAll: true);
                             } else {
                               context.read<HomeCubit>().toggleFavorite(context,
@@ -126,22 +127,18 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                   10.ph,
                   Row(
                     children: [
-                      Text(
-                        "${"Color".tr(context)} : ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: AppColors.greyColor),
-                      ),
-                      widget.cartItem.hexColor == "Other"
-                          ? Text(
-                              "Other".tr(context),
+                      widget.cartItem.hexColor == "default"
+                          ? SizedBox()
+                          : Text(
+                              "${"Color".tr(context)} : ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
-                                  color: AppColors.blackColor),
-                            )
-                          : widget.cartItem.hexColor == "other"
+                                  color: AppColors.greyColor),
+                            ),
+                      widget.cartItem.hexColor == "default"
+                          ? SizedBox()
+                          : widget.cartItem.hexColor == "Other"
                               ? Text(
                                   "Other".tr(context),
                                   style: TextStyle(
@@ -149,92 +146,112 @@ class _OneCartItemWidgetState extends State<OneCartItemWidget> {
                                       fontSize: 11.sp,
                                       color: AppColors.blackColor),
                                 )
-                              : Container(
-                                  width: 20.sp,
-                                  height: 20.sp,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: HexColor.fromHex(
-                                        widget.cartItem.hexColor!),
-                                    border: Border.all(
-                                      color: AppColors.primaryColor,
-                                      width: 1,
+                              : widget.cartItem.hexColor == "other"
+                                  ? Text(
+                                      "Other".tr(context),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 11.sp,
+                                          color: AppColors.blackColor),
+                                    )
+                                  : Container(
+                                      width: 20.sp,
+                                      height: 20.sp,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: HexColor.fromHex(
+                                            widget.cartItem.hexColor!),
+                                        border: Border.all(
+                                          color: AppColors.primaryColor,
+                                          width: 1,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
                       20.pw,
-                      Text(
-                        "${"Size".tr(context)} : ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: AppColors.greyColor),
-                      ),
-                      widget.cartItem.size == "Other"
-                          ? Text(
-                              "Other".tr(context),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 11.sp,
-                                  color: AppColors.blackColor),
-                            )
+                      widget.cartItem.size == "default"
+                          ? SizedBox()
                           : Text(
-                              "${widget.cartItem.size}",
+                              "${"Size".tr(context)} : ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
-                                  color: AppColors.blackColor),
+                                  color: AppColors.greyColor),
                             ),
+                      widget.cartItem.size == "default"
+                          ? SizedBox()
+                          : widget.cartItem.size == "Other"
+                              ? Text(
+                                  "Other".tr(context),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                )
+                              : Text(
+                                  "${widget.cartItem.size}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                ),
                     ],
                   ),
                   10.ph,
                   Row(
                     children: [
-                      Text(
-                        "${"weight".tr(context)} : ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: AppColors.greyColor),
-                      ),
-                      widget.cartItem.weight == "Other"
-                          ? Text(
-                              "Other".tr(context),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 11.sp,
-                                  color: AppColors.blackColor),
-                            )
+                      widget.cartItem.weight == "default"
+                          ? SizedBox()
                           : Text(
-                              "${widget.cartItem.weight ?? "Other".tr(context)}",
+                              "${"weight".tr(context)} : ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
-                                  color: AppColors.blackColor),
+                                  color: AppColors.greyColor),
                             ),
+                      widget.cartItem.weight == "default"
+                          ? SizedBox()
+                          : widget.cartItem.weight == "Other"
+                              ? Text(
+                                  "Other".tr(context),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                )
+                              : Text(
+                                  "${widget.cartItem.weight ?? "Other".tr(context)}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                ),
                       20.pw,
-                      Text(
-                        "${"dimension".tr(context)} : ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11.sp,
-                            color: AppColors.greyColor),
-                      ),
-                      widget.cartItem.dimension == "Other"
-                          ? Text(
-                              "Other".tr(context),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 11.sp,
-                                  color: AppColors.blackColor),
-                            )
+                      widget.cartItem.dimension == "default"
+                          ? SizedBox()
                           : Text(
-                              "${widget.cartItem.dimension ?? "Other".tr(context)}",
+                              "${"dimension".tr(context)} : ",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 11.sp,
-                                  color: AppColors.blackColor),
+                                  color: AppColors.greyColor),
                             ),
+                      widget.cartItem.dimension == "default"
+                          ? SizedBox()
+                          : widget.cartItem.dimension == "Other"
+                              ? Text(
+                                  "Other".tr(context),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                )
+                              : Text(
+                                  "${widget.cartItem.dimension ?? "Other".tr(context)}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 11.sp,
+                                      color: AppColors.blackColor),
+                                ),
                     ],
                   ),
                   10.ph,

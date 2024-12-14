@@ -230,7 +230,7 @@ class _HeaderSectionState extends State<HeaderSection> {
                               ),
                               5.pw,
                               Text(
-                                "Filters",
+                                "Filters".tr(context),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 10.sp),
@@ -251,7 +251,7 @@ class _HeaderSectionState extends State<HeaderSection> {
                                 ),
                                 5.pw,
                                 Text(
-                                  "Filters by brand",
+                                  "Filters by brand".tr(context),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 10.sp),
@@ -284,7 +284,7 @@ class _HeaderSectionState extends State<HeaderSection> {
                                   height: 20.sp,
                                 ),
                                 5.pw,
-                                Text("${state.sortName}",
+                                Text("${state.sortName}".tr(context),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 10.sp))

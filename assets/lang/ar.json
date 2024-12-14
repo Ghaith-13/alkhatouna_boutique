@@ -283,7 +283,10 @@
     "Please enter your email":"الرجاء إدخال البريد الإلكتروني",
     "Send confirmation code via Email":"ارسل رمز التحقيق عبر البريد الإلكتروني",
     "Choose a method to verify your account":"اختر طريقة لتأكيد حسابك",
-    "The password field must be at least 8 characters":"كلمة السر يجب أن تكون أكثر من 8 محارف"
+    "The password field must be at least 8 characters":"كلمة السر يجب أن تكون أكثر من 8 محارف",
+    "Filters":"الفلاتر",
+    "Filters by brand":"الفلترة حسب الماركة",
+    "If you want help":"إذا كنت تريد المساعدة"
     
     
 }

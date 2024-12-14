@@ -283,5 +283,8 @@
     "Please enter your email":"Please enter your email",
     "Send confirmation code via Email":"Send confirmation code via Email",
     "Choose a method to verify your account":"Choose a method to verify your account",
-    "The password field must be at least 8 characters":"The password field must be at least 8 characters"
+    "The password field must be at least 8 characters":"The password field must be at least 8 characters",
+    "Filters":"Filters",
+    "Filters by brand":"Filters by brand",
+    "If you want help":"If you want help"
 }
