@@ -21,7 +21,7 @@ class MakeDefaultModel {
 
 class Data {
   Address? address;
-  String? message;
+  var message;
 
   Data({this.address, this.message});
 
@@ -43,20 +43,20 @@ class Data {
 }
 
 class Address {
-  int? id;
-  String? userId;
-  String? title;
-  String? phone;
-  String? countryId;
-  String? provinceId;
+  var id;
+  var userId;
+  var title;
+  var phone;
+  var countryId;
+  var provinceId;
   var areaId;
   var subAreaId;
-  String? longitude;
-  String? latitude;
-  String? notes;
-  int? isDefault;
-  String? createdAt;
-  String? updatedAt;
+  var longitude;
+  var latitude;
+  var notes;
+  var isDefault;
+  var createdAt;
+  var updatedAt;
 
   Address(
       {this.id,

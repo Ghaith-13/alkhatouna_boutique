@@ -44,9 +44,9 @@ class BrandsData {
 }
 
 class Brandss {
-  int? id;
-  String? name;
-  String? logoUrl;
+  var id;
+  var name;
+  var logoUrl;
   List<Categories>? categories;
 
   Brandss({this.id, this.name, this.logoUrl, this.categories});
@@ -76,11 +76,11 @@ class Brandss {
 }
 
 class Categories {
-  int? id;
-  String? parentId;
-  String? nameAr;
-  String? nameEn;
-  String? nameKu;
+  var id;
+  var parentId;
+  var nameAr;
+  var nameEn;
+  var nameKu;
 
   Categories({this.id, this.parentId, this.nameAr, this.nameEn, this.nameKu});
 

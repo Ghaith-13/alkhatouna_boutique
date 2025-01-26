@@ -255,7 +255,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
         ? SizedBox()
         : Stack(children: [
             SizedBox(
-              height: 210.h,
+              height: 200.h,
             ),
             ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8.sp)),
@@ -322,7 +322,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
                 : SizedBox(),
             PositionedDirectional(
                 bottom: 5,
-                end: 0,
+                end: 5,
                 child: InkWell(
                   onTap: () {
                     if (token == null) {

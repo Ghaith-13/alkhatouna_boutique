@@ -15,9 +15,11 @@ class ProfileState extends Equatable {
       this.faqData,
       this.settings,
       this.walletData,
+      this.allOrders,
       this.feedback = "",
       this.orderId = "",
       this.loaidngProfile = false,
+      this.getUserInfo = false,
       this.laodingFaq = false,
       this.loadingPoints = false,
       this.loadingArticles = false,
@@ -26,6 +28,7 @@ class ProfileState extends Equatable {
   bool laodingOrders,
       laodingGetSettings,
       loadingPoints,
+      getUserInfo,
       loaidngProfile,
       laodingfeedback,
       laodingFaq,
@@ -38,7 +41,8 @@ class ProfileState extends Equatable {
   WalletData? walletData;
   String? feedback, orderId, repeateNewPassword, newPassword;
   List<Articles>? articles;
-  List<Tutorial>? tutorial;
+  List<Tutorial>? tutorial = [];
+  List<Pending>? allOrders;
 
   @override
   List<Object?> get props => [
@@ -47,8 +51,10 @@ class ProfileState extends Equatable {
         myOrders,
         faqData,
         articles,
+        allOrders,
         loadingPoints,
         myPointsData,
+        getUserInfo,
         repeateNewPassword,
         laodingFaq,
         newPassword,
@@ -68,7 +74,9 @@ class ProfileState extends Equatable {
           laodingGetSettings,
           laodingfeedback,
           loadingPoints,
+          getUserInfo,
           laodingFaq,
+          List<Pending>? allOrders,
           loaidngProfile,
           MyPointsData? myPointsData,
           FaqData? faqData,
@@ -85,6 +93,7 @@ class ProfileState extends Equatable {
       ProfileState(
         feedback: feedback ?? this.feedback,
         settings: settings ?? this.settings,
+        allOrders: allOrders ?? this.allOrders,
         faqData: faqData ?? this.faqData,
         laodingGetSettings: laodingGetSettings ?? this.laodingGetSettings,
         myPointsData: myPointsData ?? this.myPointsData,
@@ -93,6 +102,7 @@ class ProfileState extends Equatable {
         articles: articles ?? this.articles,
         walletData: walletData ?? this.walletData,
         orderId: orderId ?? this.orderId,
+        getUserInfo: getUserInfo ?? this.getUserInfo,
         tutorial: tutorial ?? this.tutorial,
         loadingArticles: loadingArticles ?? this.loadingArticles,
         repeateNewPassword: repeateNewPassword ?? this.repeateNewPassword,

@@ -16,6 +16,8 @@ import 'package:alkhatouna/core/extensions/padding_extensions.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -160,6 +162,23 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
+                            } else if (state.addressPhoneNumber!.isEmpty ||
+                                state.addressPhoneNumber == "null") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.only(
+                                      bottom: 30.h,
+                                      top: 30.h,
+                                      left: 50.w,
+                                      right: 50.w),
+                                  content: Text(
+                                    "Add phone number".tr(context),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
                             } else {
                               context.read<CartCubit>().addAdress(
                                   widget.log.toString(), widget.lat.toString(),
@@ -182,7 +201,8 @@ class _AddNewAddressState extends State<AddNewAddress> {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
-                            } else if (state.addressPhoneNumber!.isEmpty) {
+                            } else if (state.addressPhoneNumber!.isEmpty ||
+                                state.addressPhoneNumber == "null") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: Colors.red,
@@ -312,45 +332,92 @@ class _AddNewAddressState extends State<AddNewAddress> {
                         ),
                         30.ph,
                         FadeInRight(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: IntlPhoneField(
                               initialValue: state.addressPhoneNumber,
-                              onChanged: (String value) {
-                                context
-                                    .read<CartCubit>()
-                                    .changeaddressPhoneNumber(value);
-                              },
+                              pickerDialogStyle: PickerDialogStyle(
+                                  backgroundColor: Colors.white),
+                              style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                hintText: "Phone Number".tr(context),
-                                hintStyle:
+                                labelText: 'Enter Your PhoneNumer'.tr(context),
+                                labelStyle:
                                     TextStyle(color: AppColors.greyColor),
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(),
                                 ),
                               ),
+                              initialCountryCode: 'IQ',
+                              onChanged: (phone) {
+                                context
+                                    .read<CartCubit>()
+                                    .changeaddressPhoneNumber("null");
+                                try {
+                                  if (phone.isValidNumber()) {
+                                    context
+                                        .read<CartCubit>()
+                                        .changeaddressPhoneNumber(
+                                            phone.completeNumber);
+
+                                    // print("Yesss");
+                                  } else {
+                                    return;
+                                  }
+                                } catch (e) {
+                                  // print(e);
+                                }
+                                // Additional validation for specific use cases (optional)
+                                // For example, advanced server-side validation
+
+                                // Use the complete phone number for further actions
+
+                                // context
+                                //     .read<AuthCubit>()
+                                //     .changePhoneValue(phone.completeNumber);
+                              },
                             ),
                           ),
                         ),
+                        // FadeInRight(
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       boxShadow: [
+                        //         BoxShadow(
+                        //           color: Colors.grey.withOpacity(0.2),
+                        //           spreadRadius: 2,
+                        //           blurRadius: 5,
+                        //           offset: Offset(0, 3),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //     child: TextFormField(
+                        //       keyboardType: TextInputType.number,
+                        //       initialValue: state.addressPhoneNumber,
+                        //       onChanged: (String value) {
+                        //         context
+                        //             .read<CartCubit>()
+                        //             .changeaddressPhoneNumber(value);
+                        //       },
+                        //       decoration: InputDecoration(
+                        //         hintText: "Phone Number".tr(context),
+                        //         hintStyle:
+                        //             TextStyle(color: AppColors.greyColor),
+                        //         contentPadding: EdgeInsets.symmetric(
+                        //             horizontal: 20, vertical: 15),
+                        //         enabledBorder: OutlineInputBorder(
+                        //           borderSide:
+                        //               BorderSide(color: Colors.transparent),
+                        //         ),
+                        //         focusedBorder: OutlineInputBorder(
+                        //           borderSide:
+                        //               BorderSide(color: Colors.transparent),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         30.ph,
                         FadeInLeft(
                           child: Container(

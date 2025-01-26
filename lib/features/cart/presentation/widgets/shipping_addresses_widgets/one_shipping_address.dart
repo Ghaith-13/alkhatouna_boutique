@@ -20,6 +20,7 @@ class OneShippingAddress extends StatefulWidget {
 class _OneShippingAddressState extends State<OneShippingAddress> {
   @override
   Widget build(BuildContext context) {
+    // print(widget.adress.isDefault);
     return Container(
         margin: EdgeInsets.all(12.sp),
         width: 1.sw,
@@ -139,7 +140,9 @@ class _OneShippingAddressState extends State<OneShippingAddress> {
                     child: Checkbox(
                       checkColor: Colors.white,
                       activeColor: Colors.black,
-                      value: widget.adress.isDefault == "0" ? false : true,
+                      value: widget.adress.isDefault.toString() == "0"
+                          ? false
+                          : true,
                       onChanged: (value) {
                         context
                             .read<CartCubit>()

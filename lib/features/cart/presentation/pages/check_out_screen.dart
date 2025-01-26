@@ -49,6 +49,39 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     decimalDigits: 2,
     name: "",
   );
+
+  DateTime? _selectedDateTime;
+
+  Future<void> _selectDateTime(BuildContext context, var checkData) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+        context.read<CartCubit>().sendOrder(
+            checkData.promoCode == null ? "" : checkData.promoCode!.code!,
+            "pre_order",
+            DateFormat('yyyy-MM-dd HH:mm').format(_selectedDateTime!));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -746,12 +779,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             } else {
                                               context
                                                   .read<CartCubit>()
-                                                  .sendOrder(state.checkData!
-                                                              .promoCode ==
-                                                          null
-                                                      ? ""
-                                                      : state.checkData!
-                                                          .promoCode!.code!);
+                                                  .sendOrder(
+                                                      state.checkData!
+                                                                  .promoCode ==
+                                                              null
+                                                          ? ""
+                                                          : state.checkData!
+                                                              .promoCode!.code!,
+                                                      '',
+                                                      '');
                                             }
                                           } else {}
                                         }
@@ -762,6 +798,75 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             )
                                           : Text(
                                               "SUBMIT ORDER".tr(context),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14.sp),
+                                            )),
+                                ),
+                                20.verticalSpace,
+                                SizedBox(
+                                  width: 1.sw,
+                                  height: 48.h,
+                                  child: ElevatedButton(
+                                      onPressed: () async {
+                                        if (state.loadingSendOrder) {
+                                        } else {
+                                          // Proceed with the action
+                                          if (state.checkData!.defaultAddress ==
+                                              null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor: Colors.red,
+                                                padding: EdgeInsets.only(
+                                                    bottom: 30.h,
+                                                    top: 30.h,
+                                                    left: 50.w,
+                                                    right: 50.w),
+                                                content: Text(
+                                                  "Please add address"
+                                                      .tr(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+                                          } else if (state
+                                              .paymentMethod!.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor: Colors.red,
+                                                padding: EdgeInsets.only(
+                                                    bottom: 30.h,
+                                                    top: 30.h,
+                                                    left: 50.w,
+                                                    right: 50.w),
+                                                content: Text(
+                                                  "Please select payment method"
+                                                      .tr(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+                                          } else {
+                                            _selectDateTime(
+                                                context, state.checkData);
+                                          }
+                                        }
+                                      },
+                                      child: state.loadingSendOrder
+                                          ? CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                          : Text(
+                                              "Book The Product".tr(context),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,

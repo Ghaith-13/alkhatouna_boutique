@@ -5,6 +5,7 @@ import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});
@@ -41,9 +42,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         builder: (context, state) {
           return state.laodingGetSettings
               ? Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                  ),
+                  child: Lottie.asset('assets/images/loading.json'),
                 )
               : state.settings!.settings!.aboutUs == null
                   ? SizedBox()

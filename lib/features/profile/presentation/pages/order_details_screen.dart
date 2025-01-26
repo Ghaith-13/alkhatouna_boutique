@@ -322,7 +322,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${"Order".tr(context)} ${widget.orderDetails.number}",
+                      "${widget.orderDetails.type == "order" ? "Order".tr(context) : "reservation".tr(context)} ${widget.orderDetails.number}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16.sp,

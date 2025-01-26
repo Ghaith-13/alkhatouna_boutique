@@ -288,11 +288,11 @@ class CartCubit extends Cubit<CartState> {
         addressTitle: address.title,
         addressPhoneNumber: address.phone,
         adressNotes: address.notes,
-        countryId: address.countryId,
-        provinceId: address.provinceId,
-        areaId: address.areaId,
-        subAreaId: address.subAreaId,
-        adressIsDefault: address.isDefault));
+        countryId: address.countryId.toString(),
+        provinceId: address.provinceId.toString(),
+        areaId: address.areaId.toString(),
+        subAreaId: address.subAreaId.toString(),
+        adressIsDefault: address.isDefault.toString()));
   }
 
   Future<void> addAdress(String longitude, String latitude,
@@ -304,8 +304,16 @@ class CartCubit extends Cubit<CartState> {
       body['title'] = state.addressTitle!;
       body['country_id'] = state.countryId!;
       body['province_id'] = state.provinceId!;
-      body['area_id'] = state.areaId == "-100" ? "" : state.areaId!;
-      body['sub_area_id'] = state.subAreaId == "-100" ? "" : state.subAreaId!;
+      body['area_id'] = state.areaId == "-100"
+          ? ""
+          : state.areaId == "null"
+              ? ""
+              : state.areaId!;
+      body['sub_area_id'] = state.subAreaId == "-100"
+          ? ""
+          : state.subAreaId == "null"
+              ? ""
+              : state.subAreaId!;
       body['longitude'] = longitude;
       body['latitude'] = latitude;
       body['notes'] = state.adressNotes!;
@@ -332,11 +340,11 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(loadingAddAdress: false));
   }
 
-  Future<void> sendOrder(String promoCode) async {
+  Future<void> sendOrder(String promoCode, String type, String date) async {
     emit(state.copyWith(loadingSendOrder: true));
     try {
-      SendCheckOut? response = await cartRepo.sendOrder(
-          promoCode, state.paymentMethod!, state.selectedBenefitId ?? "");
+      SendCheckOut? response = await cartRepo.sendOrder(promoCode,
+          state.paymentMethod!, state.selectedBenefitId ?? "", type, date);
       Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => ConfettiScreen()),
         (Route route) => false,

@@ -39,9 +39,7 @@ class _FaqQuestionsScreenState extends State<FaqQuestionsScreen> {
         builder: (context, state) {
           return state.laodingFaq
               ? Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                  ),
+                  child: Lottie.asset('assets/images/loading.json'),
                 )
               : state.faqData == null
                   ? Center(

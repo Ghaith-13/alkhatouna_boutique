@@ -49,7 +49,10 @@ class _ConfettiScreenState extends State<ConfettiScreen> {
             ),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => mainScreen()),
+                MaterialPageRoute(
+                    builder: (context) => mainScreen(
+                          refresheveyThing: false,
+                        )),
                 (Route route) => false,
               );
             },

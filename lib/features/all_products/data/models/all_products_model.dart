@@ -1,5 +1,5 @@
 class AllProductsModel {
-  List<ProductData>? data;
+  List<AllProductsProduct>? data;
   Pagination? pagination;
   bool? errors;
 
@@ -7,9 +7,9 @@ class AllProductsModel {
 
   AllProductsModel.fromJson(Map<String, dynamic>? json) {
     if (json?['data'] != null) {
-      data = <ProductData>[];
+      data = <AllProductsProduct>[];
       json?['data'].forEach((v) {
-        data!.add(new ProductData.fromJson(v));
+        data!.add(new AllProductsProduct.fromJson(v));
       });
     }
     pagination = json?['pagination'] != null
@@ -31,7 +31,7 @@ class AllProductsModel {
   }
 }
 
-class ProductData {
+class AllProductsProduct {
   int? id;
   var nameAr;
   var nameEn;
@@ -53,7 +53,7 @@ class ProductData {
   var brandName;
   bool? is_favorite;
 
-  ProductData({
+  AllProductsProduct({
     this.id,
     this.nameAr,
     this.nameEn,
@@ -76,7 +76,7 @@ class ProductData {
     this.is_favorite,
   });
 
-  ProductData.fromJson(Map<String, dynamic>? json) {
+  AllProductsProduct.fromJson(Map<String, dynamic>? json) {
     id = json?['id'];
     nameAr = json?['name_ar'];
     nameEn = json?['name_en'];

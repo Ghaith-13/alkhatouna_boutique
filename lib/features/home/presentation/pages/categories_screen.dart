@@ -77,8 +77,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    mainScreen(navigateIndex: 1)),
+                                builder: (context) => mainScreen(
+                                      navigateIndex: 1,
+                                      refresheveyThing: false,
+                                    )),
                             (Route route) => false,
                           );
                         },

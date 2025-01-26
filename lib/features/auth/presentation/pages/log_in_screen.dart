@@ -528,7 +528,13 @@ class _LogInScreenState extends State<LogInScreen> {
                 ),
                 10.ph,
                 AppConstant.customElvatedButton(context, "Skip", () {
-                  AppConstant.customNavigation(context, mainScreen(), 0, -1);
+                  AppConstant.customNavigation(
+                      context,
+                      mainScreen(
+                        refresheveyThing: true,
+                      ),
+                      0,
+                      -1);
                 },
                     style: TextStyle(
                         color: Colors.white,

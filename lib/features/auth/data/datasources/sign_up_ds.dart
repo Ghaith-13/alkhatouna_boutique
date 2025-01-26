@@ -34,7 +34,7 @@ class SignUpDs {
 
   Future<Map<String, dynamic>?> checkNumber(String number) async {
     Map<String, String> queryParams = {'phone': '$number'};
-    print(queryParams);
+    // print(queryParams);
     Map<String, dynamic>? response = await apiHelper.get(
       "/auth/check-number",
       queryParameters: queryParams,

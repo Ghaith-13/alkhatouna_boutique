@@ -146,7 +146,8 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5)),
                                       child: YouTubePlayer(
-                                          url: state.tutorial![index].link!)),
+                                          url: state.tutorial![index].link ??
+                                              "")),
                                 ],
                               ),
                             );
@@ -173,7 +174,7 @@ class _YouTubePlayerState extends State<YouTubePlayer> {
     super.initState();
     final videoId = YoutubePlayer.convertUrlToId(widget.url);
     _controller = YoutubePlayerController(
-      initialVideoId: videoId!,
+      initialVideoId: videoId ?? "",
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: false,

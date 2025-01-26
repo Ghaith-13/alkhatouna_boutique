@@ -54,7 +54,7 @@ class AdressData {
 }
 
 class Addresses {
-  int? id;
+  var id;
   var userId;
   var title;
   var phone;
@@ -153,7 +153,7 @@ class Addresses {
 }
 
 class Country {
-  int? id;
+  var id;
   var nameAr;
   var nameEn;
   var nameKu;
@@ -210,7 +210,7 @@ class Country {
 }
 
 class Province {
-  int? id;
+  var id;
   var nameAr;
   var nameEn;
   var nameKu;
@@ -267,7 +267,7 @@ class Province {
 }
 
 class Regions {
-  int? id;
+  var id;
   var nameAr;
   var nameEn;
   var nameKu;
@@ -335,7 +335,7 @@ class Regions {
 }
 
 class Children {
-  int? id;
+  var id;
   var nameAr;
   var nameEn;
   var nameKu;

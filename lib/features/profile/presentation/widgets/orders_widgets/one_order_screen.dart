@@ -54,7 +54,7 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${"Order".tr(context)} ${widget.orderDetails.number}",
+                  "${widget.orderDetails.type == "order" ? "Order".tr(context) : "reservation".tr(context)} ${widget.orderDetails.number}",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 12.sp,
@@ -173,13 +173,26 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                         ),
                       )),
                 ),
-                Text(
-                  widget.status.tr(context),
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: widget.color),
-                )
+                Container(
+                    // width: 98.w,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+                    decoration: BoxDecoration(
+                      color: widget.color,
+                      borderRadius: BorderRadius.circular(24.sp),
+                      // border: Border.all(
+                      //   color: Colors.black,
+                      //   width: 2, // Adjust border width as needed
+                      // ),
+                    ),
+                    child: Center(
+                        child: Text(
+                      widget.status.tr(context),
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    )))
               ],
             )
           ],

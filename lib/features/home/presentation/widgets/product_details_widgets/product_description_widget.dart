@@ -60,14 +60,15 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                                 '${(formatCurrency.format(double.parse(state.productData!.product!.price!.toString())))} د.ع',
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
+                                    decorationColor: AppColors.redColor,
                                     fontSize: 18.sp,
-                                    color: AppColors.greyColor,
+                                    color: AppColors.redColor,
                                     fontWeight: FontWeight.w500)),
                             20.pw,
                             Text(
                               "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
                               style: TextStyle(
-                                  color: AppColors.redColor,
+                                  color: AppColors.greenColor,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500),
                             )

@@ -2,13 +2,17 @@
 
 import 'dart:async';
 
+import 'package:alkhatouna/bloc_provider.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/all_products/presentation/pages/all_products_screen.dart';
+import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/pages/product_details_screen.dart';
+import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:alkhatouna/main.dart';
 import 'package:alkhatouna/services/local_notification_service.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:alkhatouna/Locale/app_localization.dart';
@@ -21,7 +25,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class mainScreen extends StatefulWidget {
   final int? navigateIndex;
-  const mainScreen({super.key, this.navigateIndex});
+  final bool refresheveyThing;
+  const mainScreen(
+      {super.key, this.navigateIndex, required this.refresheveyThing});
 
   @override
   State<mainScreen> createState() => _mainScreenState();
@@ -89,21 +95,15 @@ class _mainScreenState extends State<mainScreen> {
   }
 
   String refcode = "";
-
-  getproductIdFromUri(Uri uri) {
-    refcode = uri.queryParameters['id'] ?? "";
-    // refcode = uri.getInitialLink().queryParameters['id'] ?? "";
-    // refcode = uri.getInitialLink() as String;
-    // print(refcode);
-    if (refcode != "") {
-      AppConstant.customNavigation(
-          context, ProductDetailsScreen(productId: refcode), -1, 0);
-    }
-  }
+  String plogcode = "";
 
   @override
   void initState() {
     super.initState();
+    if (widget.refresheveyThing) {
+      context.read<HomeCubit>().RefreshHomePage();
+      context.read<ProfileCubit>().refreshProfileScreen();
+    }
     localNotificationService();
     deeplinkHandling();
     if (widget.navigateIndex != null) {
@@ -111,6 +111,23 @@ class _mainScreenState extends State<mainScreen> {
         myIndex = widget.navigateIndex!;
       });
     }
+  }
+
+  getproductIdFromUri(Uri uri) {
+    refcode = uri.queryParameters['id'] ?? "";
+    // plogcode = uri.queryParameters['plogid'] ?? "";
+    // refcode = uri.getInitialLink().queryParameters['id'] ?? "";
+    // refcode = uri.getInitialLink() as String;
+    // print(refcode);
+    if (refcode != "") {
+      AppConstant.customNavigation(
+          context, ProductDetailsScreen(productId: refcode), -1, 0);
+    }
+    // if (plogcode != "") {
+    //   context
+    //       .read<HomeCubit>()
+    //       .getblogSection(context, plogcode, fromDeepLink: true);
+    // }
   }
 
   @override

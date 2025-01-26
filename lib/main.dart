@@ -3,6 +3,7 @@ import 'package:alkhatouna/firebase_options.dart';
 import 'package:alkhatouna/services/local_notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alkhatouna/Locale/app_localization.dart';
@@ -60,7 +61,15 @@ void main() async {
   });
 
   // Run the app
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); // Required for SystemChrome
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(MyApp());
+  });
+  // runApp(const MyApp());
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

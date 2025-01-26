@@ -141,6 +141,7 @@ class Pending {
   var createdBy;
   var updatedBy;
   var createdAt;
+  var type;
   var updatedAt;
   List<Items>? items;
 
@@ -155,6 +156,7 @@ class Pending {
       this.totalAmountAfterDiscount,
       this.deliveryFees,
       this.grandTotal,
+      this.type,
       this.notes,
       this.isPaid,
       this.paidAt,
@@ -182,6 +184,7 @@ class Pending {
     number = json?['number'];
     userId = json?['user_id'];
     status = json?['status'];
+    type = json?['type'];
     totalAmount = json?['total_amount'];
     discountPercentage = json?['discount_percentage'];
     discountValue = json?['discount_value'];
@@ -229,6 +232,7 @@ class Pending {
     data?['delivery_fees'] = this.deliveryFees;
     data?['grand_total'] = this.grandTotal;
     data?['notes'] = this.notes;
+    data?['type'] = this.type;
     data?['is_paid'] = this.isPaid;
     data?['paid_at'] = this.paidAt;
     data?['country_name'] = this.countryName;

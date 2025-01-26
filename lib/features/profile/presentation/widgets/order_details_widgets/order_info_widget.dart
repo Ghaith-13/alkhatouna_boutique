@@ -199,7 +199,9 @@ class _OrderInfoWidgetState extends State<OrderInfoWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Order information".tr(context),
+              widget.orderDetails.type == "order"
+                  ? "Order information".tr(context)
+                  : "Reservation information".tr(context),
               style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500,

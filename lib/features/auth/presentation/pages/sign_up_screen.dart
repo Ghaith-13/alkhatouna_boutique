@@ -469,7 +469,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context
                                   .read<AuthCubit>()
                                   .changePhoneValue(phone.completeNumber);
-                              print("Yesss");
+                              // print("Yesss");
                             } else {
                               return;
                             }
@@ -610,7 +610,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     10.ph,
                     AppConstant.customElvatedButton(context, "Skip", () {
                       AppConstant.customNavigation(
-                          context, mainScreen(), 0, -1);
+                          context,
+                          mainScreen(
+                            refresheveyThing: true,
+                          ),
+                          0,
+                          -1);
                     },
                         style: TextStyle(
                             color: Colors.white,

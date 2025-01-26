@@ -21,9 +21,13 @@ class HomeModel {
 
 class HomeData {
   List<Banners>? banners;
+  List<Banners>? topBanners;
   List<Categories>? categories;
   List<HomeBrands>? brands;
   List<BestSellingProducts>? bestSellingProducts;
+  List<BestSellingProducts>? new_arrival;
+  List<BestSellingProducts>? with_qouta;
+  List<BestSellingProducts>? on_tiktok;
   List<DiscountedProducts>? discountedProducts;
   String? phone_number;
   UserCategoryData? userCategoryData;
@@ -35,9 +39,19 @@ class HomeData {
       this.bestSellingProducts,
       this.discountedProducts,
       this.phone_number,
+      this.topBanners,
+      this.new_arrival,
+      this.with_qouta,
+      this.on_tiktok,
       this.userCategoryData});
 
   HomeData.fromJson(Map<String, dynamic>? json) {
+    if (json?['top_banners'] != null) {
+      topBanners = <Banners>[];
+      json?['top_banners'].forEach((v) {
+        topBanners!.add(new Banners.fromJson(v));
+      });
+    }
     if (json?['banners'] != null) {
       banners = <Banners>[];
       json?['banners'].forEach((v) {
@@ -62,6 +76,24 @@ class HomeData {
         bestSellingProducts!.add(new BestSellingProducts.fromJson(v));
       });
     }
+    if (json?['with_qouta'] != null) {
+      with_qouta = <BestSellingProducts>[];
+      json?['with_qouta'].forEach((v) {
+        with_qouta!.add(new BestSellingProducts.fromJson(v));
+      });
+    }
+    if (json?['on_tiktok'] != null) {
+      on_tiktok = <BestSellingProducts>[];
+      json?['on_tiktok'].forEach((v) {
+        on_tiktok!.add(new BestSellingProducts.fromJson(v));
+      });
+    }
+    if (json?['new_arrival'] != null) {
+      new_arrival = <BestSellingProducts>[];
+      json?['new_arrival'].forEach((v) {
+        new_arrival!.add(new BestSellingProducts.fromJson(v));
+      });
+    }
     if (json?['discounted_products'] != null) {
       discountedProducts = <DiscountedProducts>[];
       json?['discounted_products'].forEach((v) {
@@ -76,6 +108,9 @@ class HomeData {
 
   Map<String, dynamic>? toJson() {
     final Map<String, dynamic>? data = new Map<String, dynamic>();
+    if (this.topBanners != null) {
+      data?['top_banners'] = this.banners!.map((v) => v.toJson()).toList();
+    }
     if (this.banners != null) {
       data?['banners'] = this.banners!.map((v) => v.toJson()).toList();
     }
@@ -88,6 +123,15 @@ class HomeData {
     if (this.bestSellingProducts != null) {
       data?['best_selling_products'] =
           this.bestSellingProducts!.map((v) => v.toJson()).toList();
+    }
+    if (this.with_qouta != null) {
+      data?['with_qouta'] = this.with_qouta!.map((v) => v.toJson()).toList();
+    }
+    if (this.on_tiktok != null) {
+      data?['on_tiktok'] = this.on_tiktok!.map((v) => v.toJson()).toList();
+    }
+    if (this.new_arrival != null) {
+      data?['new_arrival'] = this.new_arrival!.map((v) => v.toJson()).toList();
     }
     if (this.discountedProducts != null) {
       data?['discounted_products'] =

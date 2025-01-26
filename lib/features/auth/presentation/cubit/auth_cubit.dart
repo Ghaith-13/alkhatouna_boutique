@@ -55,7 +55,10 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
           phone: "", password: "", email: "", logInmethod: "", name: ""));
       Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const mainScreen()),
+        MaterialPageRoute(
+            builder: (context) => const mainScreen(
+                  refresheveyThing: true,
+                )),
         (Route route) => false,
       );
     } catch (e) {
@@ -108,7 +111,10 @@ class AuthCubit extends Cubit<AuthState> {
         di.sl<ApiBaseHelper>().updateHeader();
 
         Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const mainScreen()),
+          MaterialPageRoute(
+              builder: (context) => const mainScreen(
+                    refresheveyThing: true,
+                  )),
           (Route route) => false,
         );
       }
@@ -164,7 +170,10 @@ class AuthCubit extends Cubit<AuthState> {
         emit(state.copyWith(
             phone: "", password: "", email: "", logInmethod: "", name: ""));
         Navigator.of(navigatorKey.currentContext!).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const mainScreen()),
+          MaterialPageRoute(
+              builder: (context) => const mainScreen(
+                    refresheveyThing: true,
+                  )),
           (Route route) => false,
         );
       }

@@ -25,6 +25,8 @@ import 'package:alkhatouna/features/home/presentation/widgets/product_details_wi
 import 'package:alkhatouna/features/home/presentation/widgets/product_details_widgets/sizes_drop_down.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart'; // Import for date formatting
+
 import 'package:path_provider/path_provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -88,7 +90,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onTap: () {
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => mainScreen(navigateIndex: 2)),
+                            builder: (context) => mainScreen(
+                                  navigateIndex: 2,
+                                  refresheveyThing: false,
+                                )),
                         (Route route) => false,
                       );
                     },
@@ -198,6 +203,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             child: Column(
                               children: [
                                 ProductSliderWidget(),
+                                // Column(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: <Widget>[
+                                //     ElevatedButton(
+                                //       child: Text('Pick Date and Time'),
+                                //     ),
+                                //     SizedBox(height: 20),
+                                //     if (_selectedDateTime != null)
+                                //       Text(
+                                //         'Selected Date and Time: ${DateFormat('yyyy-MM-dd HH:mm').format(_selectedDateTime!)}', // Format the date and time
+                                //       )
+                                //     else
+                                //       Text('No date and time selected'),
+                                //   ],
+                                // ),
                                 20.ph,
                                 Padding(
                                   padding:

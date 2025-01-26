@@ -31,46 +31,29 @@ class _ProfileSkeletonState extends State<ProfileSkeleton> {
                   ),
                 )),
             10.ph,
-            Row(
-              children: [
-                Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.sp),
-                        child: CircleAvatar(
-                          radius: 45.sp,
-                        ))),
-                10.pw,
-                Column(
-                  children: [
-                    Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.sp),
-                          child: Container(
-                            color: Colors.black,
-                            width: 0.3.sw,
-                            height: 20.h,
-                          ),
-                        )),
-                    5.ph,
-                    Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.sp),
-                          child: Container(
-                            color: Colors.black,
-                            width: 0.3.sw,
-                            height: 20.h,
-                          ),
-                        )),
-                  ],
-                )
-              ],
-            ),
+            Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18.sp),
+                  child: Container(
+                    color: Colors.black,
+                    width: 0.3.sw,
+                    height: 20.h,
+                  ),
+                )),
+            5.ph,
+            Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18.sp),
+                  child: Container(
+                    color: Colors.black,
+                    width: 0.3.sw,
+                    height: 20.h,
+                  ),
+                )),
             40.ph,
             Shimmer.fromColors(
                 baseColor: Colors.grey.shade300,

@@ -13,7 +13,11 @@ import 'package:alkhatouna/features/home/presentation/pages/user_categories_scre
 import 'package:alkhatouna/features/home/presentation/pages/zain_cash.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/brands_section.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/most_selling_product.dart';
+import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/new_arrival_widget.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/offers_section.dart';
+import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/on_tiktok_widget.dart';
+import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/small_slider_widget.dart';
+import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/with_qouta_widget.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<HomeCubit>().getHomeInfo(context);
+    context.read<HomeCubit>().getSideBarSections(context);
 
     checkIfGuest();
   }
@@ -56,6 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
     if (token != null) {
       context.read<ProfileCubit>().getuserInfo(context);
     }
+  }
+
+  Future<void> dothisfin() async {
+    context.read<HomeCubit>().RefreshHomePage();
+    context.read<HomeCubit>().getHomeInfo(context);
+    context.read<HomeCubit>().getSideBarSections(context);
   }
 
   @override
@@ -104,228 +115,287 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer:
           loadingToken ? SizedBox() : AppConstant.CustomDrawer(context, token),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        controller: widget.scrollController,
-        child: SafeArea(
-          child: BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              return state.loading
-                  ? HomeSkeleton()
-                  : state.homeInfo == null
-                      ? HomeSkeleton()
-                      : Column(
-                          children: [
-                            token == null
-                                ? SizedBox()
-                                : Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.sp),
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppColors.greyColor,
-                                          width: 0.5),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  EdgeInsetsDirectional.only(
-                                                // start: 20.sp,
-                                                end: 5.sp,
-                                              ),
-                                              child: BlocBuilder<LocaleCubit,
-                                                  LocaleState>(
-                                                builder: (context, locale) {
-                                                  return Text(
-                                                    "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.currentCategoryEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.currentCategoryAr : state.homeInfo?.userCategoryData?.currentCategoryKu}",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                        fontSize: 20.sp),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                            InkWell(
-                                                onTap: () {
-                                                  AppConstant.customNavigation(
-                                                      context,
-                                                      UserCategoriesScreen(),
-                                                      -1,
-                                                      0);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 0),
-                                                  child: Icon(
-                                                    Icons.info_rounded,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                    size: 25,
-                                                  ),
-                                                )),
-                                          ],
-                                        ),
-                                        5.ph,
-                                        token == null
-                                            ? SizedBox()
-                                            : Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 0.sp),
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                        width: 0.5.sw,
-                                                        child:
-                                                            LinearProgressBar(
-                                                          maxSteps: state
-                                                                  .homeInfo!
-                                                                  .userCategoryData!
-                                                                  .ordersNeeded! +
-                                                              state
-                                                                  .homeInfo!
-                                                                  .userCategoryData!
-                                                                  .completedOrdersCount!,
-                                                          progressType:
-                                                              LinearProgressBar
-                                                                  .progressTypeLinear,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                          currentStep: state
-                                                              .homeInfo!
-                                                              .userCategoryData!
-                                                              .completedOrdersCount,
-                                                          progressColor:
-                                                              AppColors
-                                                                  .primaryColor,
-                                                          backgroundColor:
-                                                              const Color
-                                                                  .fromARGB(
-                                                                  104,
-                                                                  158,
-                                                                  158,
-                                                                  158),
-                                                        )),
-                                                  ],
+      body: RefreshIndicator(
+        onRefresh: dothisfin,
+        color: AppColors.primaryColor,
+        backgroundColor: Colors.white,
+        strokeWidth: 3.0,
+        displacement: 40.0,
+        edgeOffset: 0.0,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        child: SingleChildScrollView(
+          controller: widget.scrollController,
+          child: SafeArea(
+            child: BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return state.loading
+                    ? HomeSkeleton()
+                    : state.homeInfo == null
+                        ? HomeSkeleton()
+                        : Column(
+                            children: [
+                              token == null
+                                  ? SizedBox()
+                                  : Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 20.sp),
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: AppColors.greyColor,
+                                            width: 0.5),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsetsDirectional.only(
+                                                  // start: 20.sp,
+                                                  end: 5.sp,
+                                                ),
+                                                child: BlocBuilder<LocaleCubit,
+                                                    LocaleState>(
+                                                  builder: (context, locale) {
+                                                    return Text(
+                                                      "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.currentCategoryEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.currentCategoryAr : state.homeInfo?.userCategoryData?.currentCategoryKu}",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          fontSize: 20.sp),
+                                                    );
+                                                  },
                                                 ),
                                               ),
-                                        5.ph,
-                                        token == null
-                                            ? SizedBox()
-                                            : Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 0.sp),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      child: BlocBuilder<
-                                                          LocaleCubit,
-                                                          LocaleState>(
-                                                        builder:
-                                                            (context, locale) {
-                                                          return Text(
-                                                            "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.messageEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.messageAr : state.homeInfo?.userCategoryData?.messageKu}",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize:
-                                                                    12.sp),
-                                                          );
-                                                        },
-                                                      ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    AppConstant.customNavigation(
+                                                        context,
+                                                        UserCategoriesScreen(),
+                                                        -1,
+                                                        0);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 0),
+                                                    child: Icon(
+                                                      Icons.info_rounded,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 25,
                                                     ),
-                                                  ],
+                                                  )),
+                                            ],
+                                          ),
+                                          5.ph,
+                                          token == null
+                                              ? SizedBox()
+                                              : Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 0.sp),
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                          width: 0.5.sw,
+                                                          child:
+                                                              LinearProgressBar(
+                                                            maxSteps: state
+                                                                    .homeInfo!
+                                                                    .userCategoryData!
+                                                                    .ordersNeeded! +
+                                                                state
+                                                                    .homeInfo!
+                                                                    .userCategoryData!
+                                                                    .completedOrdersCount!,
+                                                            progressType:
+                                                                LinearProgressBar
+                                                                    .progressTypeLinear,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                            currentStep: state
+                                                                .homeInfo!
+                                                                .userCategoryData!
+                                                                .completedOrdersCount,
+                                                            progressColor:
+                                                                AppColors
+                                                                    .primaryColor,
+                                                            backgroundColor:
+                                                                const Color
+                                                                    .fromARGB(
+                                                                    104,
+                                                                    158,
+                                                                    158,
+                                                                    158),
+                                                          )),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
+                                          5.ph,
+                                          token == null
+                                              ? SizedBox()
+                                              : Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 0.sp),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Expanded(
+                                                        child: BlocBuilder<
+                                                            LocaleCubit,
+                                                            LocaleState>(
+                                                          builder: (context,
+                                                              locale) {
+                                                            return Text(
+                                                              "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.messageEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.messageAr : state.homeInfo?.userCategoryData?.messageKu}",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      12.sp),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                              token == null ? SizedBox() : 20.ph,
+                              SizedBox(
+                                  width: 0.9.sw,
+                                  child: TextField(
+                                    textInputAction: TextInputAction.search,
+                                    onSubmitted: (value) {
+                                      if (value.isNotEmpty) {
+                                        context
+                                            .read<HomeCubit>()
+                                            .getFullSearch(context, value);
+                                        AppConstant.customNavigation(
+                                            context, HomeSearchScreen(), 1, 0);
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                      filled: false,
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: AppColors.primaryColor,
+                                          width:
+                                              2.0, // Adjust the border width as needed
+                                        ),
+                                      ),
+                                      hintStyle: TextStyle(
+                                          color: AppColors.primaryColor),
+                                      hintText:
+                                          "Find what you want".tr(context),
+                                    ),
+                                  )),
+                              state.homeInfo!.topBanners == null
+                                  ? SizedBox()
+                                  : state.homeInfo!.topBanners!.isEmpty
+                                      ? SizedBox()
+                                      : SmallSliderWidget(),
+                              10.ph,
+                              state.homeInfo!.banners == null
+                                  ? SizedBox()
+                                  : state.homeInfo!.banners!.isEmpty
+                                      ? SizedBox()
+                                      : SliderForAds(),
+                              10.ph,
+                              Padding(
+                                padding: EdgeInsets.all(15.0.sp),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Sections".tr(context),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24.sp),
+                                        ),
+                                        // Zasin()
                                       ],
                                     ),
-                                  ),
-                            20.ph,
-                            SizedBox(
-                                width: 0.9.sw,
-                                child: TextField(
-                                  textInputAction: TextInputAction.search,
-                                  onSubmitted: (value) {
-                                    if (value.isNotEmpty) {
-                                      context
-                                          .read<HomeCubit>()
-                                          .getFullSearch(context, value);
-                                      AppConstant.customNavigation(
-                                          context, HomeSearchScreen(), 1, 0);
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(
-                                      Icons.search,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                    filled: false,
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppColors.primaryColor,
-                                        width:
-                                            2.0, // Adjust the border width as needed
-                                      ),
-                                    ),
-                                    hintStyle: TextStyle(
-                                        color: AppColors.primaryColor),
-                                    hintText: "Find what you want".tr(context),
-                                  ),
-                                )),
-                            state.homeInfo!.banners == null
-                                ? SizedBox()
-                                : state.homeInfo!.banners!.isEmpty
-                                    ? SizedBox()
-                                    : SliderForAds(),
-                            10.ph,
-                            Padding(
-                              padding: EdgeInsets.all(15.0.sp),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Sections".tr(context),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 24.sp),
-                                      ),
-                                      // Zasin()
-                                    ],
-                                  ),
-                                  SectionsWidget(),
-                                  20.verticalSpace,
-                                  state.homeInfo!.brands == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.brands!.isEmpty
-                                          ? SizedBox()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
+                                    SectionsWidget(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.brands == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.brands!.isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                    Text(
+                                                      "Brands".tr(context),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 24.sp),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        AppConstant
+                                                            .customNavigation(
+                                                                context,
+                                                                BrandsScreen(),
+                                                                -1,
+                                                                0);
+                                                      },
+                                                      child: Text(
+                                                        "See more".tr(context),
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .greyColor),
+                                                      ),
+                                                    )
+                                                  ]),
+                                    state.homeInfo!.brands == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.brands!.isEmpty
+                                            ? SizedBox()
+                                            : BrandsSection(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.bestSellingProducts == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.bestSellingProducts!
+                                                .isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
                                                   Text(
-                                                    "Brands".tr(context),
+                                                    "Most Selling Products"
+                                                        .tr(context),
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -336,7 +406,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       AppConstant
                                                           .customNavigation(
                                                               context,
-                                                              BrandsScreen(),
+                                                              AllProductsScreen(
+                                                                type:
+                                                                    "best-selling",
+                                                              ),
                                                               -1,
                                                               0);
                                                     },
@@ -347,109 +420,195 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               .greyColor),
                                                     ),
                                                   )
-                                                ]),
-                                  state.homeInfo!.brands == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.brands!.isEmpty
-                                          ? SizedBox()
-                                          : BrandsSection(),
-                                  20.verticalSpace,
-                                  state.homeInfo!.bestSellingProducts == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.bestSellingProducts!
-                                              .isEmpty
-                                          ? SizedBox()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Most Selling Products"
-                                                      .tr(context),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 24.sp),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    AppConstant
-                                                        .customNavigation(
-                                                            context,
-                                                            AllProductsScreen(
-                                                              type:
-                                                                  "best-selling",
-                                                            ),
-                                                            -1,
-                                                            0);
-                                                  },
-                                                  child: Text(
-                                                    "See more".tr(context),
+                                                ],
+                                              ),
+                                    state.homeInfo!.bestSellingProducts == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.bestSellingProducts!
+                                                .isEmpty
+                                            ? SizedBox()
+                                            : MostSellingProduct(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.discountedProducts == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.discountedProducts!
+                                                .isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Offers".tr(context),
                                                     style: TextStyle(
-                                                        color: AppColors
-                                                            .greyColor),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 24.sp),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                  state.homeInfo!.bestSellingProducts == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.bestSellingProducts!
-                                              .isEmpty
-                                          ? SizedBox()
-                                          : MostSellingProduct(),
-                                  20.verticalSpace,
-                                  state.homeInfo!.discountedProducts == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.discountedProducts!
-                                              .isEmpty
-                                          ? SizedBox()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Offers".tr(context),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 24.sp),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    AppConstant
-                                                        .customNavigation(
-                                                            context,
-                                                            AllProductsScreen(
-                                                              type:
-                                                                  "discounted",
-                                                            ),
-                                                            -1,
-                                                            0);
-                                                  },
-                                                  child: Text(
-                                                    "See more".tr(context),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      AppConstant
+                                                          .customNavigation(
+                                                              context,
+                                                              AllProductsScreen(
+                                                                type:
+                                                                    "discounted",
+                                                              ),
+                                                              -1,
+                                                              0);
+                                                    },
+                                                    child: Text(
+                                                      "See more".tr(context),
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .greyColor),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                    state.homeInfo!.discountedProducts == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.discountedProducts!
+                                                .isEmpty
+                                            ? SizedBox()
+                                            : OffersSection(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.new_arrival == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.new_arrival!.isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "New arrival".tr(context),
                                                     style: TextStyle(
-                                                        color: AppColors
-                                                            .greyColor),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 24.sp),
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                  state.homeInfo!.discountedProducts == null
-                                      ? SizedBox()
-                                      : state.homeInfo!.discountedProducts!
-                                              .isEmpty
-                                          ? SizedBox()
-                                          : OffersSection()
-                                ],
+                                                  InkWell(
+                                                    onTap: () {
+                                                      AppConstant
+                                                          .customNavigation(
+                                                              context,
+                                                              AllProductsScreen(
+                                                                type:
+                                                                    "new-arrival",
+                                                              ),
+                                                              -1,
+                                                              0);
+                                                    },
+                                                    child: Text(
+                                                      "See more".tr(context),
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .greyColor),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                    state.homeInfo!.new_arrival == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.new_arrival!.isEmpty
+                                            ? SizedBox()
+                                            : NewArrivalWidget(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.on_tiktok == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.on_tiktok!.isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "On Tiktok".tr(context),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 24.sp),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      AppConstant
+                                                          .customNavigation(
+                                                              context,
+                                                              AllProductsScreen(
+                                                                type:
+                                                                    "on-tiktok",
+                                                              ),
+                                                              -1,
+                                                              0);
+                                                    },
+                                                    child: Text(
+                                                      "See more".tr(context),
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .greyColor),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                    state.homeInfo!.on_tiktok == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.on_tiktok!.isEmpty
+                                            ? SizedBox()
+                                            : OnTiktokWidget(),
+                                    20.verticalSpace,
+                                    state.homeInfo!.with_qouta == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.with_qouta!.isEmpty
+                                            ? SizedBox()
+                                            : Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "With Qouta".tr(context),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 24.sp),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      AppConstant
+                                                          .customNavigation(
+                                                              context,
+                                                              AllProductsScreen(
+                                                                type:
+                                                                    "with-qouta",
+                                                              ),
+                                                              -1,
+                                                              0);
+                                                    },
+                                                    child: Text(
+                                                      "See more".tr(context),
+                                                      style: TextStyle(
+                                                          color: AppColors
+                                                              .greyColor),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                    state.homeInfo!.with_qouta == null
+                                        ? SizedBox()
+                                        : state.homeInfo!.with_qouta!.isEmpty
+                                            ? SizedBox()
+                                            : WithQoutaWidget(),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-            },
+                            ],
+                          );
+              },
+            ),
           ),
         ),
       ),

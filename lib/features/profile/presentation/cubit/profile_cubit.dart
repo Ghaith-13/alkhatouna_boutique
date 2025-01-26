@@ -36,7 +36,22 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(laodingOrders: true));
     try {
       MyOrdersModel response = await profileRepo.getOrders();
+
       emit(state.copyWith(myOrders: response.data));
+      List<Pending>? order = [];
+      order.addAll(response.data!.pending ?? []);
+      order.addAll(response.data!.cancelled ?? []);
+      order.addAll(response.data!.completed ?? []);
+      order.addAll(response.data!.confirmed ?? []);
+      order.addAll(response.data!.delivered ?? []);
+      order.addAll(response.data!.onTheWay ?? []);
+      order.addAll(response.data!.readyToShip ?? []);
+      order.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.createdAt);
+        DateTime dateB = DateTime.parse(b.createdAt);
+        return dateB.compareTo(dateA);
+      });
+      emit(state.copyWith(allOrders: order));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -98,26 +113,33 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(laodingFaq: false));
   }
 
+  Future<void> refreshProfileScreen() async {
+    emit(state.copyWith(getUserInfo: false));
+  }
+
   Future<void> getuserInfo(BuildContext context) async {
-    emit(state.copyWith(loaidngProfile: true));
-    try {
-      UserModel response = await profileRepo.getuserInfo();
-      emit(state.copyWith(userInfo: response.data));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          padding:
-              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
-          content: Text(
-            e.toString(),
-            style: const TextStyle(color: Colors.white),
+    if (state.getUserInfo) {
+    } else {
+      emit(state.copyWith(loaidngProfile: true));
+      try {
+        UserModel response = await profileRepo.getuserInfo();
+        emit(state.copyWith(userInfo: response.data, getUserInfo: true));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
           ),
-          duration: const Duration(seconds: 2),
-        ),
-      );
+        );
+      }
+      emit(state.copyWith(loaidngProfile: false));
     }
-    emit(state.copyWith(loaidngProfile: false));
   }
 
   changerepeateNewPassword(String value) =>

@@ -61,10 +61,86 @@ class HomeDs {
     return response;
   }
 
+  Future<Map<String, dynamic>?> getSideBarSection() async {
+    Map<String, dynamic>? response = await apiHelper.get("/get-sections");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getblogSection(String id) async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/get-section-blog?section_id=${id}");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getonePlog(String id) async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/get-blog?blog_id=${id}");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getSupllier() async {
+    Map<String, dynamic>? response = await apiHelper.get("/get-suppliers");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getAllProductsSupllier(
+    int pageNumber,
+    String id,
+  ) async {
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
+    Map<String, String> body = {};
+    body['page'] = "$pageNumber";
+    body['supplier_id'] = "$id";
+    if (userID != null) {
+      body['user_id'] = "$userID";
+    }
+
+    Map<String, dynamic>? response =
+        await apiHelper.get("/products-with-pagination", queryParameters: body);
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> getSectionProducts(
+      String id, String pageNumber) async {
+    String? userID = await CacheHelper.getData(
+      key: "USER_ID",
+    );
+    Map<String, dynamic>? response;
+    if (userID == null) {
+      response = await apiHelper.get(
+        "/get-section-product?section_id=${id}&page=${pageNumber}",
+      );
+    } else {
+      response = await apiHelper.get(
+        "/get-section-product?section_id=${id}&page=${pageNumber}&user_id=${userID}",
+      );
+    }
+
+    return response;
+  }
+
   Future<Map<String, dynamic>?> toggleFavorite(
       Map<String, String>? body) async {
     Map<String, dynamic>? response = await apiHelper.post(
       "/toggle-favorite",
+      body: body,
+    );
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> NotifyProduct(Map<String, String>? body) async {
+    Map<String, dynamic>? response = await apiHelper.post(
+      "/notify-me",
+      body: body,
+    );
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> sendSuggestion(
+      Map<String, String>? body, bool fromSugestion) async {
+    Map<String, dynamic>? response = await apiHelper.post(
+      fromSugestion ? "/send-consult" : "/send-advice",
       body: body,
     );
     return response;

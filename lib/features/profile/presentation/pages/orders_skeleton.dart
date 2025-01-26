@@ -29,59 +29,59 @@ class _OrdersSkeletonState extends State<OrdersSkeleton> {
                   height: 50.h,
                 ),
               )),
-          10.ph,
-          Row(
-            children: [
-              Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18.sp),
-                    child: Container(
-                      color: Colors.black,
-                      width: 75.w,
-                      height: 30.h,
-                    ),
-                  )),
-              10.pw,
-              Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18.sp),
-                    child: Container(
-                      color: Colors.black,
-                      width: 75.w,
-                      height: 30.h,
-                    ),
-                  )),
-              10.pw,
-              Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18.sp),
-                    child: Container(
-                      color: Colors.black,
-                      width: 75.w,
-                      height: 30.h,
-                    ),
-                  )),
-              10.pw,
-              Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18.sp),
-                    child: Container(
-                      color: Colors.black,
-                      width: 75.w,
-                      height: 30.h,
-                    ),
-                  )),
-            ],
-          ),
           20.ph,
+          // Row(
+          //   children: [
+          //     Shimmer.fromColors(
+          //         baseColor: Colors.grey.shade300,
+          //         highlightColor: Colors.grey.shade100,
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(18.sp),
+          //           child: Container(
+          //             color: Colors.black,
+          //             width: 75.w,
+          //             height: 30.h,
+          //           ),
+          //         )),
+          //     10.pw,
+          //     Shimmer.fromColors(
+          //         baseColor: Colors.grey.shade300,
+          //         highlightColor: Colors.grey.shade100,
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(18.sp),
+          //           child: Container(
+          //             color: Colors.black,
+          //             width: 75.w,
+          //             height: 30.h,
+          //           ),
+          //         )),
+          //     10.pw,
+          //     Shimmer.fromColors(
+          //         baseColor: Colors.grey.shade300,
+          //         highlightColor: Colors.grey.shade100,
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(18.sp),
+          //           child: Container(
+          //             color: Colors.black,
+          //             width: 75.w,
+          //             height: 30.h,
+          //           ),
+          //         )),
+          //     10.pw,
+          //     Shimmer.fromColors(
+          //         baseColor: Colors.grey.shade300,
+          //         highlightColor: Colors.grey.shade100,
+          //         child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(18.sp),
+          //           child: Container(
+          //             color: Colors.black,
+          //             width: 75.w,
+          //             height: 30.h,
+          //           ),
+          //         )),
+          //   ],
+          // ),
+          // 20.ph,
           Shimmer.fromColors(
               baseColor: Colors.grey.shade300,
               highlightColor: Colors.grey.shade100,

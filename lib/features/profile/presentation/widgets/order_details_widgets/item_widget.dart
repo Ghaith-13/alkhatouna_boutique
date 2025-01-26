@@ -26,7 +26,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   );
   @override
   Widget build(BuildContext context) {
-    print(widget.oneItem.productColor);
+    // print(widget.oneItem.productColor);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.h),
       decoration: BoxDecoration(

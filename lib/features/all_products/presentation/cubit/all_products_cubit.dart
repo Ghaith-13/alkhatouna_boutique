@@ -33,7 +33,8 @@ class AllProductsCubit extends Cubit<AllProductsState> {
         if (state.pageNumber == 1) {
           emit(state.copyWith(allProductsData: response.data));
         } else {
-          List<ProductData>? newAllProducts = state.allProductsData ?? [];
+          List<AllProductsProduct>? newAllProducts =
+              state.allProductsData ?? [];
           newAllProducts.addAll(response.data!);
           emit(state.copyWith(allProductsData: newAllProducts));
         }

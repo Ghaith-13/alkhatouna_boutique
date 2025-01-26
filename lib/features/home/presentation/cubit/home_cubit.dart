@@ -2,6 +2,7 @@
 
 import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
+import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/all_products/presentation/cubit/all_products_cubit.dart';
 import 'package:alkhatouna/features/favorite/presentation/cubit/favorite_cubit.dart';
 import 'package:alkhatouna/features/home/data/models/add_to_cart_model.dart';
@@ -10,15 +11,24 @@ import 'package:alkhatouna/features/home/data/models/brands_model.dart';
 import 'package:alkhatouna/features/home/data/models/categorey_children_model.dart';
 import 'package:alkhatouna/features/home/data/models/favorite_model.dart';
 import 'package:alkhatouna/features/home/data/models/full_search_model.dart';
+import 'package:alkhatouna/features/home/data/models/get_blogs_model.dart';
+import 'package:alkhatouna/features/home/data/models/notify_model.dart';
+import 'package:alkhatouna/features/home/data/models/one_plog_model.dart';
 import 'package:alkhatouna/features/home/data/models/product_model.dart';
 import 'package:alkhatouna/features/home/data/models/review_model.dart';
+import 'package:alkhatouna/features/home/data/models/section_products_model.dart';
+import 'package:alkhatouna/features/home/data/models/sidebar_sections_model.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
+import 'package:alkhatouna/features/home/data/models/supllier_model.dart';
 import 'package:alkhatouna/features/home/data/models/user_categories_model.dart';
+import 'package:alkhatouna/features/home/presentation/pages/get_sections_plogs_screen.dart';
+import 'package:alkhatouna/features/home/presentation/pages/one_blog_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../all_products/data/models/all_products_model.dart';
 import '../../data/models/get_home_model.dart';
 import '../../data/repositories/home_Repo.dart';
 
@@ -30,25 +40,28 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required this.homeRepo}) : super(HomeState());
   // ChangeCategoryIndex() => emit(state.copyWith(subCategoryId: 0));
   Future<void> getHomeInfo(BuildContext context) async {
-    emit(state.copyWith(loading: true));
-    try {
-      HomeModel response = await homeRepo.getHomeInfo();
-      emit(state.copyWith(homeInfo: response.data));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          padding:
-              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
-          content: Text(
-            e.toString(),
-            style: const TextStyle(color: Colors.white),
+    if (state.getHomeData) {
+    } else {
+      emit(state.copyWith(loading: true));
+      try {
+        HomeModel response = await homeRepo.getHomeInfo();
+        emit(state.copyWith(homeInfo: response.data, getHomeData: true));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
           ),
-          duration: const Duration(seconds: 2),
-        ),
-      );
+        );
+      }
+      emit(state.copyWith(loading: false));
     }
-    emit(state.copyWith(loading: false));
   }
 
   Future<void> getFullSearch(BuildContext context, String keyword) async {
@@ -116,6 +129,157 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
     emit(state.copyWith(loadingBrands: false));
+  }
+
+  Future<void> RefreshHomePage() async {
+    emit(state.copyWith(getHomeData: false, getTheSection: false));
+  }
+
+  Future<void> getSideBarSections(BuildContext context) async {
+    if (state.getTheSection) {
+    } else {
+      emit(state.copyWith(loadingSideBarSection: true));
+      try {
+        SidebarSectionsModel response = await homeRepo.getSideBarSection();
+        emit(state.copyWith(
+            sideBarSections: response.data!.sections, getTheSection: true));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      emit(state.copyWith(loadingSideBarSection: false));
+    }
+  }
+
+  Future<void> getonePlog(BuildContext context, String id) async {
+    emit(state.copyWith(loadingoneBlog: true));
+    try {
+      OnePlogModel response = await homeRepo.getonePlog(id);
+      emit(state.copyWith(onePlogModel: response));
+      emit(state.copyWith(loadingoneBlog: false));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> getblogSection(
+    BuildContext context,
+    String id,
+  ) async {
+    try {
+      GetPlogsModel response = await homeRepo.getblogSection(id);
+      emit(state.copyWith(getPlogsModel: response));
+      if (response.data!.blogs!.length == 1) {
+        Navigator.pop(context);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => OneBlogScreen(
+              sectionPlogId: response.data!.blogs![0].id.toString(),
+            ),
+          ),
+        );
+      } else {
+        Navigator.pop(context);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => GetSectionsPlogsScreen(
+              getPlogsModel: response,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> existFromSectionProduct() async {
+    emit(state.copyWith(
+        pageNumberForProductsSection: 1,
+        productsSection: [],
+        stopLoadingProductSection: false));
+  }
+
+  Future<void> getproductsSection(
+    BuildContext context,
+    String id,
+  ) async {
+    try {
+      if (state.stopLoadingProductSection) {
+      } else {
+        emit(state.copyWith(loadingProductSection: true));
+        SectionProductsModel response = await homeRepo.getSectionProducts(
+            id, state.pageNumberForProductsSection.toString());
+        if (state.pageNumberForProductsSection == 1) {
+          emit(state.copyWith(sectionProductsModel: response));
+          emit(state.copyWith(
+            productsSection: response.data?.products,
+          ));
+        } else {
+          List<ProductsSection> product = state.productsSection ?? [];
+          product.addAll(response.data!.products ?? []);
+          emit(state.copyWith(productsSection: product));
+          if (response.data!.products!.isEmpty) {
+            emit(state.copyWith(stopLoadingProductSection: true));
+          }
+        }
+
+        emit(state.copyWith(
+            pageNumberForProductsSection:
+                state.pageNumberForProductsSection! + 1));
+      }
+      emit(state.copyWith(loadingProductSection: false));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      emit(state.copyWith(loadingProductSection: false));
+    }
   }
 
   Future exitBrandScreen() async {
@@ -274,6 +438,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   changefilterFeature() =>
       emit(state.copyWith(filterFeature: !state.filterFeature));
+
+  changesuggestionText(value) => emit(state.copyWith(suggestionText: value));
+  changesuggestionsName(value) => emit(state.copyWith(suggestionsName: value));
+  changesuggestionNumber(value) =>
+      emit(state.copyWith(suggestionNumber: value));
   changefilterDiscount() =>
       emit(state.copyWith(filterDiscount: !state.filterDiscount));
   deleteFilter(BuildContext context, String ctegoreyId) {
@@ -518,11 +687,15 @@ class HomeCubit extends Cubit<HomeState> {
         selectedColor: "",
         selectedSize: "",
         selectedWeight: "",
+        reservationDate: "",
         dimensions: ""));
   }
 
   Future<void> addToCart(
-      BuildContext context, String productId, String Count) async {
+    BuildContext context,
+    String productId,
+    String Count,
+  ) async {
     emit(state.copyWith(loadingAddToCart: true));
     try {
       Map<String, String> body = {};
@@ -548,6 +721,7 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
       emit(state.copyWith(
+          reservationDate: '',
           selectedColor: "",
           selectedSize: "",
           selectedWeight: "",
@@ -614,5 +788,163 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
     emit(state.copyWith(loadingUserCategories: false));
+  }
+
+  Future<void> notifyProduct(
+      BuildContext context, userID, fcmtoken, productId) async {
+    emit(state.copyWith(notifyProduct: true));
+    try {
+      Map<String, String> body = {};
+      body['product_id'] = productId;
+      body['user_id'] = userID;
+      body['fcm_token'] = fcmtoken;
+
+      NotifyModel? response = await homeRepo.NotifyProduct(body: body);
+      if (response.data!.message == " created successfully")
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primaryColor,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              "You will be notified when available.".tr(context),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(notifyProduct: false));
+  }
+
+  Future<void> sendSuggestion(BuildContext context, bool fromsuggestion) async {
+    emit(state.copyWith(sendSuggestion: true));
+    try {
+      Map<String, String> body = {};
+      body['name'] = state.suggestionsName!;
+      body['phone'] = state.suggestionNumber!;
+      body['message'] = state.suggestionText!;
+
+      NotifyModel? response = await homeRepo.sendSuggestion(
+          body: body, fromsuggestion: fromsuggestion);
+      if (response.data!.message == "Message sent successfully") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primaryColor,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              "Sent successfully".tr(context),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      ;
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(sendSuggestion: false));
+  }
+
+  Future<void> getSupllier(BuildContext context) async {
+    emit(state.copyWith(loadingSuplliers: true));
+    try {
+      SupllierModel? response = await homeRepo.getSupllier();
+      emit(state.copyWith(suplliers: response.data!.suppliers));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingSuplliers: false));
+  }
+
+  Future<void> changereservationDate(value) async {
+    emit(state.copyWith(reservationDate: value));
+  }
+
+  Future<void> getAllProducts(
+    BuildContext context,
+    String? id,
+  ) async {
+    print("@Do it");
+    if (state.pageNumberForSupllier == 1) {
+      emit(state.copyWith(loadingSupllierProducts: true));
+    }
+    try {
+      if (state.stopLoadingSupllier == false) {
+        AllProductsModel response = await homeRepo.getAllProductsSupllier(
+            state.pageNumberForSupllier!, id!);
+        if (response.data!.length < 20) {
+          emit(state.copyWith(stopLoadingSupllier: true));
+        }
+        if (state.pageNumberForSupllier == 1) {
+          emit(state.copyWith(productsForSuplliers: response.data));
+        } else {
+          List<AllProductsProduct>? newAllProducts =
+              state.productsForSuplliers ?? [];
+          newAllProducts.addAll(response.data!);
+          emit(state.copyWith(productsForSuplliers: newAllProducts));
+        }
+        emit(state.copyWith(
+            pageNumberForSupllier: state.pageNumberForSupllier! + 1));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingSupllierProducts: false));
+  }
+
+  Future exitAllProductsScreenSupllier() async {
+    emit(state.copyWith(
+        stopLoadingSupllier: false,
+        pageNumberForSupllier: 1,
+        productsForSuplliers: []));
   }
 }

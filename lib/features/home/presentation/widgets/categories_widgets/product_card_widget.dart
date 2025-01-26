@@ -148,6 +148,7 @@
 
 // ignore_for_file: must_be_immutable
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
@@ -236,48 +237,48 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           productDetails: widget.productDetails,
                           haveOffer: widget.productDetails.isDiscount!,
                         )),
-                    Expanded(
-                        child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            10.ph,
-                            StarsWidget(
-                              reviewAvg: widget.productDetails.reviewAvg,
-                              reviewCount: widget.productDetails.reviewCount,
-                            ),
-                            5.ph,
-                            // Text(
-                            //   "Mango",
-                            //   style: TextStyle(
-                            //       fontSize: 11.sp,
-                            //       color: AppColors.greyColor,
-                            //       fontWeight: FontWeight.w400),
-                            // ),
-                            // 5.ph,
-                            Text(
-                              locale.locale.languageCode == "en"
-                                  ? widget.productDetails.nameEn ?? ""
-                                  : locale.locale.languageCode == "ar"
-                                      ? widget.productDetails.nameAr ?? ""
-                                      : widget.productDetails.nameKu ?? "",
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  color: AppColors.blackColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            5.ph,
-                            ProductPriceWidget(
-                              productDetails: widget.productDetails,
-                              haveOffer: widget.productDetails.isDiscount!,
-                            )
-                          ],
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          10.ph,
+                          StarsWidget(
+                            reviewAvg: widget.productDetails.reviewAvg,
+                            reviewCount: widget.productDetails.reviewCount,
+                          ),
+                          5.ph,
+                          // Text(
+                          //   "Mango",
+                          //   style: TextStyle(
+                          //       fontSize: 11.sp,
+                          //       color: AppColors.greyColor,
+                          //       fontWeight: FontWeight.w400),
+                          // ),
+                          // 5.ph,
+                          Text(
+                            locale.locale.languageCode == "en"
+                                ? widget.productDetails.nameEn ?? ""
+                                : locale.locale.languageCode == "ar"
+                                    ? widget.productDetails.nameAr ?? ""
+                                    : widget.productDetails.nameKu ?? "",
+                            maxLines: 2,
+                            style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 10.sp,
+                                color: AppColors.blackColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          5.ph,
+                          // Spacer(),
+                          ProductPriceWidget(
+                            productDetails: widget.productDetails,
+                            haveOffer: widget.productDetails.isDiscount!,
+                          )
+                        ],
                       ),
-                    ))
+                    )
                   ],
                 ),
               ),
@@ -397,12 +398,92 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          "Sorry, this item is currently sold out".tr(context),
-                          style: TextStyle(
-                              fontSize: 11.sp,
-                              color: AppColors.blackColor,
-                              fontWeight: FontWeight.w400),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Sorry, this item is currently sold out"
+                                  .tr(context),
+                              style: TextStyle(
+                                  fontSize: 11.sp,
+                                  color: AppColors.blackColor,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            BlocBuilder<HomeCubit, HomeState>(
+                              builder: (context, state) {
+                                return SizedBox(
+                                  width: 1.sw,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius
+                                              .zero, // Set borderRadius to zero
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        if (token == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: Colors.red,
+                                              padding: EdgeInsets.only(
+                                                  bottom: 30.h,
+                                                  top: 30.h,
+                                                  left: 50.w,
+                                                  right: 50.w),
+                                              content: Text(
+                                                "Log in to enjoy these features."
+                                                    .tr(context),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                            ),
+                                          );
+                                        } else {
+                                          if (state.notifyProduct) {
+                                          } else {
+                                            String? userID =
+                                                await CacheHelper.getData(
+                                              key: "USER_ID",
+                                            );
+
+                                            FirebaseMessaging messaging =
+                                                FirebaseMessaging.instance;
+
+                                            String? fcmtoken =
+                                                await messaging.getToken();
+                                            context
+                                                .read<HomeCubit>()
+                                                .notifyProduct(
+                                                    context,
+                                                    userID.toString(),
+                                                    fcmtoken.toString(),
+                                                    widget.productDetails.id
+                                                        .toString());
+                                          }
+                                        }
+                                      },
+                                      child: state.notifyProduct
+                                          ? SizedBox(
+                                              width: 15,
+                                              height: 15,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          : Text(
+                                              "Notify me when it is available"
+                                                  .tr(context),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            )),
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     )

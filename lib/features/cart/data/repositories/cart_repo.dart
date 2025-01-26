@@ -68,10 +68,11 @@ class CartRepo {
     return response;
   }
 
-  Future<SendCheckOut> sendOrder(
-      String promoCode, String paymentMethod, String selectedBenefitId) async {
+  Future<SendCheckOut> sendOrder(String promoCode, String paymentMethod,
+      String selectedBenefitId, String type, String date) async {
     SendCheckOut response = SendCheckOut.fromJson(
-      await dataSource.sendOrder(promoCode, paymentMethod, selectedBenefitId),
+      await dataSource.sendOrder(
+          promoCode, paymentMethod, selectedBenefitId, type, date),
     );
     return response;
   }

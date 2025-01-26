@@ -67,7 +67,13 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
               ? "All Products"
               : widget.type == "discounted"
                   ? "Offers"
-                  : "Most Selling Products",
+                  : widget.type == "with-qouta"
+                      ? "With Qouta"
+                      : widget.type == "on-tiktok"
+                          ? "On Tiktok"
+                          : widget.type == "new-arrival"
+                              ? "New arrival"
+                              : "Most Selling Products",
           widget.type == null ? false : true,
           IconColor: Colors.black),
       body: BlocBuilder<AllProductsCubit, AllProductsState>(

@@ -12,7 +12,7 @@ class AllProductsState extends Equatable {
 
   int pageNumber;
   bool loadingproducts, stopLoading;
-  List<ProductData>? allProductsData;
+  List<AllProductsProduct>? allProductsData;
   @override
   List<Object?> get props =>
       [pageNumber, loadingproducts, stopLoading, allProductsData];
@@ -20,7 +20,7 @@ class AllProductsState extends Equatable {
           {int? pageNumber,
           bool? loadingproducts,
           bool? stopLoading,
-          List<ProductData>? allProductsData}) =>
+          List<AllProductsProduct>? allProductsData}) =>
       AllProductsState(
           pageNumber: pageNumber ?? this.pageNumber,
           loadingproducts: loadingproducts ?? this.loadingproducts,

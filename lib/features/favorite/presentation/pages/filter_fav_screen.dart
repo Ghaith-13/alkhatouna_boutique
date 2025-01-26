@@ -143,77 +143,174 @@ class _FilterFavScreenState extends State<FilterFavScreen> {
                   ),
                 ),
                 10.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Price range".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
+                state.favoriteData![state.subCategoryId].minPrice ==
+                        state.favoriteData![state.subCategoryId].maxPrice
+                    ? SizedBox()
+                    : state.favoriteData?[state.subCategoryId] == null
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "Price range".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
                 state.favoriteData?[state.subCategoryId] == null
                     ? SizedBox()
-                    : RangeWidget(
-                        subCategoryData: SubCategoryData(
-                            minPrice: state
-                                .favoriteData![state.subCategoryId].minPrice,
-                            maxPrice: state
-                                .favoriteData![state.subCategoryId].maxPrice)),
+                    : state.favoriteData![state.subCategoryId].minPrice ==
+                            state.favoriteData![state.subCategoryId].maxPrice
+                        ? SizedBox()
+                        : 10.ph,
+                state.favoriteData?[state.subCategoryId] == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].minPrice ==
+                            state.favoriteData![state.subCategoryId].maxPrice
+                        ? SizedBox()
+                        : RangeWidget(
+                            subCategoryData: SubCategoryData(
+                                minPrice: state
+                                    .favoriteData![state.subCategoryId]
+                                    .minPrice,
+                                maxPrice: state
+                                    .favoriteData![state.subCategoryId]
+                                    .maxPrice)),
                 30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Colors".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                ColorsFilterFavoriteWidget(),
-                30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "Sizes".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                SizesFavWidget(),
-                30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "weights".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                WeightsFavWidget(),
-                30.ph,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Text(
-                    "dimensions".tr(context),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.blackColor),
-                  ),
-                ),
-                10.ph,
-                dimensionsFavWidget(),
+                state.favoriteData![state.subCategoryId].uniqueColors == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueColors!
+                                .length ==
+                            0
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "Colors".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+                state.favoriteData![state.subCategoryId].uniqueColors == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueColors!
+                                .length ==
+                            0
+                        ? SizedBox()
+                        : 10.ph,
+                state.favoriteData![state.subCategoryId].uniqueColors == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueColors!
+                                .length ==
+                            0
+                        ? SizedBox()
+                        : ColorsFilterFavoriteWidget(),
+                state.favoriteData![state.subCategoryId].uniqueColors == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueColors!
+                                .length ==
+                            0
+                        ? SizedBox()
+                        : 30.ph,
+                state.favoriteData![state.subCategoryId].uniqueSizes == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueSizes!
+                            .isEmpty
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "Sizes".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+                state.favoriteData![state.subCategoryId].uniqueSizes == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueSizes!
+                            .isEmpty
+                        ? SizedBox()
+                        : 10.ph,
+                state.favoriteData![state.subCategoryId].uniqueSizes == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueSizes!
+                            .isEmpty
+                        ? SizedBox()
+                        : SizesFavWidget(),
+                state.favoriteData![state.subCategoryId].uniqueSizes == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueSizes!
+                            .isEmpty
+                        ? SizedBox()
+                        : 30.ph,
+                state.favoriteData![state.subCategoryId].uniqueWeights == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueWeights!
+                            .isEmpty
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "weights".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+                state.favoriteData![state.subCategoryId].uniqueWeights == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueWeights!
+                            .isEmpty
+                        ? SizedBox()
+                        : 10.ph,
+                state.favoriteData![state.subCategoryId].uniqueWeights == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueWeights!
+                            .isEmpty
+                        ? SizedBox()
+                        : WeightsFavWidget(),
+                state.favoriteData![state.subCategoryId].uniqueWeights == null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueWeights!
+                            .isEmpty
+                        ? SizedBox()
+                        : 30.ph,
+                state.favoriteData![state.subCategoryId].uniqueDimensions ==
+                        null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueDimensions!
+                            .isEmpty
+                        ? SizedBox()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: Text(
+                              "dimensions".tr(context),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.sp,
+                                  color: AppColors.blackColor),
+                            ),
+                          ),
+                state.favoriteData![state.subCategoryId].uniqueDimensions ==
+                        null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueDimensions!
+                            .isEmpty
+                        ? SizedBox()
+                        : 10.ph,
+                state.favoriteData![state.subCategoryId].uniqueDimensions ==
+                        null
+                    ? SizedBox()
+                    : state.favoriteData![state.subCategoryId].uniqueDimensions!
+                            .isEmpty
+                        ? SizedBox()
+                        : dimensionsFavWidget(),
 
                 // Padding(
                 //   padding: EdgeInsets.symmetric(horizontal: 12.w),

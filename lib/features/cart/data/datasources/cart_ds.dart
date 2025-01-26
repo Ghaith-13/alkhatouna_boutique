@@ -40,8 +40,16 @@ class CartDS {
   }
 
   Future<Map<String, dynamic>?> sendOrder(
-      String promoCode, String paymentMethod, String selectedBenefitId) async {
+      String promoCode,
+      String paymentMethod,
+      String selectedBenefitId,
+      String type,
+      String date) async {
     Map<String, String> body = {};
+    if (type.isNotEmpty) {
+      body['order_type'] = type;
+      body['pre_order_at'] = date;
+    }
     body['promo_code'] = promoCode;
     body['selected_benefit_id'] = selectedBenefitId;
 

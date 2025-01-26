@@ -26,68 +26,64 @@ class OneSectionWidget extends StatelessWidget {
             -1,
             0);
       },
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
-                    blurRadius: 7.0,
-                    spreadRadius: 1.0,
-                  ),
-                ],
-              ),
-              child: CachedNetworkImage(
-                width: 90,
-                height: 90,
-                fit: BoxFit.fill,
-                imageUrl: logo,
-                errorWidget: (context, name, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    // image:
-                  ),
-                  child: Image.asset(
-                    "assets/images/logo.jpg",
-                    fit: BoxFit.scaleDown,
-                  ),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                  blurRadius: 7.0,
+                  spreadRadius: 1.0,
                 ),
-                imageBuilder: (context, imageProvider) => Container(
-                  // padding: EdgeInsets.symmetric(vertical: 5),
-                  // padding: EdgeInsets.all(5),
+              ],
+            ),
+            child: CachedNetworkImage(
+              width: 80,
+              height: 80,
+              fit: BoxFit.fill,
+              imageUrl: logo,
+              errorWidget: (context, name, imageProvider) => Image.asset(
+                "assets/images/logo-removebg-preview.png",
 
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.0,
-                      ),
-                    ],
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.scaleDown,
+                // fit: BoxFit.fitWidth,
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                // padding: EdgeInsets.symmetric(vertical: 5),
+                // padding: EdgeInsets.all(5),
+
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 2.0,
+                      spreadRadius: 1.0,
                     ),
+                  ],
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.scaleDown,
                   ),
                 ),
               ),
             ),
-            5.verticalSpace,
-            Text(
+          ),
+          5.verticalSpace,
+          SizedBox(
+            width: 80,
+            child: Text(
               title,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
