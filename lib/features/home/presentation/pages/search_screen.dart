@@ -70,15 +70,16 @@ class _TypeaheadExampleState extends State<TypeaheadExample> {
                   children: [
                     Stack(children: [
                       TypeAheadField(
-                        suggestionsBoxDecoration:
-                            SuggestionsBoxDecoration(color: Colors.white),
-                        textFieldConfiguration: TextFieldConfiguration(
-                            controller: _textController, // Use the controller
+                        controller: _textController,
+                        // suggestionsBoxDecoration:
+                        //     SuggestionsBoxDecoration(color: Colors.white),
+                        // textField: TextFieldConfiguration(
+                        //     controller: _textController, // Use the controller
 
-                            cursorColor: AppColors.primaryColor,
-                            autofocus: true,
-                            decoration:
-                                InputDecoration(border: OutlineInputBorder())),
+                        //     cursorColor: AppColors.primaryColor,
+                        //     autofocus: true,
+                        //     decoration:
+                        //         InputDecoration(border: OutlineInputBorder())),
                         suggestionsCallback: (pattern) async {
                           return await _getSuggestions(pattern);
                         },
@@ -92,7 +93,7 @@ class _TypeaheadExampleState extends State<TypeaheadExample> {
                             ),
                           );
                         },
-                        onSuggestionSelected: (suggestion) {
+                        onSelected: (String suggestion) {
                           setState(() {
                             _textController.text = suggestion;
                           });
@@ -238,6 +239,8 @@ class _TypeaheadExampleState extends State<TypeaheadExample> {
                                                           .categories![index]
                                                           .nameKu ??
                                                       "",
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 15.sp,
                                               fontWeight: FontWeight.bold),
