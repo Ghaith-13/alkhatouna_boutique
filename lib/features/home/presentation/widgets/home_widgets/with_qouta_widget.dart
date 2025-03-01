@@ -34,6 +34,7 @@ class _SectionsWidgetState extends State<WithQoutaWidget> {
                   fromSimilarProduct: false,
                   fromHome: true,
                   productDetails: Products(
+                      points: state.homeInfo!.with_qouta![index].points,
                       displayProduct:
                           state.homeInfo!.with_qouta![index].displayProduct,
                       finalPrice: state.homeInfo!.with_qouta![index].finalPrice,

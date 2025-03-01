@@ -6,6 +6,8 @@ class ProfileState extends Equatable {
   ProfileState(
       {this.laodingOrders = false,
       this.laodingGetSettings = false,
+      this.laodingCancelOrder = false,
+      this.updatePhone = false,
       this.myOrders,
       this.articles,
       this.myPointsData,
@@ -17,6 +19,7 @@ class ProfileState extends Equatable {
       this.walletData,
       this.allOrders,
       this.feedback = "",
+      this.birthdate = "",
       this.orderId = "",
       this.loaidngProfile = false,
       this.getUserInfo = false,
@@ -30,8 +33,10 @@ class ProfileState extends Equatable {
       loadingPoints,
       getUserInfo,
       loaidngProfile,
+      laodingCancelOrder,
       laodingfeedback,
       laodingFaq,
+      updatePhone,
       loadingArticles;
   MyPointsData? myPointsData;
   OrdersList? myOrders;
@@ -39,7 +44,7 @@ class ProfileState extends Equatable {
   SettingsDataModel? settings;
   UserInfo? userInfo;
   WalletData? walletData;
-  String? feedback, orderId, repeateNewPassword, newPassword;
+  String? feedback, orderId, birthdate, repeateNewPassword, newPassword;
   List<Articles>? articles;
   List<Tutorial>? tutorial = [];
   List<Pending>? allOrders;
@@ -48,9 +53,12 @@ class ProfileState extends Equatable {
   List<Object?> get props => [
         laodingOrders,
         laodingGetSettings,
+        updatePhone,
         myOrders,
+        laodingCancelOrder,
         faqData,
         articles,
+        birthdate,
         allOrders,
         loadingPoints,
         myPointsData,
@@ -76,6 +84,8 @@ class ProfileState extends Equatable {
           loadingPoints,
           getUserInfo,
           laodingFaq,
+          laodingCancelOrder,
+          updatePhone,
           List<Pending>? allOrders,
           loaidngProfile,
           MyPointsData? myPointsData,
@@ -84,6 +94,7 @@ class ProfileState extends Equatable {
           orderId,
           repeateNewPassword,
           newPassword,
+          birthdate,
           SettingsDataModel? settings,
           List<Tutorial>? tutorial,
           UserInfo? userInfo,
@@ -92,8 +103,11 @@ class ProfileState extends Equatable {
           List<Articles>? articles}) =>
       ProfileState(
         feedback: feedback ?? this.feedback,
+        updatePhone: updatePhone ?? this.updatePhone,
         settings: settings ?? this.settings,
+        birthdate: birthdate ?? this.birthdate,
         allOrders: allOrders ?? this.allOrders,
+        laodingCancelOrder: laodingCancelOrder ?? this.laodingCancelOrder,
         faqData: faqData ?? this.faqData,
         laodingGetSettings: laodingGetSettings ?? this.laodingGetSettings,
         myPointsData: myPointsData ?? this.myPointsData,

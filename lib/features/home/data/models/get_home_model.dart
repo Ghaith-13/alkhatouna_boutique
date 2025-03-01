@@ -426,6 +426,7 @@ class BestSellingProducts {
   var minAvailableQuantity;
   var currentQuantity;
   var isOutOfStock;
+  var points;
   bool? displayProduct;
   bool? is_favorite;
   var brandName;
@@ -447,6 +448,7 @@ class BestSellingProducts {
       this.finalPrice,
       this.minAvailableQuantity,
       this.currentQuantity,
+      this.points,
       this.isOutOfStock,
       this.displayProduct,
       this.is_favorite,
@@ -473,6 +475,7 @@ class BestSellingProducts {
     displayProduct = json?['display_product'];
     brandName = json?['brand_name'];
     is_favorite = json?['is_favorite'];
+    points = json?['points'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -497,6 +500,7 @@ class BestSellingProducts {
     data?['display_product'] = this.displayProduct;
     data?['brand_name'] = this.brandName;
     data?['is_favorite'] = this.is_favorite;
+    data?['points'] = this.points;
     return data;
   }
 }
@@ -522,6 +526,7 @@ class DiscountedProducts {
   bool? displayProduct;
   bool? is_favorite;
   var brandName;
+  var points;
 
   DiscountedProducts(
       {this.id,
@@ -543,6 +548,7 @@ class DiscountedProducts {
       this.isOutOfStock,
       this.displayProduct,
       this.is_favorite,
+      this.points,
       this.brandName});
 
   DiscountedProducts.fromJson(Map<String, dynamic>? json) {
@@ -566,6 +572,7 @@ class DiscountedProducts {
     displayProduct = json?['display_product'];
     brandName = json?['brand_name'];
     is_favorite = json?['is_favorite'];
+    points = json?['points'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -590,6 +597,7 @@ class DiscountedProducts {
     data?['display_product'] = this.displayProduct;
     data?['brand_name'] = this.brandName;
     data?['is_favorite'] = this.is_favorite;
+    data?['points'] = this.points;
     return data;
   }
 }

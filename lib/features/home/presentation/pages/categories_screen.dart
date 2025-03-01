@@ -52,6 +52,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     context.read<HomeCubit>().cahngesearchValue("");
     context.read<HomeCubit>().cahngeactiveTabIndex(0);
     context.read<HomeCubit>().cahngedontshowSearchIcon(false);
+    context.read<HomeCubit>().changestopLoadingCategorey(false);
+    // context.read<HomeCubit>().changestopLoadingCategorey(true);
 
     // context.read<HomeCubit>().ChangeCategoryIndex(1);
   }
@@ -246,14 +248,23 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                             .products ==
                                                         null
                                                     ? 0
-                                                    : state.subCategoriesData!
-                                                            .products!.length +
-                                                        2, (index) {
+                                                    : state.stopLoadingCategorey
+                                                        ? state
+                                                            .subCategoriesData!
+                                                            .products!
+                                                            .length
+                                                        : state
+                                                                .subCategoriesData!
+                                                                .products!
+                                                                .length +
+                                                            2, (index) {
                                               if (index >=
                                                   state.subCategoriesData!
                                                       .products!.length) {
-                                                return index % 20 == 0
-                                                    ? Shimmer.fromColors(
+                                                return
+                                                    // index % 20 == 0
+                                                    //     ?
+                                                    Shimmer.fromColors(
                                                         baseColor: Colors
                                                             .grey.shade300,
                                                         highlightColor: Colors
@@ -268,8 +279,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                             width: 0.4.sw,
                                                             height: 100.h,
                                                           ),
-                                                        ))
-                                                    : SizedBox();
+                                                        ));
+                                                // : SizedBox();
                                               } else
                                                 return index % 2 == 0
                                                     ? FadeInLeft(

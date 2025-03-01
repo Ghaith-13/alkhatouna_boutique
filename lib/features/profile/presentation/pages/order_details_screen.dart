@@ -263,6 +263,7 @@ import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/profile/presentation/widgets/order_details_widgets/item_widget.dart';
 import 'package:alkhatouna/features/profile/presentation/widgets/order_details_widgets/order_info_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final Pending orderDetails;
@@ -283,9 +284,54 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfileCubit>().getSettings(context);
+
     context
         .read<ProfileCubit>()
         .changeorderId(widget.orderDetails.id.toString());
+  }
+
+  Future<void> openWhatsApp(String whatsappNumber) async {
+    String url = Uri.encodeFull('https://wa.me/$whatsappNumber');
+    // Check if WhatsApp is installed
+    await canLaunch(url) ? launch(url) : print('WhatsApp not installed');
+  }
+
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, String orderid) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'.tr(context)),
+          content:
+              Text('Are you sure you want to cancel the order?'.tr(context)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'No'.tr(
+                  context,
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<ProfileCubit>().cancelOrder(context, orderid);
+              },
+              child: Text(
+                'Yes'.tr(context),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -379,6 +425,19 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ],
                 ),
               ),
+              10.ph,
+              widget.orderDetails.notes == null
+                  ? SizedBox()
+                  : widget.orderDetails.notes.isEmpty
+                      ? SizedBox()
+                      : FadeInRight(
+                          child: Text(
+                            "${"the reason :".tr(context)}  ${widget.orderDetails.notes ?? ""}",
+                            maxLines: 3,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
               // 20.ph,
               // FadeInLeft(
               //   child:
@@ -414,6 +473,78 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 orderDetails: widget.orderDetails,
               )),
               30.ph,
+              BlocBuilder<ProfileCubit, ProfileState>(
+                builder: (context, state) {
+                  return state.settings == null
+                      ? SizedBox()
+                      : state.settings!.settings == null
+                          ? SizedBox()
+                          : state.settings!.settings!.whatsappLink == null
+                              ? SizedBox()
+                              : FadeInRight(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/WhatsApp_icon.png",
+                                            width: 40,
+                                            height: 40,
+                                          ),
+                                          5.pw,
+                                          Text(
+                                            "If you are facing a problem"
+                                                .tr(context),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp,
+                                                color: AppColors.blackColor),
+                                          ),
+                                          // Text(
+                                          //   "If you want help".tr(context),
+                                          //   style: TextStyle(color: Colors.red),
+                                          // ),
+                                          // 5.pw,
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              await openWhatsApp(
+                                                  "${state.settings!.settings!.whatsappLink}");
+                                            },
+                                            child: Text(
+                                              " ${"click here".tr(context)} ",
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Text(
+                                            "to contact us via WhatsApp"
+                                                .tr(context),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp,
+                                                color: AppColors.blackColor),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                },
+              ),
+              30.ph,
               FadeInRight(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -447,6 +578,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   //     ),
                   //   ),
                   // ),
+
                   InkWell(
                     onTap: () {
                       showFlexibleBottomSheet(
@@ -491,7 +623,58 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     ),
                   ),
                 ],
-              ))
+              )),
+              15.ph,
+              widget.orderDetails.status == "pending"
+                  ? BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        return FadeInRight(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                _showDeleteConfirmationDialog(
+                                    context, widget.orderDetails.id.toString());
+                              },
+                              child: Container(
+                                height: 36.h,
+                                width: 0.9.sw,
+                                decoration: BoxDecoration(
+                                  color: AppColors.redColor,
+                                  borderRadius: BorderRadius.circular(25.sp),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: state.laodingCancelOrder
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : Text(
+                                          "Cancel Order".tr(context),
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ));
+                      },
+                    )
+                  : SizedBox(),
             ],
           ),
         ),

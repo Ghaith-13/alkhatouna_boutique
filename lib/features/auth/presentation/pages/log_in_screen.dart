@@ -229,6 +229,7 @@
 //   }
 // }
 
+import 'package:alkhatouna/features/auth/presentation/pages/sign_up_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -313,6 +314,8 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
+  String countryCode = "IQ";
+  bool startWith0 = false;
   String loginmethod = "number";
 
   Future<void> openWhatsApp(String whatsappNumber) async {
@@ -328,6 +331,14 @@ class _LogInScreenState extends State<LogInScreen> {
     context.read<ProfileCubit>().getSettings(context);
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
+
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -408,6 +419,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     : Directionality(
                         textDirection: TextDirection.ltr,
                         child: IntlPhoneField(
+                          controller: controller,
                           pickerDialogStyle:
                               PickerDialogStyle(backgroundColor: Colors.white),
                           style: TextStyle(color: Colors.black),
@@ -419,12 +431,30 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                           ),
                           initialCountryCode: 'IQ',
+                          onCountryChanged: (value) {
+                            setState(() {
+                              controller.text = "";
+                              countryCode = value.code;
+                            });
+                            context
+                                .read<AuthCubit>()
+                                .changeLogInMethodValue("null");
+                          },
                           onChanged: (phone) {
                             context
                                 .read<AuthCubit>()
                                 .changeLogInMethodValue("null");
                             try {
                               if (phone.isValidNumber()) {
+                                if (phone.number.startsWith("0")) {
+                                  setState(() {
+                                    startWith0 = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    startWith0 = false;
+                                  });
+                                }
                                 context
                                     .read<AuthCubit>()
                                     .changeLogInMethodValue(
@@ -450,7 +480,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                 20.ph,
                 CustomTextFormFieldWidget(
-                  hideText: true,
+                  hideText: false,
                   hint: "Enter Your Password",
                   onChange: (String value) {
                     context.read<AuthCubit>().changePasswordValue(value);
@@ -507,6 +537,23 @@ class _LogInScreenState extends State<LogInScreen> {
                                   "Enter more than five characters in the password",
                                   true,
                                   true);
+                            } else if (countryCode == "IQ" && startWith0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.only(
+                                      bottom: 30.h,
+                                      top: 30.h,
+                                      left: 50.w,
+                                      right: 50.w),
+                                  content: Text(
+                                    "The number must not start with 0."
+                                        .tr(context),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
                             } else {
                               context.read<AuthCubit>().logIn();
                             }
@@ -552,18 +599,33 @@ class _LogInScreenState extends State<LogInScreen> {
                                 ? SizedBox()
                                 : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Text("If you want help".tr(context)),
+                                      Image.asset(
+                                        "assets/images/WhatsApp_icon.png",
+                                        width: 40,
+                                        height: 40,
+                                      ),
                                       5.pw,
-                                      InkWell(
-                                        onTap: () async {
-                                          await openWhatsApp(
-                                              "${state.settings!.settings!.whatsappLink}");
-                                        },
-                                        child: Text(
-                                          "Contact Us".tr(context),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                      // Text(
+                                      //   "If you want help".tr(context),
+                                      //   style: TextStyle(color: Colors.red),
+                                      // ),
+                                      // 5.pw,
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await openWhatsApp(
+                                                "${state.settings!.settings!.whatsappLink}");
+                                          },
+                                          child: Text(
+                                            "If you encounter a problem logging in or registering, please contact us to solve the problem."
+                                                .tr(context),
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       )
                                     ],
@@ -571,6 +633,33 @@ class _LogInScreenState extends State<LogInScreen> {
                   },
                 ),
                 50.ph,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "To create a new account".tr(context),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    5.pw,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const SignUpScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Click here".tr(context),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor),
+                      ),
+                    )
+                  ],
+                )
                 // Container(
                 //   child: Column(
                 //     mainAxisAlignment: MainAxisAlignment.end,

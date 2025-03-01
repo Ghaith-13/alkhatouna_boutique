@@ -16,6 +16,13 @@ class HomeDs {
     return response;
   }
 
+  Future<Map<String, dynamic>?> getNotifications() async {
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+    Map<String, dynamic>? response = await apiHelper
+        .get("/get-notifications", queryParameters: {"user_id": userID});
+    return response;
+  }
+
   Future<Map<String, dynamic>?> getUserCategories() async {
     Map<String, dynamic>? response = await apiHelper.get(
       "/get-user-categories",
@@ -35,12 +42,15 @@ class HomeDs {
   }
 
   Future<Map<String, dynamic>?> getBrandDetails(
-      String brandId, int pagenumber) async {
+      String brandId, int pagenumber, String keyword) async {
     String? userID = await CacheHelper.getData(key: "USER_ID");
 
-    Map<String, dynamic>? response = await apiHelper.get(
-        "/brands/$brandId/products-with-pagination?page=$pagenumber",
-        queryParameters: {"user_id": userID});
+    Map<String, dynamic>? response = await apiHelper
+        .get("/brands/$brandId/products-with-pagination", queryParameters: {
+      "user_id": userID,
+      "page": "$pagenumber",
+      "keyword": "$keyword"
+    });
     return response;
   }
 
@@ -56,8 +66,9 @@ class HomeDs {
     return response;
   }
 
-  Future<Map<String, dynamic>?> getBrands() async {
-    Map<String, dynamic>? response = await apiHelper.get("/brands");
+  Future<Map<String, dynamic>?> getBrands(String keyword) async {
+    Map<String, dynamic>? response =
+        await apiHelper.get("/brands?keyword=$keyword");
     return response;
   }
 

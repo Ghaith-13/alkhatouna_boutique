@@ -1,4 +1,7 @@
+import 'package:alkhatouna/core/utils/app_constant.dart';
+import 'package:alkhatouna/features/cart/presentation/pages/verfication_phone_address.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:alkhatouna/features/profile/presentation/pages/add_newnumber_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,25 +45,59 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ),
           child: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
-              return TextField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: state.userInfo!.phone == null
-                      ? state.userInfo!.email
-                      : state.userInfo!.phone.isEmpty
-                          ? state.userInfo!.email
-                          : state.userInfo!.phone,
-                  hintStyle: TextStyle(color: AppColors.greyColor),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                ),
-              );
+              return state.userInfo!.phone == null
+                  ? GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AddNewnumberScreen(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Add mobile number".tr(context)),
+                      ))
+                  : TextField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        suffixIcon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  AppConstant.customNavigation(
+                                      context,
+                                      VerficationPhoneAddress(
+                                          fromSetting: true,
+                                          phoneNumber:
+                                              state.userInfo?.phone ?? "",
+                                          lat: "",
+                                          log: ""),
+                                      -1,
+                                      0);
+                                },
+                                child: Text("Change".tr(context))),
+                          ],
+                        ),
+                        hintText: state.userInfo!.phone == null
+                            ? state.userInfo!.email
+                            : state.userInfo!.phone.isEmpty
+                                ? state.userInfo!.email
+                                : state.userInfo!.phone,
+                        hintStyle: TextStyle(color: AppColors.greyColor),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                      ),
+                    );
             },
           ),
         ),

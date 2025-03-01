@@ -21,7 +21,7 @@ class AddAdressModel {
 
 class Data {
   Address? address;
-  String? message;
+  var message;
 
   Data({this.address, this.message});
 
@@ -43,19 +43,19 @@ class Data {
 }
 
 class Address {
-  String? title;
-  String? phone;
-  String? countryId;
-  String? provinceId;
+  var title;
+  var phone;
+  var countryId;
+  var provinceId;
   var areaId;
   var subAreaId;
-  String? longitude;
-  String? latitude;
-  String? notes;
-  String? isDefault;
+  var longitude;
+  var latitude;
+  var notes;
+  var isDefault;
   var userId;
-  String? updatedAt;
-  String? createdAt;
+  var updatedAt;
+  var createdAt;
   var id;
 
   Address(

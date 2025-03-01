@@ -1,6 +1,8 @@
 import 'package:alkhatouna/core/utils/cache_helper.dart';
 import 'package:alkhatouna/core/utils/http_helper.dart';
+import 'package:alkhatouna/features/all_products/presentation/pages/all_products_screen.dart';
 import 'package:alkhatouna/features/auth/presentation/pages/log_in_screen.dart';
+import 'package:alkhatouna/features/home/presentation/pages/notifications_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/about_us.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/articles_screen.dart';
@@ -12,6 +14,7 @@ import 'package:alkhatouna/features/profile/presentation/pages/terms_and_conditi
 import 'package:alkhatouna/features/profile/presentation/pages/tutorials_screen.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/wallet_screen.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +30,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../injection_container.dart' as di;
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -54,9 +58,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // print(token);
     if (token != null) {
       setState(() {
-        name = CacheHelper.getData(key: "EMAIL") ?? "";
-        email = CacheHelper.getData(key: "NAME") ?? "";
+        email = CacheHelper.getData(key: "EMAIL") ?? "";
+        name = CacheHelper.getData(key: "NAME") ?? "";
       });
+      context
+          .read<ProfileCubit>()
+          .changebirthdate(CacheHelper.getData(key: "Birthdate") ?? "");
+
       context.read<ProfileCubit>().getuserInfo(context);
     }
     setState(() {
@@ -68,6 +76,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
     context.read<ProfileCubit>().refreshProfileScreen();
     checkIfGuest();
     // print("Ghaith");
+  }
+
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime tenYearsAgo = DateTime(now.year - 10, now.month, now.day);
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: tenYearsAgo
+          .subtract(const Duration(days: 1)), // Start just before 10 years ago
+      firstDate: DateTime(1900), // Or some other very early date
+      lastDate: tenYearsAgo.subtract(const Duration(days: 1)),
+    );
+    if (pickedDate != null) {
+      String dateOnly = DateFormat('yyyy-MM-dd').format(pickedDate);
+      bool? confirmed = await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text('Confirm Date'.tr(context)),
+            content: Text(
+                '${"Are you sure you want to select".tr(context)} $dateOnly '),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(false), // User cancels
+                child: Text(
+                  'No'.tr(context),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () =>
+                    Navigator.of(context).pop(true), // User confirms
+                child: Text('Yes'.tr(context),
+                    style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          );
+        },
+      );
+      if (confirmed == true) {
+        context.read<ProfileCubit>().updateBirthday(context, dateOnly);
+      }
+      // setState(() {
+      //   birthdate = dateOnly;
+      // });
+    }
   }
 
   @override
@@ -136,7 +192,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           fontWeight: FontWeight.w700,
                                           color: AppColors.blackColor),
                                     ),
-                                    15.ph,
                                     FadeInDown(
                                       child: Row(
                                         children: [
@@ -149,31 +204,137 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           //   ),
                                           // ),
                                           // 20.pw,
+
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                "$name",
-                                                style: TextStyle(
-                                                    fontSize: 18.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                        AppColors.blackColor),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "Hi".tr(context),
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontSize: 26.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  15.pw,
+                                                  Text(
+                                                    "$name",
+                                                    style: TextStyle(
+                                                        fontSize: 18.sp,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: AppColors
+                                                            .blackColor),
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                "$email",
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: AppColors.greyColor),
+                                              5.ph,
+                                              state.userInfo!.phone == null
+                                                  ? SizedBox()
+                                                  : state.userInfo!.phone
+                                                          .isEmpty
+                                                      ? SizedBox()
+                                                      : Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.call,
+                                                              color: AppColors
+                                                                  .primaryColor,
+                                                            ),
+                                                            15.pw,
+                                                            // Text("phone number Profile"
+                                                            //     .tr(context)),
+                                                            Text(
+                                                              state.userInfo!
+                                                                  .phone,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  color: AppColors
+                                                                      .greyColor),
+                                                            ),
+                                                          ],
+                                                        ),
+                                              // Row(
+                                              //   crossAxisAlignment:
+                                              //       CrossAxisAlignment.center,
+                                              //   children: [
+                                              //     Icon(
+                                              //       Icons.email,
+                                              //       color:
+                                              //           AppColors.primaryColor,
+                                              //     ),
+                                              //     15.pw,
+                                              //     Text(
+                                              //       "$email",
+                                              //       style: TextStyle(
+                                              //           fontSize: 14.sp,
+                                              //           fontWeight:
+                                              //               FontWeight.w500,
+                                              //           color: AppColors
+                                              //               .greyColor),
+                                              //     ),
+                                              //   ],
+                                              // ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.cake,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ),
+                                                  15.pw,
+                                                  state.birthdate!.isEmpty
+                                                      ? GestureDetector(
+                                                          onTap: () {
+                                                            _selectDateTime(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            "Enter your birthday"
+                                                                .tr(context),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          "${state.birthdate!}",
+                                                          style: TextStyle(
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .greyColor),
+                                                        ),
+                                                ],
                                               )
                                             ],
                                           )
                                         ],
                                       ),
                                     ),
-                                    50.ph,
+                                    10.ph,
+                                    Divider(
+                                      thickness: 0.5,
+                                    ),
+                                    10.ph,
                                     InkWell(
                                       onTap: () {
                                         AppConstant.customNavigation(
@@ -212,6 +373,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 "3 ${"address".tr(context)}"),
                                       ),
                                     ),
+                                    40.ph,
+
+                                    FadeInRight(
+                                        child: InkWell(
+                                      onTap: () {
+                                        AppConstant.customNavigation(context,
+                                            NotificationsScreen(), -1, 0);
+                                      },
+                                      child: OnOptionWidget(
+                                          title: "Notifications", subTitle: ""),
+                                    )),
+                                    state.userInfo?.isBlogger == "0"
+                                        ? SizedBox()
+                                        : 40.ph,
+                                    state.userInfo?.isBlogger == "0"
+                                        ? SizedBox()
+                                        : InkWell(
+                                            onTap: () {
+                                              AppConstant.customNavigation(
+                                                  context,
+                                                  WalletScreen(),
+                                                  -1,
+                                                  0);
+                                            },
+                                            child: FadeInRight(
+                                              child: OnOptionWidget(
+                                                  title: "Wallet",
+                                                  subTitle:
+                                                      "Profits".tr(context)),
+                                            ),
+                                          ),
                                     // 40.ph,
                                     // FadeInRight(
                                     //     child: InkWell(
@@ -223,29 +415,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     //       title: "payment methods",
                                     //       subTitle: "subTitle"),
                                     // )),
+                                    // 40.ph,
+
+                                    // FadeInRight(
+                                    //     child: InkWell(
+                                    //   onTap: () {
+                                    //     AppConstant.customNavigation(
+                                    //         context, ArticlesScreen(), -1, 0);
+                                    //   },
+                                    //   child: OnOptionWidget(
+                                    //       title: "Articles", subTitle: ""),
+                                    // )),
                                     40.ph,
 
                                     FadeInRight(
                                         child: InkWell(
                                       onTap: () {
                                         AppConstant.customNavigation(
-                                            context, ArticlesScreen(), -1, 0);
+                                            context,
+                                            AllProductsScreen(
+                                              type: "notified_products",
+                                            ),
+                                            -1,
+                                            0);
                                       },
                                       child: OnOptionWidget(
-                                          title: "Articles", subTitle: ""),
-                                    )),
-                                    40.ph,
-                                    FadeInRight(
-                                        child: InkWell(
-                                      onTap: () {
-                                        AppConstant.customNavigation(context,
-                                            FaqQuestionsScreen(), -1, 0);
-                                      },
-                                      child: OnOptionWidget(
-                                          title: "Frequently Asked Questions",
+                                          title: "notified_products",
                                           subTitle: ""),
                                     )),
+
+                                    10.ph,
+
+                                    Divider(
+                                      thickness: 0.5,
+                                    ),
+                                    10.ph,
+                                    InkWell(
+                                      onTap: () {
+                                        AppConstant.customNavigation(
+                                            context, SettingsScreen(), -1, 0);
+                                      },
+                                      child: FadeInRight(
+                                        child: OnOptionWidget(
+                                            title: "Settings",
+                                            subTitle: "Notifications, password"
+                                                .tr(context)),
+                                      ),
+                                    ),
                                     40.ph,
+                                    // FadeInRight(
+                                    //     child: InkWell(
+                                    //   onTap: () {
+                                    //     AppConstant.customNavigation(context,
+                                    //         FaqQuestionsScreen(), -1, 0);
+                                    //   },
+                                    //   child: OnOptionWidget(
+                                    //       title: "Frequently Asked Questions",
+                                    //       subTitle: ""),
+                                    // )),
 
                                     FadeInRight(
                                         child: InkWell(
@@ -271,40 +498,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     //       subTitle:
                                     //           "${"Reviews for".tr(context)} 14 ${"items".tr(context)}"),
                                     // ),
-                                    state.userInfo?.isBlogger == "0"
-                                        ? SizedBox()
-                                        : 40.ph,
-                                    state.userInfo?.isBlogger == "0"
-                                        ? SizedBox()
-                                        : InkWell(
-                                            onTap: () {
-                                              AppConstant.customNavigation(
-                                                  context,
-                                                  WalletScreen(),
-                                                  -1,
-                                                  0);
-                                            },
-                                            child: FadeInRight(
-                                              child: OnOptionWidget(
-                                                  title: "Wallet",
-                                                  subTitle:
-                                                      "Profits".tr(context)),
-                                            ),
-                                          ),
                                     40.ph,
-                                    InkWell(
-                                      onTap: () {
-                                        AppConstant.customNavigation(
-                                            context, SettingsScreen(), -1, 0);
-                                      },
-                                      child: FadeInRight(
-                                        child: OnOptionWidget(
-                                            title: "Settings",
-                                            subTitle: "Notifications, password"
-                                                .tr(context)),
-                                      ),
-                                    ),
-                                    40.ph,
+
                                     InkWell(
                                       onTap: () {
                                         AppConstant.customNavigation(

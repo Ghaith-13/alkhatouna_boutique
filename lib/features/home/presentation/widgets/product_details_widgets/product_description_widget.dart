@@ -3,6 +3,7 @@ import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/core/extensions/padding_extensions.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
+import 'package:alkhatouna/features/home/presentation/pages/brand_details_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/rating_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,35 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      state.productData!.product!.brand == null
+                          ? SizedBox()
+                          : Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  AppConstant.customNavigation(
+                                      context,
+                                      BrandDetailsScreen(
+                                          brandId: state
+                                              .productData!.product!.brand!.id
+                                              .toString()),
+                                      -1,
+                                      0);
+                                },
+                                child: Text(
+                                  "${"Brand".tr(context)} : ${state.productData!.product!.brand?.name ?? ""}",
+                                  style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryColor),
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                  5.ph,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
                       Expanded(
                         child: Text(
                           locale.locale.languageCode == "en"
@@ -55,43 +85,65 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
                   ),
                   state.productData!.product!.isDiscount!
                       ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Row(
+                              children: [
+                                Text(
+                                    '${(formatCurrency.format(double.parse(state.productData!.product!.price!.toString())))} د.ع',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                        decorationColor: AppColors.redColor,
+                                        fontSize: 18.sp,
+                                        color: AppColors.redColor,
+                                        fontWeight: FontWeight.w500)),
+                                20.pw,
+                                Text(
+                                  "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
+                                  style: TextStyle(
+                                      color: AppColors.greenColor,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
                             Text(
-                                '${(formatCurrency.format(double.parse(state.productData!.product!.price!.toString())))} د.ع',
+                                "+${state.productData!.product!.points} ${"points".tr(context)}",
                                 style: TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    decorationColor: AppColors.redColor,
+                                    color: AppColors.greenColor,
                                     fontSize: 18.sp,
-                                    color: AppColors.redColor,
-                                    fontWeight: FontWeight.w500)),
-                            20.pw,
+                                    fontWeight: FontWeight.w500))
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
                               "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
                               style: TextStyle(
                                   color: AppColors.greenColor,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500),
-                            )
+                            ),
+                            Text(
+                                "+${state.productData!.product!.points} ${"points".tr(context)}",
+                                style: TextStyle(
+                                    color: AppColors.greenColor,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500))
                           ],
-                        )
-                      : Text(
-                          "${(formatCurrency.format(double.parse(state.productData!.product!.finalPrice!.toString())))} د.ع",
-                          style: TextStyle(
-                              color: AppColors.blackColor,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500),
                         ),
-                  Text(
-                    locale.locale.languageCode == "en"
-                        ? state.productData!.product!.paragraphEn ?? ""
-                        : locale.locale.languageCode == "ar"
-                            ? state.productData!.product!.paragraphAr ?? ""
-                            : state.productData!.product!.paragraphKu ?? "",
-                    style: TextStyle(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.greyColor),
-                  ),
+                  // Text(
+                  //   locale.locale.languageCode == "en"
+                  //       ? state.productData!.product!.paragraphEn ?? ""
+                  //       : locale.locale.languageCode == "ar"
+                  //           ? state.productData!.product!.paragraphAr ?? ""
+                  //           : state.productData!.product!.paragraphKu ?? "",
+                  //   style: TextStyle(
+                  //       fontSize: 11.sp,
+                  //       fontWeight: FontWeight.w400,
+                  //       color: AppColors.greyColor),
+                  // ),
                   5.ph,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

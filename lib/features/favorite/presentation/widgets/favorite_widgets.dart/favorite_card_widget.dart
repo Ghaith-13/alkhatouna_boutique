@@ -136,6 +136,7 @@ class _FavoriteCardWidgetState extends State<FavoriteCardWidget> {
                           2.ph,
                           ProductPriceWidget(
                             productDetails: Products(
+                                points: widget.favoriteProduct.points,
                                 finalPrice: widget.favoriteProduct.finalPrice
                                     .toString(),
                                 price: widget.favoriteProduct.price.toString(),

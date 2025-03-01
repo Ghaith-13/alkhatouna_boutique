@@ -8,22 +8,33 @@ class AuthState extends Equatable {
       this.name = "",
       this.phone = "",
       this.password = "",
+      this.birthdate = "",
+      this.verficationPhoneNumber = "",
       this.loading = false,
       this.loadingOtp = false,
       this.whatsappData,
       this.otpCode = "",
       this.loadingWhatsAppSettings = false,
       this.logInmethod = ""});
-  String? email, name, phone, password, logInmethod, otpCode;
+  String? email,
+      name,
+      verficationPhoneNumber,
+      phone,
+      password,
+      logInmethod,
+      otpCode,
+      birthdate;
   bool loading, loadingOtp, loadingWhatsAppSettings;
   WhatsappData? whatsappData;
   @override
   List<Object?> get props => [
         email,
         name,
+        verficationPhoneNumber,
         otpCode,
         loadingOtp,
         phone,
+        birthdate,
         password,
         whatsappData,
         loading,
@@ -35,7 +46,9 @@ class AuthState extends Equatable {
           String? name,
           String? logInmethod,
           String? otpCode,
+          String? verficationPhoneNumber,
           String? phone,
+          String? birthdate,
           String? password,
           bool? loading,
           bool? loadingOtp,
@@ -43,6 +56,9 @@ class AuthState extends Equatable {
           WhatsappData? whatsappData}) =>
       AuthState(
           email: email ?? this.email,
+          verficationPhoneNumber:
+              verficationPhoneNumber ?? this.verficationPhoneNumber,
+          birthdate: birthdate ?? this.birthdate,
           otpCode: otpCode ?? this.otpCode,
           loadingOtp: loadingOtp ?? this.loadingOtp,
           whatsappData: whatsappData ?? this.whatsappData,

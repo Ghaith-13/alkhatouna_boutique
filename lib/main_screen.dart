@@ -22,6 +22,7 @@ import 'package:alkhatouna/features/favorite/presentation/pages/favorite_screen.
 import 'package:alkhatouna/features/home/presentation/pages/home.dart';
 import 'package:alkhatouna/features/profile/presentation/pages/profile_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:upgrader/upgrader.dart';
 
 class mainScreen extends StatefulWidget {
   final int? navigateIndex;
@@ -97,6 +98,17 @@ class _mainScreenState extends State<mainScreen> {
   String refcode = "";
   String plogcode = "";
 
+  /// ✅ Function to subscribe to "all_users" topic
+  Future<void> subscribeToTopic() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    try {
+      await messaging.subscribeToTopic("all-users");
+      // print("✅ Successfully subscribed to 'all-users' topic");
+    } catch (e) {
+      // print("❌ Error subscribing to topic: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -104,6 +116,8 @@ class _mainScreenState extends State<mainScreen> {
       context.read<HomeCubit>().RefreshHomePage();
       context.read<ProfileCubit>().refreshProfileScreen();
     }
+    subscribeToTopic();
+
     localNotificationService();
     deeplinkHandling();
     if (widget.navigateIndex != null) {
@@ -132,96 +146,98 @@ class _mainScreenState extends State<mainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: screens[myIndex],
-        bottomNavigationBar: Container(
-            // height: 70.h,
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(12.sp),
-                  topLeft: Radius.circular(12.sp)),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
+    return UpgradeAlert(
+      child: Scaffold(
+          body: screens[myIndex],
+          bottomNavigationBar: Container(
+              // height: 70.h,
+              decoration: BoxDecoration(
+                color: AppColors.whiteColor,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12.sp),
+                    topLeft: Radius.circular(12.sp)),
               ),
-              child: BottomNavigationBar(
-                elevation: 0,
-                unselectedLabelStyle: TextStyle(fontSize: 8.sp),
-                selectedItemColor: AppColors.primaryColor,
-                selectedIconTheme:
-                    IconThemeData(size: 27.sp, color: AppColors.primaryColor),
-                selectedLabelStyle: TextStyle(
-                  fontSize: 8.sp,
-                  fontWeight: FontWeight.bold,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
                 ),
-                unselectedItemColor: Colors.black54,
-                backgroundColor: Colors.white,
-                type: BottomNavigationBarType.fixed,
-                onTap: (index) {
-                  if (index == 0 && myIndex == 0) {
-                    scrollController.animateTo(0,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.fastOutSlowIn);
-                  }
-                  setState(() {
-                    myIndex = index;
-                  });
-                },
-                currentIndex: myIndex,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/icons/home.svg',
-                      width: 27.sp,
-                      color: myIndex == 0
-                          ? AppColors.primaryColor
-                          : AppColors.greyColor,
-                      height: 27.sp,
-                    ),
-                    label: "Home".tr(context),
+                child: BottomNavigationBar(
+                  elevation: 0,
+                  unselectedLabelStyle: TextStyle(fontSize: 8.sp),
+                  selectedItemColor: AppColors.primaryColor,
+                  selectedIconTheme:
+                      IconThemeData(size: 27.sp, color: AppColors.primaryColor),
+                  selectedLabelStyle: TextStyle(
+                    fontSize: 8.sp,
+                    fontWeight: FontWeight.bold,
                   ),
-                  BottomNavigationBarItem(
-                    icon: Image.asset(
-                      'assets/images/make_up_icon.png',
-                      width: 27.sp,
-                      color: myIndex == 1
-                          ? AppColors.primaryColor
-                          : AppColors.greyColor,
-                      height: 27.sp,
-                    ),
-                    label: "All Products".tr(context),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      "assets/icons/basket.svg",
-                      width: 27.sp,
-                      height: 27.sp,
-                      color: myIndex == 2 ? AppColors.primaryColor : null,
-                    ),
-                    label: "Cart".tr(context),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      "assets/icons/favorite.svg",
-                      width: 27.sp,
-                      height: 27.sp,
-                      color: myIndex == 3 ? AppColors.primaryColor : null,
-                    ),
-                    label: "Favorite".tr(context),
-                  ),
-                  BottomNavigationBarItem(
+                  unselectedItemColor: Colors.black54,
+                  backgroundColor: Colors.white,
+                  type: BottomNavigationBarType.fixed,
+                  onTap: (index) {
+                    if (index == 0 && myIndex == 0) {
+                      scrollController.animateTo(0,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.fastOutSlowIn);
+                    }
+                    setState(() {
+                      myIndex = index;
+                    });
+                  },
+                  currentIndex: myIndex,
+                  items: [
+                    BottomNavigationBarItem(
                       icon: SvgPicture.asset(
-                        "assets/icons/profile.svg",
+                        'assets/icons/home.svg',
+                        width: 27.sp,
+                        color: myIndex == 0
+                            ? AppColors.primaryColor
+                            : AppColors.greyColor,
+                        height: 27.sp,
+                      ),
+                      label: "Home".tr(context),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/images/make_up_icon.png',
+                        width: 27.sp,
+                        color: myIndex == 1
+                            ? AppColors.primaryColor
+                            : AppColors.greyColor,
+                        height: 27.sp,
+                      ),
+                      label: "All Products".tr(context),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        "assets/icons/basket.svg",
                         width: 27.sp,
                         height: 27.sp,
-                        color: myIndex == 4 ? AppColors.primaryColor : null,
+                        color: myIndex == 2 ? AppColors.primaryColor : null,
                       ),
-                      label: "My Account".tr(context)),
-                ],
-              ),
-            )));
+                      label: "Cart".tr(context),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SvgPicture.asset(
+                        "assets/icons/favorite.svg",
+                        width: 27.sp,
+                        height: 27.sp,
+                        color: myIndex == 3 ? AppColors.primaryColor : null,
+                      ),
+                      label: "Favorite".tr(context),
+                    ),
+                    BottomNavigationBarItem(
+                        icon: SvgPicture.asset(
+                          "assets/icons/profile.svg",
+                          width: 27.sp,
+                          height: 27.sp,
+                          color: myIndex == 4 ? AppColors.primaryColor : null,
+                        ),
+                        label: "My Account".tr(context)),
+                  ],
+                ),
+              ))),
+    );
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:alkhatouna/Locale/app_localization.dart';
+import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,21 +38,59 @@ class _ProductPriceWidgetState extends State<ProductPriceWidget> {
                       color: AppColors.redColor,
                       fontWeight: FontWeight.w500)),
               // 20.pw,
-              Text(
-                "${formatCurrency.format(double.parse(widget.productDetails.finalPrice.toString()))} د.ع",
-                style: TextStyle(
-                    color: AppColors.greenColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "${formatCurrency.format(double.parse(widget.productDetails.finalPrice.toString()))} د.ع",
+                    style: TextStyle(
+                        color: AppColors.greenColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  widget.productDetails.points == null
+                      ? SizedBox()
+                      : widget.productDetails.points == ""
+                          ? SizedBox()
+                          : widget.productDetails.points == "0"
+                              ? SizedBox()
+                              : Text(
+                                  "+${widget.productDetails.points} ${"points".tr(context)}",
+                                  style: TextStyle(
+                                      color: AppColors.greenColor,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                ],
               )
             ],
           )
-        : Text(
-            "${formatCurrency.format(double.parse(widget.productDetails.price.toString()))} د.ع",
-            style: TextStyle(
-                color: AppColors.blackColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500),
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "${formatCurrency.format(double.parse(widget.productDetails.price.toString()))} د.ع",
+                style: TextStyle(
+                    color: AppColors.greenColor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+              widget.productDetails.points == null
+                  ? SizedBox()
+                  : widget.productDetails.points == ""
+                      ? SizedBox()
+                      : widget.productDetails.points == "0"
+                          ? SizedBox()
+                          : Text(
+                              "+${widget.productDetails.points} ${"points".tr(context)}",
+                              style: TextStyle(
+                                  color: AppColors.greenColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+            ],
           );
   }
 }

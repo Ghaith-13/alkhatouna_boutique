@@ -1,8 +1,11 @@
 import 'package:alkhatouna/core/utils/cache_helper.dart';
+import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:alkhatouna/fixing_screen.dart';
 import 'package:alkhatouna/main_screen.dart';
 import 'package:animate_do/animate_do.dart';
 // import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/features/auth/presentation/pages/sign_up_screen.dart';
@@ -24,6 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
     ));
 
     var token = await CacheHelper.getData(key: "USER_TOKEN");
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute<void>(
+    //     builder: (BuildContext context) => FixingScreen(),
+    //   ),
+    // );
     if (token != null) {
       Navigator.pushReplacement(
         context,
@@ -47,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     requestNotificationPermissions();
     goToNextPage();
+    context.read<ProfileCubit>().getSettings(context);
     super.initState();
   }
 

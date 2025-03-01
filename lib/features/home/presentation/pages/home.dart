@@ -9,6 +9,7 @@ import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/pages/brands_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/home_search_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/home_skeleton.dart';
+import 'package:alkhatouna/features/home/presentation/pages/notifications_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/user_categories_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/zain_cash.dart';
 import 'package:alkhatouna/features/home/presentation/widgets/home_widgets/brands_section.dart';
@@ -49,16 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool loadingToken = false;
   String? token;
+  String? phoneNumber;
   Future checkIfGuest() async {
     setState(() {
       loadingToken = true;
     });
     token = await CacheHelper.getData(key: "USER_TOKEN");
+    phoneNumber = await CacheHelper.getData(key: "Phone_Number");
     // print(token);
     setState(() {
       loadingToken = false;
     });
     if (token != null) {
+      // context.read<ProfileCubit>().getuserInfo(context);
+
       context.read<ProfileCubit>().getuserInfo(context);
     }
   }
@@ -75,6 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.primaryColor),
         actions: [
+          token != null
+              ? GestureDetector(
+                  onTap: () {
+                    AppConstant.customNavigation(
+                        context, NotificationsScreen(), -1, 0);
+                  },
+                  child: Icon(
+                    Icons.notifications,
+                    size: 30,
+                  ),
+                )
+              : SizedBox(),
+          10.pw,
           Padding(
             padding: EdgeInsetsDirectional.only(end: 20.w),
             child: BlocBuilder<HomeCubit, HomeState>(
@@ -163,37 +181,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 child: BlocBuilder<LocaleCubit,
                                                     LocaleState>(
                                                   builder: (context, locale) {
-                                                    return Text(
-                                                      "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.currentCategoryEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.currentCategoryAr : state.homeInfo?.userCategoryData?.currentCategoryKu}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .primaryColor,
-                                                          fontSize: 20.sp),
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        AppConstant
+                                                            .customNavigation(
+                                                                context,
+                                                                UserCategoriesScreen(),
+                                                                -1,
+                                                                0);
+                                                      },
+                                                      child: Text(
+                                                        "${locale.locale.languageCode == "en" ? state.homeInfo?.userCategoryData?.currentCategoryEn : locale.locale.languageCode == "ar" ? state.homeInfo?.userCategoryData?.currentCategoryAr : state.homeInfo?.userCategoryData?.currentCategoryKu}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: AppColors
+                                                                .primaryColor,
+                                                            fontSize: 20.sp),
+                                                      ),
                                                     );
                                                   },
                                                 ),
                                               ),
-                                              InkWell(
-                                                  onTap: () {
-                                                    AppConstant.customNavigation(
-                                                        context,
-                                                        UserCategoriesScreen(),
-                                                        -1,
-                                                        0);
-                                                  },
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 0),
-                                                    child: Icon(
-                                                      Icons.info_rounded,
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      size: 25,
-                                                    ),
-                                                  )),
+                                              // InkWell(
+                                              //     onTap: () {
+
+                                              //     },
+                                              //     child: Padding(
+                                              //       padding: const EdgeInsets
+                                              //           .symmetric(
+                                              //           horizontal: 0),
+                                              //       child: Icon(
+                                              //         Icons.info_rounded,
+                                              //         color: AppColors
+                                              //             .primaryColor,
+                                              //         size: 25,
+                                              //       ),
+                                              //     )),
                                             ],
                                           ),
                                           5.ph,
@@ -373,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         "See more".tr(context),
                                                         style: TextStyle(
                                                             color: AppColors
-                                                                .greyColor),
+                                                                .primaryColor),
                                                       ),
                                                     )
                                                   ]),
@@ -417,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "See more".tr(context),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .greyColor),
+                                                              .primaryColor),
                                                     ),
                                                   )
                                                 ],
@@ -462,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "See more".tr(context),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .greyColor),
+                                                              .primaryColor),
                                                     ),
                                                   )
                                                 ],
@@ -506,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "See more".tr(context),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .greyColor),
+                                                              .primaryColor),
                                                     ),
                                                   )
                                                 ],
@@ -549,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "See more".tr(context),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .greyColor),
+                                                              .primaryColor),
                                                     ),
                                                   )
                                                 ],
@@ -592,7 +616,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "See more".tr(context),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .greyColor),
+                                                              .primaryColor),
                                                     ),
                                                   )
                                                 ],

@@ -34,6 +34,7 @@ class _SectionsWidgetState extends State<OnTiktokWidget> {
                   fromSimilarProduct: false,
                   fromHome: true,
                   productDetails: Products(
+                      points: state.homeInfo!.on_tiktok![index].points,
                       displayProduct:
                           state.homeInfo!.on_tiktok![index].displayProduct,
                       finalPrice: state.homeInfo!.on_tiktok![index].finalPrice,

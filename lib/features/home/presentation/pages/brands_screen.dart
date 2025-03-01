@@ -1,3 +1,6 @@
+import 'package:alkhatouna/Locale/app_localization.dart';
+import 'package:alkhatouna/core/extensions/padding_extensions.dart';
+import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
 import 'package:alkhatouna/features/home/presentation/pages/brand_details_screen.dart';
@@ -23,6 +26,13 @@ class _BrandsScreenState extends State<BrandsScreen> {
   }
 
   @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    context.read<HomeCubit>().changekeywordForBrand("");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppConstant.customAppBar(context, "Brands", true,
@@ -36,115 +46,175 @@ class _BrandsScreenState extends State<BrandsScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 10, left: 10),
                       child: SingleChildScrollView(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 12),
-                          width: 1.sw,
-                          child: Wrap(
-                            spacing: 12.0,
-                            runSpacing: 8.0,
-                            alignment: WrapAlignment.start,
-                            children: List.generate(
-                              state.brandsData!.brands!.length,
-                              (index) {
-                                double childWidth =
-                                    (MediaQuery.of(context).size.width -
-                                            (12 * 3) -
-                                            20) /
-                                        4;
-
-                                return SizedBox(
-                                  width: childWidth,
-                                  child: FadeInUp(
-                                    child: InkWell(
-                                      onTap: () {
-                                        AppConstant.customNavigation(
-                                            context,
-                                            BrandDetailsScreen(
-                                              brandId: state
-                                                  .brandsData!.brands![index].id
-                                                  .toString(),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                width: 0.9.sw,
+                                child: TextFormField(
+                                  initialValue: state.keywordForBrand ?? "",
+                                  textInputAction: TextInputAction.search,
+                                  onFieldSubmitted: (value) {
+                                    if (value.isNotEmpty) {
+                                      context
+                                          .read<HomeCubit>()
+                                          .changekeywordForBrand(value);
+                                      context
+                                          .read<HomeCubit>()
+                                          .getBrands(context);
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    suffixIcon: state.keywordForBrand!.isEmpty
+                                        ? SizedBox()
+                                        : GestureDetector(
+                                            onTap: () {
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .changekeywordForBrand("");
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .getBrands(context);
+                                            },
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 20,
                                             ),
-                                            -1,
-                                            0);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: const Color.fromARGB(
-                                                          255, 0, 0, 0)
-                                                      .withOpacity(0.3),
-                                                  blurRadius: 7.0,
-                                                  spreadRadius: 1.0,
+                                          ),
+                                    prefixIcon: Icon(
+                                      Icons.search,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                    filled: false,
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: AppColors.primaryColor,
+                                        width:
+                                            2.0, // Adjust the border width as needed
+                                      ),
+                                    ),
+                                    hintStyle: TextStyle(
+                                        color: AppColors.primaryColor),
+                                    hintText: "Find what you want".tr(context),
+                                  ),
+                                )),
+                            20.ph,
+                            Container(
+                              margin: EdgeInsets.only(top: 12),
+                              width: 1.sw,
+                              child: Wrap(
+                                spacing: 12.0,
+                                runSpacing: 8.0,
+                                alignment: WrapAlignment.start,
+                                children: List.generate(
+                                  state.brandsData!.brands!.length,
+                                  (index) {
+                                    double childWidth =
+                                        (MediaQuery.of(context).size.width -
+                                                (12 * 3) -
+                                                20) /
+                                            4;
+
+                                    return SizedBox(
+                                      width: childWidth,
+                                      child: FadeInUp(
+                                        child: InkWell(
+                                          onTap: () {
+                                            AppConstant.customNavigation(
+                                                context,
+                                                BrandDetailsScreen(
+                                                  brandId: state.brandsData!
+                                                      .brands![index].id
+                                                      .toString(),
                                                 ),
-                                              ],
-                                            ),
-                                            child: CachedNetworkImage(
-                                              width: 80,
-                                              height: 80,
-                                              fit: BoxFit.fill,
-                                              imageUrl: state.brandsData!
-                                                      .brands![index].logoUrl ??
-                                                  "",
-                                              errorWidget: (context, name,
-                                                      imageProvider) =>
-                                                  Image.asset(
-                                                "assets/images/logo-removebg-preview.png",
-
-                                                // fit: BoxFit.fitWidth,
-                                              ),
-                                              imageBuilder:
-                                                  (context, imageProvider) =>
-                                                      Container(
-                                                // padding: EdgeInsets.symmetric(vertical: 5),
-                                                // padding: EdgeInsets.all(5),
-
-                                                width: 80,
-                                                height: 80,
+                                                -1,
+                                                0);
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.circle,
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.3),
-                                                      blurRadius: 2.0,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                                  255, 0, 0, 0)
+                                                              .withOpacity(0.3),
+                                                      blurRadius: 7.0,
                                                       spreadRadius: 1.0,
                                                     ),
                                                   ],
-                                                  image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.scaleDown,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.fill,
+                                                  imageUrl: state
+                                                          .brandsData!
+                                                          .brands![index]
+                                                          .logoUrl ??
+                                                      "",
+                                                  errorWidget: (context, name,
+                                                          imageProvider) =>
+                                                      Image.asset(
+                                                    "assets/images/logo-removebg-preview.png",
+
+                                                    // fit: BoxFit.fitWidth,
+                                                  ),
+                                                  imageBuilder: (context,
+                                                          imageProvider) =>
+                                                      Container(
+                                                    // padding: EdgeInsets.symmetric(vertical: 5),
+                                                    // padding: EdgeInsets.all(5),
+
+                                                    width: 80,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.3),
+                                                          blurRadius: 2.0,
+                                                          spreadRadius: 1.0,
+                                                        ),
+                                                      ],
+                                                      image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.scaleDown,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                              5.verticalSpace,
+                                              SizedBox(
+                                                width: 80,
+                                                child: Text(
+                                                  state
+                                                          .brandsData!
+                                                          .brands![index]
+                                                          .name ??
+                                                      "",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          5.verticalSpace,
-                                          SizedBox(
-                                            width: 80,
-                                            child: Text(
-                                              state.brandsData!.brands![index]
-                                                      .name ??
-                                                  "",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              },
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     );

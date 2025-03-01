@@ -339,6 +339,8 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                                               child: ProductCardWidget(
                                             fromSimilarProduct: false,
                                             productDetails: Products(
+                                                points: state.searchData!
+                                                    .products![index].points,
                                                 finalPrice: state
                                                     .searchData!
                                                     .products![index]

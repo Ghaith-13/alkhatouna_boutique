@@ -49,6 +49,7 @@ class AllProductsProduct {
   var minAvailableQuantity;
   var currentQuantity;
   var isOutOfStock;
+  var points;
   bool? displayProduct;
   var brandName;
   bool? is_favorite;
@@ -65,6 +66,7 @@ class AllProductsProduct {
     this.reviewCount,
     this.reviewAvg,
     this.imageUrl,
+    this.points,
     this.isFeatured,
     this.createdAt,
     this.finalPrice,
@@ -88,6 +90,7 @@ class AllProductsProduct {
     reviewCount = json?['review_count'];
     reviewAvg = json?['review_avg'];
     imageUrl = json?['image_url'];
+    points = json?['points'];
     isFeatured = json?['is_featured'];
     createdAt = json?['created_at'];
     finalPrice = json?['final_price'];
@@ -114,6 +117,7 @@ class AllProductsProduct {
     data?['image_url'] = this.imageUrl;
     data?['is_featured'] = this.isFeatured;
     data?['created_at'] = this.createdAt;
+    data?['points'] = this.points;
     data?['final_price'] = this.finalPrice;
     data?['min_available_quantity'] = this.minAvailableQuantity;
     data?['current_quantity'] = this.currentQuantity;

@@ -20,7 +20,7 @@ import 'injection_container.dart' as di;
 /// Handles background messages from Firebase Messaging.
 @pragma('vm:entry-point')
 Future<void> onBackgroundMessage(RemoteMessage message) async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   LocalNotificationService().showMessagefromServer(message);
 }
 
@@ -40,9 +40,9 @@ void main() async {
   // Retrieve FCM Token for Debugging
   try {
     String? token = await messaging.getToken();
-    print("FCM Token: $token");
+    // print("FCM Token: $token");
   } catch (e) {
-    print("Error retrieving FCM token: $e");
+    // print("Error retrieving FCM token: $e");
   }
 
   // Listen for foreground messages

@@ -122,12 +122,81 @@ class _CartScreenState extends State<CartScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "My Bag".tr(context),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 34.sp,
-                                              color: AppColors.blackColor),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "My Bag".tr(context),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 34.sp,
+                                                  color: AppColors.blackColor),
+                                            ),
+                                            state.cartData!.carts!.isEmpty
+                                                ? SizedBox()
+                                                : state.loadingdeleteCart
+                                                    ? SizedBox()
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          _showDeleteConfirmationDialog(
+                                                              context);
+                                                        },
+                                                        child: Container(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(12.0),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                                10.pw,
+                                                                Text(
+                                                                  "Delete All".tr(
+                                                                      context),
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .white),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.red,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                        ),
+                                                      )
+
+                                            // ElevatedButton.icon(
+                                            //     style: ElevatedButton
+                                            //         .styleFrom(
+                                            //       backgroundColor:
+                                            //           Colors.red,
+                                            //       foregroundColor:
+                                            //           Colors.white,
+                                            //     ),
+                                            //     label: Text("Delete All"
+                                            //         .tr(context)),
+                                            //     icon:
+                                            //         Icon(Icons.delete),
+                                            //     onPressed: () {
+                                            //       _showDeleteConfirmationDialog(
+                                            //           context);
+                                            //     },
+                                            //   )
+                                          ],
                                         ),
                                         30.ph,
                                         state.cartData!.carts!.isEmpty
@@ -171,6 +240,44 @@ class _CartScreenState extends State<CartScreen> {
               );
             },
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'.tr(context)),
+          content: Text(
+              'Are you sure you want to delete all items from your cart ?'
+                  .tr(context)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'No'.tr(
+                  context,
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<CartCubit>().deleteCart();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Yes'.tr(context),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
         );
       },
     );

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/cache_helper.dart';
@@ -19,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../injection_container.dart' as di;
+import 'package:http/http.dart' as http;
 
 part 'auth_state.dart';
 
@@ -29,6 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
     required this.signUpRepo,
   }) : super(AuthInitial());
   changeNameValue(String name) => emit(state.copyWith(name: name));
+  changeBirthdateValue(String birthdate) =>
+      emit(state.copyWith(birthdate: birthdate));
   changePhoneValue(String phone) => emit(state.copyWith(phone: phone));
   changeEmailValue(String email) => emit(state.copyWith(email: email));
   changeLogInMethodValue(String logInmethod) =>
@@ -47,6 +52,9 @@ class AuthCubit extends Cubit<AuthState> {
       body['password'] = state.password!;
       body['fcm_token'] = token ?? "";
       body['name'] = state.name!;
+      if (state.birthdate!.isNotEmpty) {
+        body['birthdate'] = state.birthdate!;
+      }
       SignUpModel? response = await signUpRepo.signUp(body: body);
 
       await cacheData(response);
@@ -310,6 +318,75 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(loadingWhatsAppSettings: false));
   }
 
+  changeverficationPhoneNumber(value) =>
+      emit(state.copyWith(verficationPhoneNumber: value));
+  Future sendVerficationPhoneAddress(BuildContext context, String phone) async {
+    try {
+      WhatsappSettingsModel? response = await signUpRepo.getWhatsappSettings();
+      int? number;
+      final random = Random();
+      number = 1000 + random.nextInt(9000);
+      String phoneNumber = phone;
+      // print(phoneNumber);
+      // print(number);
+      if (phoneNumber.startsWith("07")) {
+        phoneNumber = phoneNumber.replaceFirst("0", "+964");
+      }
+      var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+      // print(phoneNumber);
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://api.ultramsg.com/${response.data!.instanceId}/messages/chat'));
+      request.bodyFields = {
+        'token': '${response.data!.token}',
+        'to': '$phoneNumber',
+        'body':
+            'Your code to activate account in ALKHATOUNA BOUTIQUE is  $number'
+      };
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response2 = await request.send();
+      emit(state.copyWith(verficationPhoneNumber: number.toString()));
+      if (response2.statusCode == 200) {
+        // print(await response2.stream
+        //     .bytesToString());
+
+        // context.read<AuthCubit>().SignUp(context);
+      } else {
+        if (response2.reasonPhrase == "Not Found") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              padding: EdgeInsets.only(
+                  bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+              content: Text(
+                response2.reasonPhrase!,
+                style: const TextStyle(color: Colors.white),
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString().contains('Invalid login credentials')
+                ? "Invalid login credentials".tr(navigatorKey.currentContext!)
+                : e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   Future<void> cacheData(SignUpModel response) async {
     if (response.data!.token != null) {
       await CacheHelper.saveData(
@@ -318,6 +395,14 @@ class AuthCubit extends Cubit<AuthState> {
     if (response.data!.user!.email != null) {
       await CacheHelper.saveData(
           key: "EMAIL", value: response.data!.user!.email);
+    }
+    if (response.data!.user!.phone != null) {
+      await CacheHelper.saveData(
+          key: "Phone_Number", value: response.data!.user!.phone);
+    }
+    if (response.data!.user!.birthdate != null) {
+      await CacheHelper.saveData(
+          key: "Birthdate", value: response.data!.user!.birthdate);
     }
     if (response.data!.user!.id != null) {
       await CacheHelper.saveData(

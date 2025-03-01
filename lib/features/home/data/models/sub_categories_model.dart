@@ -265,7 +265,8 @@ class Products {
   var finalPrice;
   var minAvailableQuantity;
   var currentQuantity;
-  bool? displayProduct;
+  var points;
+  var displayProduct;
 
   Products(
       {this.id,
@@ -280,6 +281,7 @@ class Products {
       this.reviewAvg,
       this.imageUrl,
       this.isFeatured,
+      this.points,
       this.isFavorite,
       this.createdAt,
       this.finalPrice,
@@ -305,6 +307,7 @@ class Products {
     finalPrice = json?['final_price'];
     minAvailableQuantity = json?['min_available_quantity'];
     currentQuantity = json?['current_quantity'];
+    points = json?['points'];
     displayProduct = json?['display_product'];
   }
 
@@ -328,6 +331,7 @@ class Products {
     data?['min_available_quantity'] = this.minAvailableQuantity;
     data?['current_quantity'] = this.currentQuantity;
     data?['display_product'] = this.displayProduct;
+    data?['points'] = this.points;
     return data;
   }
 }

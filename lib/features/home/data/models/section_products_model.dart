@@ -126,6 +126,7 @@ class ProductsSection {
   String? nameEn;
   var nameKu;
   var price;
+  var points;
   bool? isDiscount;
   var discount;
   var priceAfterDiscount;
@@ -148,6 +149,7 @@ class ProductsSection {
       this.nameAr,
       this.nameEn,
       this.nameKu,
+      this.points,
       this.price,
       this.isDiscount,
       this.discount,
@@ -172,6 +174,7 @@ class ProductsSection {
     nameEn = json?['name_en'];
     nameKu = json?['name_ku'];
     price = json?['price'];
+    points = json?['points'];
     isDiscount = json?['is_discount'];
     discount = json?['discount'];
     priceAfterDiscount = json?['price_after_discount'];
@@ -197,6 +200,7 @@ class ProductsSection {
     data?['name_en'] = this.nameEn;
     data?['name_ku'] = this.nameKu;
     data?['price'] = this.price;
+    data?['points'] = this.points;
     data?['is_discount'] = this.isDiscount;
     data?['discount'] = this.discount;
     data?['price_after_discount'] = this.priceAfterDiscount;

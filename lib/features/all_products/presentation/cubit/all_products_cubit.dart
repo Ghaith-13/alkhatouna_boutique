@@ -16,6 +16,10 @@ class AllProductsCubit extends Cubit<AllProductsState> {
         state.copyWith(stopLoading: false, pageNumber: 1, allProductsData: []));
   }
 
+  Future changeAllProducts(List<AllProductsProduct>? allProductsData) async {
+    emit(state.copyWith(allProductsData: allProductsData));
+  }
+
   Future<void> getAllProducts(
     BuildContext context,
     String? type,

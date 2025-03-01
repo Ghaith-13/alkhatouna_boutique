@@ -135,11 +135,14 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "${state.tutorial![index].name}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25.sp),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "${state.tutorial![index].name}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25.sp),
+                                    ),
                                   ),
                                   10.ph,
                                   ClipRRect(

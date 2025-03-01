@@ -23,8 +23,8 @@ class GetAdressModel {
 class AdressData {
   List<Addresses>? addresses;
   List<Regions>? regions;
-
-  AdressData({this.addresses, this.regions});
+  var show_location;
+  AdressData({this.addresses, this.regions, this.show_location});
 
   AdressData.fromJson(Map<String, dynamic>? json) {
     if (json?['addresses'] != null) {
@@ -39,6 +39,7 @@ class AdressData {
         regions!.add(new Regions.fromJson(v));
       });
     }
+    show_location = json?['show_location'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -49,6 +50,8 @@ class AdressData {
     if (this.regions != null) {
       data?['regions'] = this.regions!.map((v) => v.toJson()).toList();
     }
+    data?['show_location'] = this.show_location;
+
     return data;
   }
 }
@@ -60,6 +63,7 @@ class Addresses {
   var phone;
   var countryId;
   var provinceId;
+  var instagram;
   var areaId;
   var subAreaId;
   var longitude;
@@ -68,6 +72,14 @@ class Addresses {
   var isDefault;
   var createdAt;
   var updatedAt;
+  var phone2;
+  var base_phone2;
+  var base_phone;
+  var country_code2;
+  var country_code_number2;
+  var country_code;
+  var country_code_number;
+  var is_phone_verified;
   Country? country;
   Province? province;
   Province? area;
@@ -78,12 +90,21 @@ class Addresses {
       this.userId,
       this.title,
       this.phone,
+      this.instagram,
+      this.phone2,
       this.countryId,
       this.provinceId,
       this.areaId,
+      this.base_phone2,
+      this.country_code2,
+      this.base_phone,
+      this.country_code,
+      this.country_code_number,
       this.subAreaId,
       this.longitude,
       this.latitude,
+      this.country_code_number2,
+      this.is_phone_verified,
       this.notes,
       this.isDefault,
       this.createdAt,
@@ -98,9 +119,18 @@ class Addresses {
     userId = json?['user_id'];
     title = json?['title'];
     phone = json?['phone'];
+    instagram = json?['instagram'];
     countryId = json?['country_id'];
+    country_code2 = json?['country_code2'];
+    phone2 = json?['phone2'];
+    base_phone2 = json?['base_phone2'];
+    country_code_number2 = json?['country_code_number2'];
+    base_phone = json?['base_phone'];
+    country_code = json?['country_code'];
+    country_code_number = json?['country_code_number'];
     provinceId = json?['province_id'];
     areaId = json?['area_id'];
+    is_phone_verified = json?['is_phone_verified'];
     subAreaId = json?['sub_area_id'];
     longitude = json?['longitude'];
     latitude = json?['latitude'];
@@ -124,9 +154,17 @@ class Addresses {
     final Map<String, dynamic>? data = new Map<String, dynamic>();
     data?['id'] = this.id;
     data?['user_id'] = this.userId;
+    data?['base_phone2'] = this.base_phone2;
     data?['title'] = this.title;
+    data?['instagram'] = this.instagram;
     data?['phone'] = this.phone;
+    data?['phone2'] = this.phone2;
+    data?['country_code2'] = this.country_code2;
+    data?['country_code'] = this.country_code;
+    data?['base_phone'] = this.base_phone;
     data?['country_id'] = this.countryId;
+    data?['country_code_number'] = this.country_code_number;
+    data?['is_phone_verified'] = this.is_phone_verified;
     data?['province_id'] = this.provinceId;
     data?['area_id'] = this.areaId;
     data?['sub_area_id'] = this.subAreaId;

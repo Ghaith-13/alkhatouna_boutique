@@ -65,10 +65,15 @@ class ApiBaseHelper {
     logger.i(url);
     logger.i(baseHeaders);
     Map<String, dynamic>? responseJson;
+    print("أث");
     Uri urlRequest = Uri.parse("$baseUrl$url");
+    print("أث");
+
     try {
       final http.Response response = await http.post(urlRequest,
           body: body, headers: headers ?? baseHeaders);
+      print("أث");
+
       logger.i(response.body);
 
       responseJson = _returnResponse(response,

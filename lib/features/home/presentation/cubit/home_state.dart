@@ -13,11 +13,15 @@ class HomeState extends Equatable {
       this.getHomeData = false,
       this.notifyProduct = false,
       this.suplliers,
+      this.notifications,
       this.stopLoadingBrand = false,
       this.loadingProductSection = false,
+      this.stopLoadingCategorey = false,
+      this.loadingNotifications = false,
       this.loadingSendFavorite = false,
       this.loadingUserCategories = false,
       this.loadingSuplliers = false,
+      this.showUpdatePhonePopUp = false,
       this.loadingSupllierProducts = false,
       this.laodingFullSearch = false,
       this.sendSuggestion = false,
@@ -38,8 +42,10 @@ class HomeState extends Equatable {
       this.pageNumberForSupllier = 1,
       this.pageNumberForBrand = 1,
       this.selectedColor = "",
+      this.keywordForBrand = "",
       this.dimensions = "",
       this.suggestionNumber = "",
+      this.keyWordForBrandDetails = "",
       this.searchValue = "",
       this.reservationDate = "",
       this.suggestionsName = "",
@@ -78,6 +84,7 @@ class HomeState extends Equatable {
 
   var sortName;
   List<String>? colorList;
+  List<Notifications>? notifications = [];
   List<String>? wiegthsList;
   List<AllProductsProduct>? productsForSuplliers;
   List<ProductsSection>? productsSection = [];
@@ -95,7 +102,9 @@ class HomeState extends Equatable {
   BrandsData? brandsData;
   GetPlogsModel? getPlogsModel;
   String? searchValue;
+  String? keyWordForBrandDetails;
   String? reservationDate;
+  String? keywordForBrand;
   String? suggestionText, suggestionNumber;
   List<Brands>? brands;
   int? pageNumberForProductsSection;
@@ -104,6 +113,9 @@ class HomeState extends Equatable {
   bool showmeshProducts,
       loading,
       stopLoadingSupllier,
+      showUpdatePhonePopUp,
+      stopLoadingCategorey,
+      loadingNotifications,
       loadingUserCategories,
       loadingSendFavorite,
       loadingSuplliers,
@@ -151,13 +163,19 @@ class HomeState extends Equatable {
         subCategoriesDataBeforeFilter,
         review,
         productsSection,
+        notifications,
         showmeshProducts,
+        showUpdatePhonePopUp,
         suggestionsName,
         reservationDate,
+        keywordForBrand,
         sectionProductsModel,
+        keyWordForBrandDetails,
         stopLoadingSupllier,
+        loadingNotifications,
         productsForSuplliers,
         loadingUserCategories,
+        stopLoadingCategorey,
         pageNumberForSupllier,
         loadingSuplliers,
         loadingSupllierProducts,
@@ -227,9 +245,13 @@ class HomeState extends Equatable {
           bool? loadingAddToCart,
           bool? laodingReview,
           bool? loadingSuplliers,
+          bool? stopLoadingCategorey,
           bool? loadingSupllierProducts,
+          bool? showUpdatePhonePopUp,
+          bool? loadingNotifications,
           bool? notifyProduct,
           bool? sendSuggestion,
+          List<Notifications>? notifications,
           List<ProductsSection>? productsSection,
           List<AllProductsProduct>? productsForSuplliers,
           List<Suppliers>? suplliers,
@@ -259,7 +281,9 @@ class HomeState extends Equatable {
           String? searchValue,
           String? selectedColor,
           String? suggestionsName,
+          String? keyWordForBrandDetails,
           String? reservationDate,
+          String? keywordForBrand,
           int? pageNumberForProductsSection,
           int? pageNumberForSupllier,
           String? review,
@@ -293,9 +317,16 @@ class HomeState extends Equatable {
           bool? loading}) =>
       HomeState(
         sortName: sortName ?? this.sortName,
+        keyWordForBrandDetails:
+            keyWordForBrandDetails ?? this.keyWordForBrandDetails,
+        keywordForBrand: keywordForBrand ?? this.keywordForBrand,
+        showUpdatePhonePopUp: showUpdatePhonePopUp ?? this.showUpdatePhonePopUp,
+        notifications: notifications ?? this.notifications,
         reservationDate: reservationDate ?? this.reservationDate,
         stopLoadingSupllier: stopLoadingSupllier ?? this.stopLoadingSupllier,
+        loadingNotifications: loadingNotifications ?? this.loadingNotifications,
         productsForSuplliers: productsForSuplliers ?? this.productsForSuplliers,
+        stopLoadingCategorey: stopLoadingCategorey ?? this.stopLoadingCategorey,
         loadingSupllierProducts:
             loadingSupllierProducts ?? this.loadingSupllierProducts,
         pageNumberForSupllier:

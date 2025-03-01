@@ -244,6 +244,7 @@
 // }
 
 import 'package:alkhatouna/features/auth/presentation/pages/otp_confirmation.dart';
+import 'package:alkhatouna/features/auth/presentation/widgets/sign_up_widgets/birthday_widget.dart';
 import 'package:alkhatouna/features/auth/presentation/widgets/sign_up_widgets/confirmation_type_bottom_sheet.dart';
 import 'package:alkhatouna/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
@@ -266,6 +267,7 @@ import 'package:alkhatouna/features/auth/presentation/widgets/sign_up_widgets/cu
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:intl/intl.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -282,6 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     context.read<AuthCubit>().changeEmailValue("");
     context.read<AuthCubit>().changePasswordValue("");
     context.read<AuthCubit>().changePhoneValue("");
+    context.read<AuthCubit>().changeBirthdateValue("");
   }
 
   Future signInWithGoogle() async {
@@ -337,6 +340,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     context.read<ProfileCubit>().getSettings(context);
   }
 
+  TextEditingController controller = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.dispose();
+  }
+
+  String countryCode = "IQ";
+  bool startWith0 = false;
+
+  TextEditingController birthdaycontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -451,6 +466,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: IntlPhoneField(
+                        controller: controller,
                         pickerDialogStyle:
                             PickerDialogStyle(backgroundColor: Colors.white),
                         style: TextStyle(color: Colors.black),
@@ -462,10 +478,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         initialCountryCode: 'IQ',
+                        onCountryChanged: (value) {
+                          setState(() {
+                            controller.text = "";
+                            countryCode = value.code;
+                          });
+                          context
+                              .read<AuthCubit>()
+                              .changeLogInMethodValue("null");
+                        },
                         onChanged: (phone) {
                           context.read<AuthCubit>().changePhoneValue("null");
                           try {
                             if (phone.isValidNumber()) {
+                              if (phone.number.startsWith("0")) {
+                                setState(() {
+                                  startWith0 = true;
+                                });
+                              } else {
+                                setState(() {
+                                  startWith0 = false;
+                                });
+                              }
                               context
                                   .read<AuthCubit>()
                                   .changePhoneValue(phone.completeNumber);
@@ -492,22 +526,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     //   textInputType: TextInputType.number,
                     //   onChange: (String value) {},
                     // ),
-                    20.ph,
-                    CustomTextFormFieldWidget(
-                      hint: "Enter Your Email (not necessary)",
-                      textInputType: TextInputType.emailAddress,
-                      onChange: (String value) {
-                        context.read<AuthCubit>().changeEmailValue(value);
-                      },
-                    ),
+                    // 20.ph,
+                    // CustomTextFormFieldWidget(
+                    //   hint: "Enter Your Email (not necessary)",
+                    //   textInputType: TextInputType.emailAddress,
+                    //   onChange: (String value) {
+                    //     context.read<AuthCubit>().changeEmailValue(value);
+                    //   },
+                    // ),
                     20.ph,
                     CustomTextFormFieldWidget(
                       hint: "Enter Your Password",
-                      hideText: true,
+                      hideText: false,
                       onChange: (String value) {
                         context.read<AuthCubit>().changePasswordValue(value);
                       },
                     ),
+                    20.ph,
+                    BirthdayWidget(birthdaycontroller: birthdaycontroller),
                     30.ph,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -546,6 +582,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             } else if (state.phone == "null") {
                               AppConstant.CustomAlert(
                                   context, "Enter Your PhoneNumer", true, true);
+                            } else if (countryCode == "IQ" && startWith0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.only(
+                                      bottom: 30.h,
+                                      top: 30.h,
+                                      left: 50.w,
+                                      right: 50.w),
+                                  content: Text(
+                                    "The number must not start with 0."
+                                        .tr(context),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
                             }
                             // else if (state.phone!.length != 10) {
                             //   AppConstant.CustomAlert(
@@ -562,15 +615,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             //       true,
                             //       true);
                             // }
-                            else if (state.email!.isEmpty) {
-                              AppConstant.CustomAlert(context,
-                                  "Please enter your email", true, true);
-                            } else if (state.email!.isNotEmpty &&
-                                EmailValidator.validate(state.email!) ==
-                                    false) {
-                              AppConstant.CustomAlert(context,
-                                  "Please enter a valid email", true, true);
-                            } else if (state.password!.isEmpty) {
+                            //////////////////////////////////////////////////////////
+                            // else if (state.email!.isEmpty) {
+                            //   AppConstant.CustomAlert(context,
+                            //       "Please enter your email", true, true);
+                            // }
+                            // else if (state.email!.isNotEmpty &&
+                            //     EmailValidator.validate(state.email!) ==
+                            //         false) {
+                            //   AppConstant.CustomAlert(context,
+                            //       "Please enter a valid email", true, true);
+                            // }
+                            else if (state.password!.isEmpty) {
                               AppConstant.CustomAlert(
                                   context, "Enter Your Password", true, true);
                             } else if (state.password!.length < 6) {
@@ -584,20 +640,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               //     context, WhatsappConfirmScreen(), -1, 0);
                               // AppConstant.customNavigation(
                               //     context, OtpConfirmationScreen(), -1, 0);
-                              showFlexibleBottomSheet(
-                                bottomSheetColor: AppColors.whiteColor,
-                                barrierColor: Color.fromARGB(94, 83, 83, 83),
-                                bottomSheetBorderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(40.sp),
-                                    topRight: Radius.circular(40.sp)),
-                                minHeight: 0,
-                                initHeight: 0.5,
-                                maxHeight: 0.5,
-                                anchors: [0, 0.5],
-                                isSafeArea: true,
-                                context: context,
-                                builder: ConfirmationTypeBottomSheet,
-                              );
+                              AppConstant.customNavigation(
+                                  context, WhatsappConfirmScreen(), -1, 0);
+                              // showFlexibleBottomSheet(
+                              //   bottomSheetColor: AppColors.whiteColor,
+                              //   barrierColor: Color.fromARGB(94, 83, 83, 83),
+                              //   bottomSheetBorderRadius: BorderRadius.only(
+                              //       topLeft: Radius.circular(40.sp),
+                              //       topRight: Radius.circular(40.sp)),
+                              //   minHeight: 0,
+                              //   initHeight: 0.5,
+                              //   maxHeight: 0.5,
+                              //   anchors: [0, 0.5],
+                              //   isSafeArea: true,
+                              //   context: context,
+                              //   builder: ConfirmationTypeBottomSheet,
+                              // );
                             }
                           }
                         },
@@ -635,17 +693,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text("If you want help".tr(context)),
+                                      Image.asset(
+                                        "assets/images/WhatsApp_icon.png",
+                                        width: 40,
+                                        height: 40,
+                                      ),
                                       5.pw,
-                                      InkWell(
-                                        onTap: () async {
-                                          await openWhatsApp(
-                                              "${state.settings!.settings!.whatsappLink}");
-                                        },
-                                        child: Text(
-                                          "Contact Us".tr(context),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                      // Text(
+                                      //   "If you want help".tr(context),
+                                      //   style: TextStyle(color: Colors.red),
+                                      // ),
+                                      // 5.pw,
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await openWhatsApp(
+                                                "${state.settings!.settings!.whatsappLink}");
+                                          },
+                                          child: Text(
+                                            "If you encounter a problem logging in or registering, please contact us to solve the problem."
+                                                .tr(context),
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                       )
                                     ],

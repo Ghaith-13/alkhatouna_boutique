@@ -291,7 +291,7 @@ class _ProductImageWidgetState extends State<ProductImageWidget> {
                         ),
                         child: Text(
                           // ${(double.parse(widget.productDetails.discount) / double.parse(widget.productDetails.price) * 100).toStringAsFixed(2)}
-                          "- ${widget.productDetails.discount} %",
+                          "- ${widget.productDetails.discount.toStringAsFixed(2)} %",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 11.sp,

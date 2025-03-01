@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/home/presentation/pages/categories_screen.dart';
@@ -152,8 +153,11 @@ class LocalNotificationService {
     // print(message.notification?.titleLocArgs);
     // print(message.notification?.titleLocKey);
     // print("message");
+    // print(message.notification);
+    int randomNumber1 = Random().nextInt(10000);
+
     showLocalNotifications(
-      id: 0,
+      id: randomNumber1,
       // title: "${message.notification?.title}",
       // body: "${message.notification?.body}",
       // imageUrl: "${message.notification?.android?.imageUrl ?? ""}",

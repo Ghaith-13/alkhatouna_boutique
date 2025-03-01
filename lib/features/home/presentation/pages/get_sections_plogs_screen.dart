@@ -1,3 +1,4 @@
+import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
@@ -19,7 +20,7 @@ class GetSectionsPlogsScreen extends StatefulWidget {
 class _GetSectionsPlgsScreenState extends State<GetSectionsPlogsScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.getPlogsModel.data!.sectionInfo!.imageUrl);
+    // print(widget.getPlogsModel.data!.sectionInfo!.imageUrl);
     return BlocBuilder<LocaleCubit, LocaleState>(
       builder: (context, locale) {
         return Scaffold(
@@ -36,7 +37,7 @@ class _GetSectionsPlgsScreenState extends State<GetSectionsPlogsScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    shape: BoxShape.circle,
+                    // shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -51,6 +52,14 @@ class _GetSectionsPlgsScreenState extends State<GetSectionsPlogsScreen> {
                     fit: BoxFit.scaleDown,
                     imageUrl:
                         widget.getPlogsModel.data!.sectionInfo!.imageUrl ?? "",
+                    errorWidget: (context, url, error) => SizedBox(
+                      // Widget shown on error
+                      width: 1.sw,
+                      height: 175.sp,
+                      child: Center(
+                          child: Image.asset(
+                              "assets/images/logo-removebg-preview.png")), // Or an icon
+                    ),
                     imageBuilder: (context, imageProvider) => Container(
                       // padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -63,6 +72,7 @@ class _GetSectionsPlgsScreenState extends State<GetSectionsPlogsScreen> {
                             spreadRadius: 1.0,
                           ),
                         ],
+
                         image: DecorationImage(
                           image: imageProvider,
                           fit: BoxFit.fill,
@@ -78,10 +88,10 @@ class _GetSectionsPlgsScreenState extends State<GetSectionsPlogsScreen> {
                     locale.locale.languageCode == "en"
                         ? widget.getPlogsModel.data!.sectionInfo!
                                 .descriptionEn ??
-                            ""
+                            "No description available at this time".tr(context)
                         : widget.getPlogsModel.data!.sectionInfo!
                                 .descriptionAr ??
-                            "",
+                            "No description available at this time".tr(context),
                     textAlign: TextAlign.start,
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp),

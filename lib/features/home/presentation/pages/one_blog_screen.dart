@@ -39,7 +39,7 @@ class _OneBlogScreenState extends State<OneBlogScreen> {
       builder: (context, locale) {
         return BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            print(state.onePlogModel);
+            // print(state.onePlogModel);
             return state.loadingoneBlog
                 ? SizedBox(
                     width: 1.sw,

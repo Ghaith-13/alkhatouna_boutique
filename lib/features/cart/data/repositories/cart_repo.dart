@@ -3,10 +3,12 @@
 import 'package:alkhatouna/features/cart/data/datasources/cart_ds.dart';
 import 'package:alkhatouna/features/cart/data/models/add_adress_model.dart';
 import 'package:alkhatouna/features/cart/data/models/check_out_model.dart';
+import 'package:alkhatouna/features/cart/data/models/check_phone_verfied_model.dart';
 import 'package:alkhatouna/features/cart/data/models/delete_address_model.dart';
 import 'package:alkhatouna/features/cart/data/models/get_address_model.dart';
 import 'package:alkhatouna/features/cart/data/models/get_cart_model.dart';
 import 'package:alkhatouna/features/cart/data/models/make_default_model.dart';
+import 'package:alkhatouna/features/cart/data/models/make_phone_verfied_model.dart';
 import 'package:alkhatouna/features/cart/data/models/remove_from_cart_model.dart';
 import 'package:alkhatouna/features/cart/data/models/send_check_out.dart';
 
@@ -26,6 +28,13 @@ class CartRepo {
       {required Map<String, String> body, String? addressID}) async {
     AddAdressModel response = AddAdressModel.fromJson(
       await dataSource.addAdress(body, addressID),
+    );
+    return response;
+  }
+
+  Future<CheckPhoneVerfiedModel> checkphoneVerfied({String? addressID}) async {
+    CheckPhoneVerfiedModel response = CheckPhoneVerfiedModel.fromJson(
+      await dataSource.checkphoneVerfied(addressID),
     );
     return response;
   }
@@ -61,18 +70,69 @@ class CartRepo {
   }
 
   Future<CheckOutModel> getCheckOut(
-      bool fromPromoCode, String promoCode, String benefit) async {
+    String pointsAmount,
+    bool frompaymentmethod,
+    String pymentmethod,
+    bool fromEmployeeAddress,
+    String employeerAddress,
+    bool fromPromoCode,
+    String promoCode,
+    String benefit,
+  ) async {
     CheckOutModel response = CheckOutModel.fromJson(
-      await dataSource.getCheckOut(fromPromoCode, promoCode, benefit),
+      await dataSource.getCheckOut(
+          pointsAmount,
+          frompaymentmethod,
+          pymentmethod,
+          fromEmployeeAddress,
+          employeerAddress,
+          fromPromoCode,
+          promoCode,
+          benefit),
     );
     return response;
   }
 
-  Future<SendCheckOut> sendOrder(String promoCode, String paymentMethod,
-      String selectedBenefitId, String type, String date) async {
+  Future<SendCheckOut> sendOrder(
+    String enteredPoints,
+    String promoCode,
+    String paymentMethod,
+    String selectedBenefitId,
+    String type,
+    String date,
+    bool isEmployee,
+    String employeerPhoneNumber,
+    String employeerPhoneNumber2,
+    String address_notes,
+    String province_id,
+  ) async {
     SendCheckOut response = SendCheckOut.fromJson(
       await dataSource.sendOrder(
-          promoCode, paymentMethod, selectedBenefitId, type, date),
+          enteredPoints,
+          promoCode,
+          paymentMethod,
+          selectedBenefitId,
+          type,
+          date,
+          isEmployee,
+          employeerPhoneNumber,
+          employeerPhoneNumber2,
+          address_notes,
+          province_id),
+    );
+    return response;
+  }
+
+  Future<SendCheckOut> deleteCart() async {
+    SendCheckOut response = SendCheckOut.fromJson(
+      await dataSource.deleteCart(),
+    );
+    return response;
+  }
+
+  Future<MakePhoneVerifedModel> makePhoneVerfication(addressID) async {
+    MakePhoneVerifedModel response = MakePhoneVerifedModel.fromJson(
+      await dataSource.makePhoneVerfication(addressID),
     );
     return response;
   }

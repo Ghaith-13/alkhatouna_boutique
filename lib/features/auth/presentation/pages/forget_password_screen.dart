@@ -53,6 +53,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     context.read<AuthCubit>().getWhatssappSettings();
   }
 
+  String countryCode = "IQ";
+  bool startWith0 = false;
   bool showNote = false;
   @override
   Widget build(BuildContext context) {
@@ -308,12 +310,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                             ),
                                           ),
                                           initialCountryCode: 'IQ',
+                                          onCountryChanged: (value) {
+                                            setState(() {
+                                              countryCode = value.code;
+                                            });
+                                          },
                                           onChanged: (phone) {
                                             setState(() {
                                               number = "null";
                                             });
                                             try {
                                               if (phone.isValidNumber()) {
+                                                if (phone.number
+                                                    .startsWith("0")) {
+                                                  setState(() {
+                                                    startWith0 = true;
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    startWith0 = false;
+                                                  });
+                                                }
                                                 setState(() {
                                                   number = phone.completeNumber;
                                                 });
@@ -382,6 +399,30 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                                       "Add correct phone number",
                                                       true,
                                                       true);
+                                                } else if (countryCode ==
+                                                        "IQ" &&
+                                                    startWith0) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "The number must not start with 0."
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
                                                 } else {
                                                   if (await navigatorKey
                                                       .currentContext!

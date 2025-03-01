@@ -22,30 +22,41 @@ class CheckOutModel {
 
 class CheckOutData {
   DefaultAddress? defaultAddress;
+  bool? isEmployee;
+  List<Provinces>? provinces;
+
   var paymentMethod;
   var delivryFees;
   List<Carts>? carts;
   var totalAmount;
   var productsDiscountValue;
   var discountPercentage;
+  var point_discount_value;
   var totalAmountAfterDiscount;
   var grandTotal;
   PromoCode? promoCode;
   var orderConfirmationMessage;
+  var pre_order_message;
   var total_points;
   var paid_points;
   var total_tax;
+  var point_amount;
   bool? can_pay_with_points;
   List<AvailableBenefits>? availableBenefits;
   AppliedBenefit? appliedBenefit;
 
   CheckOutData({
+    this.isEmployee,
     this.defaultAddress,
     this.paymentMethod,
     this.delivryFees,
+    this.point_discount_value,
     this.carts,
+    this.pre_order_message,
     this.totalAmount,
+    this.provinces,
     this.productsDiscountValue,
+    this.point_amount,
     this.discountPercentage,
     this.totalAmountAfterDiscount,
     this.appliedBenefit,
@@ -60,10 +71,20 @@ class CheckOutData {
   });
 
   CheckOutData.fromJson(Map<String, dynamic>? json) {
+    isEmployee = json?['is_employee'];
+    point_discount_value = json?['point_discount_value'];
+    if (json?['provinces'] != null) {
+      provinces = <Provinces>[];
+      json?['provinces'].forEach((v) {
+        provinces!.add(new Provinces.fromJson(v));
+      });
+    }
     defaultAddress = json?['default_address'] != null
         ? new DefaultAddress.fromJson(json?['default_address'])
         : null;
     paymentMethod = json?['payment_method'];
+    point_amount = json?['point_amount'];
+    pre_order_message = json?['pre_order_message'];
     orderConfirmationMessage = json?['order_confirmation_message'];
     delivryFees = json?['delivery_fees'];
     total_points = json?['total_points'];
@@ -100,6 +121,13 @@ class CheckOutData {
     if (this.defaultAddress != null) {
       data?['default_address'] = this.defaultAddress!.toJson();
     }
+    data?['is_employee'] = this.isEmployee;
+    data?['point_discount_value'] = this.point_discount_value;
+    data?['pre_order_message'] = this.pre_order_message;
+    data?['point_amount'] = this.point_amount;
+    if (this.provinces != null) {
+      data?['provinces'] = this.provinces!.map((v) => v.toJson()).toList();
+    }
     data?['payment_method'] = this.paymentMethod;
     data?['delivery_fees'] = this.delivryFees;
     data?['order_confirmation_message'] = this.orderConfirmationMessage;
@@ -129,6 +157,31 @@ class CheckOutData {
   }
 }
 
+class Provinces {
+  var id;
+  var nameAr;
+  var nameEn;
+  var nameKu;
+
+  Provinces({this.id, this.nameAr, this.nameEn, this.nameKu});
+
+  Provinces.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nameAr = json['name_ar'];
+    nameEn = json['name_en'];
+    nameKu = json['name_ku'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name_ar'] = this.nameAr;
+    data['name_en'] = this.nameEn;
+    data['name_ku'] = this.nameKu;
+    return data;
+  }
+}
+
 class DefaultAddress {
   var id;
   var userId;
@@ -144,6 +197,7 @@ class DefaultAddress {
   var isDefault;
   var createdAt;
   var updatedAt;
+  var is_phone_verified;
   Country? country;
   Province? province;
   Province? area;
@@ -159,6 +213,7 @@ class DefaultAddress {
       this.areaId,
       this.subAreaId,
       this.longitude,
+      this.is_phone_verified,
       this.latitude,
       this.notes,
       this.isDefault,
@@ -179,6 +234,7 @@ class DefaultAddress {
     areaId = json?['area_id'];
     subAreaId = json?['sub_area_id'];
     longitude = json?['longitude'];
+    is_phone_verified = json?['is_phone_verified'];
     latitude = json?['latitude'];
     notes = json?['notes'];
     isDefault = json?['is_default'];
@@ -201,6 +257,7 @@ class DefaultAddress {
     data?['id'] = this.id;
     data?['user_id'] = this.userId;
     data?['title'] = this.title;
+    data?['is_phone_verified'] = this.is_phone_verified;
     data?['phone'] = this.phone;
     data?['country_id'] = this.countryId;
     data?['province_id'] = this.provinceId;

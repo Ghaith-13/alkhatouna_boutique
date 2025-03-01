@@ -331,6 +331,9 @@ class _ProductsSidebarSectionsScreenState
                                                 fromSimilarProduct: false,
                                                 fromHome: true,
                                                 productDetails: Products(
+                                                    points: state
+                                                        .productsSection![index]
+                                                        .points,
                                                     displayProduct: state
                                                         .productsSection![index]
                                                         .displayProduct,

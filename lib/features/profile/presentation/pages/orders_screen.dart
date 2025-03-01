@@ -308,70 +308,136 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                                     state.allOrders![index],
                                                 status: state.allOrders![index]
                                                             .status ==
-                                                        "pending"
-                                                    ? "Pending"
+                                                        "returned"
+                                                    ? "returned"
                                                     : state.allOrders![index]
                                                                 .status ==
-                                                            "confirmed"
-                                                        ? "Confirmed"
+                                                            "pending"
+                                                        ? "Pending"
                                                         : state
                                                                     .allOrders![
                                                                         index]
                                                                     .status ==
-                                                                "ready_to_ship"
-                                                            ? "Ready To Ship"
+                                                                "confirmed"
+                                                            ? "Confirmed"
                                                             : state
                                                                         .allOrders![
                                                                             index]
                                                                         .status ==
-                                                                    "on_the_way"
-                                                                ? "On The Way"
+                                                                    "ready_to_ship"
+                                                                ? "Ready To Ship"
                                                                 : state.allOrders![index].status ==
-                                                                        "delivered"
-                                                                    ? "it has been delivred"
+                                                                        "on_the_way"
+                                                                    ? "On The Way"
                                                                     : state.allOrders![index].status ==
-                                                                            "completed"
-                                                                        ? "Completed"
-                                                                        : "Canceled",
+                                                                            "delivered"
+                                                                        ? "it has been delivred"
+                                                                        : state.allOrders![index].status ==
+                                                                                "completed"
+                                                                            ? "Completed"
+                                                                            : "Canceled",
                                                 color: state.allOrders![index]
                                                             .status ==
-                                                        "pending"
-                                                    ? Colors.amber
+                                                        "returned"
+                                                    ? Colors.red
                                                     : state.allOrders![index]
                                                                 .status ==
-                                                            "confirmed"
-                                                        ? AppColors.greenColor
+                                                            "pending"
+                                                        ? Colors.amber
                                                         : state
                                                                     .allOrders![
                                                                         index]
                                                                     .status ==
-                                                                "ready_to_ship"
-                                                            ? Colors.blue
+                                                                "confirmed"
+                                                            ? AppColors
+                                                                .greenColor
                                                             : state
                                                                         .allOrders![
                                                                             index]
                                                                         .status ==
-                                                                    "on_the_way"
-                                                                ? Colors
-                                                                    .deepPurple
+                                                                    "ready_to_ship"
+                                                                ? Colors.blue
                                                                 : state.allOrders![index].status ==
-                                                                        "delivered"
+                                                                        "on_the_way"
                                                                     ? Colors
-                                                                        .green
+                                                                        .deepPurple
                                                                     : state.allOrders![index].status ==
-                                                                            "completed"
+                                                                            "delivered"
                                                                         ? Colors
                                                                             .green
-                                                                        : Colors
-                                                                            .red,
+                                                                        : state.allOrders![index].status ==
+                                                                                "completed"
+                                                                            ? Colors.green
+                                                                            : Colors.red,
                                               ),
                                             )
-                                          : FadeInRight(
+                                          : FadeInLeft(
                                               child: OneOrderScreen(
                                                 orderDetails:
                                                     state.allOrders![index],
-                                                status: "Pending",
-                                                color: Colors.amber,
+                                                status: state.allOrders![index]
+                                                            .status ==
+                                                        "returned"
+                                                    ? "returned"
+                                                    : state.allOrders![index]
+                                                                .status ==
+                                                            "pending"
+                                                        ? "Pending"
+                                                        : state
+                                                                    .allOrders![
+                                                                        index]
+                                                                    .status ==
+                                                                "confirmed"
+                                                            ? "Confirmed"
+                                                            : state
+                                                                        .allOrders![
+                                                                            index]
+                                                                        .status ==
+                                                                    "ready_to_ship"
+                                                                ? "Ready To Ship"
+                                                                : state.allOrders![index].status ==
+                                                                        "on_the_way"
+                                                                    ? "On The Way"
+                                                                    : state.allOrders![index].status ==
+                                                                            "delivered"
+                                                                        ? "it has been delivred"
+                                                                        : state.allOrders![index].status ==
+                                                                                "completed"
+                                                                            ? "Completed"
+                                                                            : "Canceled",
+                                                color: state.allOrders![index]
+                                                            .status ==
+                                                        "returned"
+                                                    ? Colors.red
+                                                    : state.allOrders![index]
+                                                                .status ==
+                                                            "pending"
+                                                        ? Colors.amber
+                                                        : state
+                                                                    .allOrders![
+                                                                        index]
+                                                                    .status ==
+                                                                "confirmed"
+                                                            ? AppColors
+                                                                .greenColor
+                                                            : state
+                                                                        .allOrders![
+                                                                            index]
+                                                                        .status ==
+                                                                    "ready_to_ship"
+                                                                ? Colors.blue
+                                                                : state.allOrders![index].status ==
+                                                                        "on_the_way"
+                                                                    ? Colors
+                                                                        .deepPurple
+                                                                    : state.allOrders![index].status ==
+                                                                            "delivered"
+                                                                        ? Colors
+                                                                            .green
+                                                                        : state.allOrders![index].status ==
+                                                                                "completed"
+                                                                            ? Colors.green
+                                                                            : Colors.red,
                                               ),
                                             );
                                     },

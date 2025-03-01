@@ -34,6 +34,7 @@ class _SectionsWidgetState extends State<NewArrivalWidget> {
                   fromSimilarProduct: false,
                   fromHome: true,
                   productDetails: Products(
+                      points: state.homeInfo!.new_arrival![index].points,
                       displayProduct:
                           state.homeInfo!.new_arrival![index].displayProduct,
                       finalPrice:

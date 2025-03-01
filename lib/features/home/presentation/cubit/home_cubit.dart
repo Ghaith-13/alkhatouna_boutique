@@ -3,6 +3,7 @@
 import 'package:alkhatouna/Locale/app_localization.dart';
 import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
+import 'package:alkhatouna/core/utils/cache_helper.dart';
 import 'package:alkhatouna/features/all_products/presentation/cubit/all_products_cubit.dart';
 import 'package:alkhatouna/features/favorite/presentation/cubit/favorite_cubit.dart';
 import 'package:alkhatouna/features/home/data/models/add_to_cart_model.dart';
@@ -12,6 +13,7 @@ import 'package:alkhatouna/features/home/data/models/categorey_children_model.da
 import 'package:alkhatouna/features/home/data/models/favorite_model.dart';
 import 'package:alkhatouna/features/home/data/models/full_search_model.dart';
 import 'package:alkhatouna/features/home/data/models/get_blogs_model.dart';
+import 'package:alkhatouna/features/home/data/models/notification_model.dart';
 import 'package:alkhatouna/features/home/data/models/notify_model.dart';
 import 'package:alkhatouna/features/home/data/models/one_plog_model.dart';
 import 'package:alkhatouna/features/home/data/models/product_model.dart';
@@ -23,6 +25,8 @@ import 'package:alkhatouna/features/home/data/models/supllier_model.dart';
 import 'package:alkhatouna/features/home/data/models/user_categories_model.dart';
 import 'package:alkhatouna/features/home/presentation/pages/get_sections_plogs_screen.dart';
 import 'package:alkhatouna/features/home/presentation/pages/one_blog_screen.dart';
+import 'package:alkhatouna/features/profile/presentation/pages/add_newnumber_screen.dart';
+import 'package:alkhatouna/main.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +49,46 @@ class HomeCubit extends Cubit<HomeState> {
       emit(state.copyWith(loading: true));
       try {
         HomeModel response = await homeRepo.getHomeInfo();
-        emit(state.copyWith(homeInfo: response.data, getHomeData: true));
+        emit(state.copyWith(
+            homeInfo: response.data,
+            getHomeData: true,
+            showUpdatePhonePopUp: true));
+        // if (state.showUpdatePhonePopUp == false) {
+        // String? token = await CacheHelper.getData(key: "USER_TOKEN");
+        // String? phoneNumber = await CacheHelper.getData(key: "Phone_Number");
+        // // print("Navigation Succesfully");
+        // // print(phoneNumber);
+        // if (phoneNumber == null && token != null) {
+        // print("Navigation Succesfully");
+
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         title: Text(
+        //             "You have not added a mobile number to the account yet."
+        //                 .tr(context)),
+        //         content: Text(
+        //             "Please go to settings and add the number".tr(context)),
+        //         actions: <Widget>[
+        //           TextButton(
+        //             child: Text(
+        //               "Ok".tr(context),
+        //               style: TextStyle(color: Colors.black),
+        //             ),
+        //             onPressed: () {
+        //               Navigator.of(context).pop(); // Close the dialog
+        //               // Optionally, navigate to a screen where the user can enter their phone number
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   );
+        // });
+        // }
+        // }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -109,10 +152,13 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(loadingCatChildren: false));
   }
 
+  changekeyWordForBrandDetails(value) =>
+      (emit(state.copyWith(keyWordForBrandDetails: value)));
   Future<void> getBrands(BuildContext context) async {
     emit(state.copyWith(loadingBrands: true));
     try {
-      BrandsModel response = await homeRepo.getBrands();
+      BrandsModel response =
+          await homeRepo.getBrands(keyword: state.keywordForBrand ?? "");
       emit(state.copyWith(brandsData: response.data));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -283,9 +329,14 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future exitBrandScreen() async {
-    emit(state.copyWith(stopLoadingBrand: false, pageNumberForBrand: 1));
+    emit(state.copyWith(
+        stopLoadingBrand: false,
+        pageNumberForBrand: 1,
+        keyWordForBrandDetails: ""));
   }
 
+  // changepageNumberForBrand(value) =>
+  //     (state.copyWith(pageNumberForBrand: value));
   Future<void> getbrandsInfo(
     BuildContext context,
     String brandId,
@@ -295,8 +346,8 @@ class HomeCubit extends Cubit<HomeState> {
     }
     try {
       if (state.stopLoadingBrand == false) {
-        BrandDetailsModel response =
-            await homeRepo.getBrandDetails(brandId, state.pageNumberForBrand);
+        BrandDetailsModel response = await homeRepo.getBrandDetails(brandId,
+            state.pageNumberForBrand, state.keyWordForBrandDetails ?? "");
         if (response.data!.products!.length < 20) {
           emit(state.copyWith(stopLoadingBrand: true));
         }
@@ -359,6 +410,8 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(subCategoriesData: SubCategoryData()));
   }
 
+  changekeywordForBrand(value) =>
+      (emit(state.copyWith(keywordForBrand: value)));
   Future<void> getSubCategoriesInfo(BuildContext context, String categorryId,
       {bool fromFilter = false}) async {
     if (fromFilter) {
@@ -413,6 +466,10 @@ class HomeCubit extends Cubit<HomeState> {
 
         emit(state.copyWith(subCategoriesData: newsubCategoriesData));
         emit(state.copyWith(brands: response.brands));
+      }
+      if (response.data!.products!.isEmpty ||
+          response.data!.products!.length < 20) {
+        emit(state.copyWith(stopLoadingCategorey: true));
       }
       emit(state.copyWith(pageNumberForSub: state.pageNumberForSub + 1));
     } catch (e) {
@@ -483,6 +540,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   changePageNumberForSub(int pageNumberForSub) =>
       emit(state.copyWith(pageNumberForSub: pageNumberForSub));
+  changestopLoadingCategorey(bool value) =>
+      emit(state.copyWith(stopLoadingCategorey: value));
   changeSubCategoryId(int subCategoryId) =>
       emit(state.copyWith(subCategoryId: subCategoryId));
   changeShowMesh() =>
@@ -700,10 +759,12 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       Map<String, String> body = {};
       body['product_id'] = productId;
-      body['hex_color'] = state.selectedColor;
-      body['size'] = state.selectedSize;
-      body['weight'] = state.selectedWeight;
-      body['dimension'] = state.dimensions;
+      body['hex_color'] =
+          state.selectedColor.isEmpty ? "Other" : state.selectedColor;
+      body['size'] = state.selectedSize.isEmpty ? "Other" : state.selectedSize;
+      body['weight'] =
+          state.selectedWeight.isEmpty ? "Other" : state.selectedWeight;
+      body['dimension'] = state.dimensions.isEmpty ? "Other" : state.dimensions;
       body['quantity'] = Count;
 
       AddToCartModel? response = await homeRepo.addToCart(body: body);
@@ -790,17 +851,41 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(loadingUserCategories: false));
   }
 
-  Future<void> notifyProduct(
-      BuildContext context, userID, fcmtoken, productId) async {
+  Future<void> getNotifications(BuildContext context) async {
+    emit(state.copyWith(loadingNotifications: true));
+    try {
+      NotificationModel response = await homeRepo.getNotifications();
+
+      emit(state.copyWith(notifications: response.data));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          padding:
+              EdgeInsets.only(bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+    emit(state.copyWith(loadingNotifications: false));
+  }
+
+  Future<void> notifyProduct(BuildContext context, userID, fcmtoken, productId,
+      {List<AllProductsProduct>? products, bool delete = false}) async {
     emit(state.copyWith(notifyProduct: true));
     try {
       Map<String, String> body = {};
       body['product_id'] = productId;
       body['user_id'] = userID;
       body['fcm_token'] = fcmtoken;
+      body['delete'] = delete ? "1" : "0";
 
       NotifyModel? response = await homeRepo.NotifyProduct(body: body);
-      if (response.data!.message == " created successfully")
+      if (response.data!.message == "Notify added successfully")
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.primaryColor,
@@ -813,6 +898,37 @@ class HomeCubit extends Cubit<HomeState> {
             duration: const Duration(seconds: 2),
           ),
         );
+      else if (response.data!.message == "Notify already exists") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primaryColor,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              "The product is already in your list.".tr(context),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else {
+        List<AllProductsProduct> newProducts = products!;
+        newProducts.removeWhere(
+            (product) => product.id.toString() == productId.toString());
+        context.read<AllProductsCubit>().changeAllProducts(newProducts);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primaryColor,
+            padding: EdgeInsets.only(
+                bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+            content: Text(
+              "The product has been successfully deleted.".tr(context),
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -902,7 +1018,7 @@ class HomeCubit extends Cubit<HomeState> {
     BuildContext context,
     String? id,
   ) async {
-    print("@Do it");
+    // print("@Do it");
     if (state.pageNumberForSupllier == 1) {
       emit(state.copyWith(loadingSupllierProducts: true));
     }

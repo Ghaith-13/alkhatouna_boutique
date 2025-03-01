@@ -224,7 +224,7 @@ class _OrderInfoWidgetState extends State<OrderInfoWidget> {
                 20.pw,
                 Expanded(
                   child: Text(
-                    " ${widget.orderDetails.addressTitle} , ${widget.orderDetails.countryName} ${widget.orderDetails.provinceName} ${widget.orderDetails.areaName} ${widget.orderDetails.subAreaName}",
+                    " ${widget.orderDetails.addressTitle ?? ""} , ${widget.orderDetails.countryName ?? ""} ${widget.orderDetails.provinceName ?? ""} ${widget.orderDetails.areaName ?? ""} ${widget.orderDetails.subAreaName ?? ""}",
                     textAlign: TextAlign.end,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -389,6 +389,28 @@ class _OrderInfoWidgetState extends State<OrderInfoWidget> {
             //   ],
             // ),
             // 10.ph,
+            10.ph,
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${"point discount value".tr(context)} :",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12.sp,
+                      color: AppColors.greyColor),
+                ),
+                Text(
+                  "${formatCurrency.format(double.parse(widget.orderDetails.point_discount_value.toString()))}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.sp,
+                  ),
+                )
+              ],
+            ),
+            10.ph,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

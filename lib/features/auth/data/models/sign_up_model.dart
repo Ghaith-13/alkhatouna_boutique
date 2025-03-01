@@ -46,6 +46,7 @@ class User {
   String? phone;
   String? type;
   var isActive;
+  var birthdate;
   var referralCode;
   var points;
   String? fcmToken;
@@ -61,6 +62,7 @@ class User {
       this.isActive,
       this.referralCode,
       this.points,
+      this.birthdate,
       this.fcmToken,
       this.updatedAt,
       this.createdAt,
@@ -72,6 +74,7 @@ class User {
     phone = json?['phone'];
     type = json?['type'];
     isActive = json?['is_active'];
+    birthdate = json?['birthdate'];
     referralCode = json?['referral_code'];
     points = json?['points'];
     fcmToken = json?['fcm_token'];
@@ -84,6 +87,7 @@ class User {
     final Map<String, dynamic>? data = new Map<String, dynamic>();
     data?['name'] = this.name;
     data?['email'] = this.email;
+    data?['birthdate'] = this.birthdate;
     data?['phone'] = this.phone;
     data?['type'] = this.type;
     data?['is_active'] = this.isActive;

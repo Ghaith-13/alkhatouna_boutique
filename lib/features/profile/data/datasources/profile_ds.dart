@@ -1,3 +1,5 @@
+import 'package:alkhatouna/core/utils/cache_helper.dart';
+
 import '../../../../core/utils/http_helper.dart';
 
 class ProfileDs {
@@ -12,6 +14,26 @@ class ProfileDs {
 
   Future<Map<String, dynamic>?> getuserInfo() async {
     Map<String, dynamic>? response = await apiHelper.get("/get-user");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> cancelOrder(String orderid) async {
+    Map<String, dynamic>? response =
+        await apiHelper.post("/cancel-order?order_id=$orderid");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> updatebirthdate(String birthdate) async {
+    Map<String, dynamic>? response =
+        await apiHelper.post("/update-birthdate?birthdate=$birthdate");
+    return response;
+  }
+
+  Future<Map<String, dynamic>?> updateUpdatePhone(String phone) async {
+    String? userID = await CacheHelper.getData(key: "USER_ID");
+
+    Map<String, dynamic>? response = await apiHelper.post("/update-phone",
+        body: {"user_id": "$userID", "phone": "${phone}"});
     return response;
   }
 

@@ -34,6 +34,8 @@ class _SectionsWidgetState extends State<MostSellingProduct> {
                   fromSimilarProduct: false,
                   fromHome: true,
                   productDetails: Products(
+                      points:
+                          state.homeInfo!.bestSellingProducts![index].points,
                       displayProduct: state
                           .homeInfo!.bestSellingProducts![index].displayProduct,
                       finalPrice: state

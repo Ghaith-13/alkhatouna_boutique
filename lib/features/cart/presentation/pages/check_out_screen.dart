@@ -2,6 +2,7 @@ import 'package:alkhatouna/Locale/cubit/locale_cubit.dart';
 import 'package:alkhatouna/features/cart/data/models/check_out_model.dart';
 import 'package:alkhatouna/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:alkhatouna/features/cart/presentation/pages/check_out_skeleton.dart';
+import 'package:alkhatouna/features/cart/presentation/widgets/checkout_widget/shipping_address_details.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,8 @@ import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/cart/presentation/pages/shipping_addresses_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -30,8 +33,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CartCubit>().getCheckOut(context);
+    context
+        .read<CartCubit>()
+        .getCheckOut(context, checkphoneAddressVerifed: true);
   }
+
+  bool _isOn = false;
 
   @override
   void deactivate() {
@@ -39,6 +46,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     context.read<CartCubit>().changepromoCode("");
     context.read<CartCubit>().changepaymentMethod("");
     context.read<CartCubit>().selectedBenefitId("");
+    context.read<CartCubit>().changeemployeerAddressText("");
+    context.read<CartCubit>().changeemployeerAddress("");
+    context.read<CartCubit>().changeemployeerPhoneNumber("");
+    context.read<CartCubit>().changeemployeerPhoneNumber2("");
+    context.read<CartCubit>().changeemployeerEnterTitle("");
   }
 
   final formatCurrency = new NumberFormat.simpleCurrency(
@@ -51,6 +63,125 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   );
 
   DateTime? _selectedDateTime;
+  void showCustomPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title:
+                  Text('Enter the value of points you want to use'.tr(context)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min, // Important for correct sizing
+                children: <Widget>[
+                  TextFormField(
+                    onChanged: (value) {
+                      context.read<CartCubit>().changeenteredPoints(value);
+                    },
+                    keyboardType: TextInputType.number, // Show numeric keyboard
+                    // decoration: const InputDecoration(hintText: 'Type here'),
+                  ),
+                  const SizedBox(
+                      height: 16), // Spacing between text field and text
+                  Text(
+                    'Note: You can use points in multiples of a thousand, such as: 1000, 2000, 3000.....'
+                        .tr(context),
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text(
+                    'Cancel'.tr(context),
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (state.enteredPoints!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          padding: EdgeInsets.only(
+                              bottom: 30.h, top: 30.h, left: 50.w, right: 50.w),
+                          content: Text(
+                            "Note: You can use points in multiples of a thousand, such as: 1000, 2000, 3000....."
+                                .tr(context),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    } else {
+                      if (double.parse(state.enteredPoints!) != 0 &&
+                          double.parse(state.enteredPoints!) % 1000 == 0) {
+                        if (int.parse(
+                                state.checkData!.total_points.toString()) >=
+                            int.parse(state.enteredPoints!.toString())) {
+                          setState(() {
+                            _isOn = true;
+                          });
+                          Navigator.of(context).pop();
+                          context.read<CartCubit>().getCheckOut(context,
+                              frompaymentmethod: true,
+                              pymentmethod: "points",
+                              pointsAmount: state.enteredPoints ?? "");
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.red,
+                              padding: EdgeInsets.only(
+                                  bottom: 30.h,
+                                  top: 30.h,
+                                  left: 50.w,
+                                  right: 50.w),
+                              content: Text(
+                                "Points entered are more than points you have"
+                                    .tr(context),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            padding: EdgeInsets.only(
+                                bottom: 30.h,
+                                top: 30.h,
+                                left: 50.w,
+                                right: 50.w),
+                            content: Text(
+                              "Note: You can use points in multiples of a thousand, such as: 1000, 2000, 3000....."
+                                  .tr(context),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: Text(
+                    'Ok'.tr(context),
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 
   Future<void> _selectDateTime(BuildContext context, var checkData) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -77,7 +208,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         context.read<CartCubit>().sendOrder(
             checkData.promoCode == null ? "" : checkData.promoCode!.code!,
             "pre_order",
-            DateFormat('yyyy-MM-dd HH:mm').format(_selectedDateTime!));
+            DateFormat('yyyy-MM-dd HH:mm').format(_selectedDateTime!),
+            checkData!.isEmployee!);
       }
     }
   }
@@ -97,36 +229,39 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ? SizedBox()
                   : state.checkData == null
                       ? SizedBox()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Text(
-                              //   "${"My Points".tr(context)} : ",
-                              //   style: TextStyle(
-                              //       color: AppColors.primaryColor,
-                              //       fontSize: 12.sp),
-                              // ),
+                      : state.checkData!.isEmployee!
+                          ? SizedBox()
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Text(
+                                  //   "${"My Points".tr(context)} : ",
+                                  //   style: TextStyle(
+                                  //       color: AppColors.primaryColor,
+                                  //       fontSize: 12.sp),
+                                  // ),
 
-                              Icon(
-                                Icons.point_of_sale_outlined,
-                                color: AppColors.primaryColor,
-                                size: 16.sp,
-                              ),
-                              5.horizontalSpace,
-
-                              Text(
-                                "${formatCurrency.format(double.parse(state.checkData!.total_points.toString()))}",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
+                                  Icon(
+                                    Icons.point_of_sale_outlined,
                                     color: AppColors.primaryColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold),
+                                    size: 16.sp,
+                                  ),
+                                  5.horizontalSpace,
+
+                                  Text(
+                                    "${formatCurrency.format(double.parse(state.checkData!.total_points.toString()))}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        );
+                            );
             },
           )
         ],
@@ -150,120 +285,136 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 20.ph,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Shipping address".tr(context),
-                                      style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    state.checkData!.defaultAddress == null
-                                        ? InkWell(
-                                            onTap: () {
-                                              AppConstant.customNavigation(
-                                                  context,
-                                                  ShippingAddressesScreen(),
-                                                  -1,
-                                                  0);
-                                            },
-                                            child: Text(
-                                              "Change".tr(context),
-                                              style: TextStyle(
-                                                  color: AppColors.primaryColor,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          )
-                                        : SizedBox()
-                                  ],
-                                ),
-                                20.ph,
-                                state.checkData!.defaultAddress == null
+                                state.checkData!.isEmployee!
+                                    ? ShippingAddressDetails()
+                                    : SizedBox(),
+                                state.checkData!.isEmployee!
                                     ? SizedBox()
-                                    : FadeInLeft(
-                                        child: Container(
-                                            width: 1.sw,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.sp),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Shipping address".tr(context),
+                                            style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          state.checkData!.defaultAddress ==
+                                                  null
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    AppConstant.customNavigation(
+                                                        context,
+                                                        ShippingAddressesScreen(),
+                                                        -1,
+                                                        0);
+                                                  },
+                                                  child: Text(
+                                                    "Change".tr(context),
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                )
+                                              : SizedBox()
+                                        ],
+                                      ),
+                                20.ph,
+                                state.checkData!.isEmployee!
+                                    ? SizedBox()
+                                    : state.checkData!.defaultAddress == null
+                                        ? SizedBox()
+                                        : FadeInLeft(
+                                            child: Container(
+                                                width: 1.sw,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.sp),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      spreadRadius: 2,
+                                                      blurRadius: 5,
+                                                      offset: Offset(0, 3),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(12.0.sp),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.all(12.0.sp),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      Text(
-                                                        "${state.checkData!.defaultAddress!.title}",
-                                                        style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "${state.checkData!.defaultAddress!.title}",
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              AppConstant
+                                                                  .customNavigation(
+                                                                      context,
+                                                                      ShippingAddressesScreen(),
+                                                                      -1,
+                                                                      0);
+                                                            },
+                                                            child: Text(
+                                                              "Change"
+                                                                  .tr(context),
+                                                              style: TextStyle(
+                                                                  color: AppColors
+                                                                      .primaryColor,
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          AppConstant
-                                                              .customNavigation(
-                                                                  context,
-                                                                  ShippingAddressesScreen(),
-                                                                  -1,
-                                                                  0);
-                                                        },
-                                                        child: Text(
-                                                          "Change".tr(context),
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .primaryColor,
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                      10.ph,
+                                                      SizedBox(
+                                                        width: 0.7.sw,
+                                                        child: BlocBuilder<
+                                                            LocaleCubit,
+                                                            LocaleState>(
+                                                          builder: (context,
+                                                              locale) {
+                                                            return Text(
+                                                              "${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.country?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.country?.nameAr ?? "" : state.checkData!.defaultAddress!.country?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.province?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.province?.nameAr ?? "" : state.checkData!.defaultAddress!.province?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.area?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.area?.nameAr ?? "" : state.checkData!.defaultAddress!.area?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.subArea?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.subArea?.nameAr ?? "" : state.checkData!.defaultAddress!.subArea?.nameKu ?? ""} ",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            );
+                                                          },
                                                         ),
-                                                      ),
+                                                      )
                                                     ],
                                                   ),
-                                                  10.ph,
-                                                  SizedBox(
-                                                    width: 0.7.sw,
-                                                    child: BlocBuilder<
-                                                        LocaleCubit,
-                                                        LocaleState>(
-                                                      builder:
-                                                          (context, locale) {
-                                                        return Text(
-                                                          "${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.country?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.country?.nameAr ?? "" : state.checkData!.defaultAddress!.country?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.province?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.province?.nameAr ?? "" : state.checkData!.defaultAddress!.province?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.area?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.area?.nameAr ?? "" : state.checkData!.defaultAddress!.area?.nameKu ?? ""}  ${locale.locale.languageCode == "en" ? state.checkData!.defaultAddress!.subArea?.nameEn ?? "" : locale.locale.languageCode == "ar" ? state.checkData!.defaultAddress!.subArea?.nameAr ?? "" : state.checkData!.defaultAddress!.subArea?.nameKu ?? ""} ",
-                                                          style: TextStyle(
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )),
-                                      ),
+                                                )),
+                                          ),
                                 20.ph,
                                 // Opacity(
                                 //   opacity: 0.5,
@@ -328,64 +479,159 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 //   ),
                                 // ),
                                 // 10.ph,
-                                Text(
-                                  "${"Cash method".tr(context)} : ${state.paymentMethod!.tr(context)}",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                                state.checkData!.can_pay_with_points == false
+                                    ? Text(
+                                        "${"Cash method".tr(context)} : ${state.paymentMethod!.tr(context)}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : SizedBox(),
 
                                 state.checkData!.can_pay_with_points == false
                                     ? SizedBox()
+                                    : Text(
+                                        "${"Cash method".tr(context)} : ${"Cash".tr(context)}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+
+                                // Row(
+                                //     children: [
+                                //       Radio(
+                                //         fillColor:
+                                //             WidgetStateProperty.all<Color>(
+                                //                 AppColors.primaryColor),
+                                //         value: "Cash",
+                                //         groupValue: state.paymentMethod,
+                                //         onChanged: (value) {
+                                //           context
+                                //               .read<CartCubit>()
+                                //               .changepaymentMethod("Cash");
+                                //           setState(() {
+                                //             state.paymentMethod = "Cash";
+                                //           });
+                                //           context
+                                //               .read<CartCubit>()
+                                //               .getCheckOut(context,
+                                //                   frompaymentmethod: true,
+                                //                   pymentmethod: "cash");
+                                //         },
+                                //       ),
+                                //       10.horizontalSpace,
+                                //       Text("Cash".tr(context))
+                                //     ],
+                                //   ),
+                                state.checkData!.can_pay_with_points == false
+                                    ? SizedBox()
                                     : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Radio(
-                                            fillColor:
-                                                WidgetStateProperty.all<Color>(
-                                                    AppColors.primaryColor),
-                                            value: "Cash",
-                                            groupValue: state.paymentMethod,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<CartCubit>()
-                                                  .changepaymentMethod("Cash");
-                                              setState(() {
-                                                state.paymentMethod = "Cash";
-                                              });
-                                            },
+                                          Row(
+                                            children: [
+                                              Switch(
+                                                value: _isOn,
+                                                onChanged: (newValue) {
+                                                  if (_isOn == false) {
+                                                    showCustomPopup(context);
+
+                                                    context
+                                                        .read<CartCubit>()
+                                                        .changepaymentMethod(
+                                                            "Points");
+                                                    setState(() {
+                                                      state.paymentMethod =
+                                                          "Points";
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      _isOn = false;
+                                                    });
+                                                    context
+                                                        .read<CartCubit>()
+                                                        .changepaymentMethod(
+                                                            "Cash");
+                                                    setState(() {
+                                                      state.paymentMethod =
+                                                          "Cash";
+                                                    });
+                                                    context
+                                                        .read<CartCubit>()
+                                                        .getCheckOut(context,
+                                                            frompaymentmethod:
+                                                                true,
+                                                            pymentmethod:
+                                                                "cash");
+                                                  }
+                                                },
+                                                activeColor:
+                                                    AppColors.greenColor,
+                                                inactiveThumbColor: Colors.grey,
+                                                inactiveTrackColor:
+                                                    Colors.grey.shade300,
+                                              ),
+                                              5.pw,
+                                              Text(
+                                                "Use your points".tr(context),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
-                                          10.horizontalSpace,
-                                          Text("Cash".tr(context))
+
+                                          // Row(
+                                          //   children: [
+                                          //     Radio(
+                                          //       fillColor: WidgetStateProperty
+                                          //           .all<Color>(
+                                          //               AppColors.primaryColor),
+                                          //       value: "Points",
+                                          //       groupValue: state.paymentMethod,
+                                          //       onChanged: (value) {
+                                          //         showCustomPopup(context);
+
+                                          //         context
+                                          //             .read<CartCubit>()
+                                          //             .changepaymentMethod(
+                                          //                 "Points");
+                                          //         setState(() {
+                                          //           state.paymentMethod =
+                                          //               "Points";
+                                          //         });
+                                          //         context
+                                          //             .read<CartCubit>()
+                                          //             .getCheckOut(context,
+                                          //                 frompaymentmethod:
+                                          //                     true,
+                                          //                 pymentmethod:
+                                          //                     "points");
+                                          //       },
+                                          //     ),
+                                          //     10.horizontalSpace,
+                                          //     Text("Points".tr(context)),
+                                          //   ],
+                                          // ),
+                                          Text(
+                                            "${"You have".tr(context)} ${formatCurrency.format(double.parse(state.checkData!.total_points.toString()))} ${"points".tr(context)}",
+                                            style: TextStyle(
+                                                color: AppColors.greenColor,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ],
                                       ),
                                 state.checkData!.can_pay_with_points == false
                                     ? SizedBox()
-                                    : Row(
-                                        children: [
-                                          Radio(
-                                            fillColor:
-                                                WidgetStateProperty.all<Color>(
-                                                    AppColors.primaryColor),
-                                            value: "Points",
-                                            groupValue: state.paymentMethod,
-                                            onChanged: (value) {
-                                              context
-                                                  .read<CartCubit>()
-                                                  .changepaymentMethod(
-                                                      "Points");
-                                              setState(() {
-                                                state.paymentMethod = "Points";
-                                              });
-                                            },
-                                          ),
-                                          10.horizontalSpace,
-                                          Text("Points".tr(context)),
-                                          20.horizontalSpace,
-                                          Text(
-                                            "- ${formatCurrency.format(double.parse(state.checkData!.paid_points.toString()))}",
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: Text(
+                                          "Note: You can use points in multiples of a thousand, such as: 1000, 2000, 3000....."
+                                              .tr(context),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.greenColor),
+                                        ),
                                       ),
                                 20.ph,
 
@@ -658,15 +904,62 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
+                                    state.checkData!.delivryFees.toString() ==
+                                            "0"
+                                        ? Text(
+                                            "${"Delivery".tr(context)} :",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                decorationColor: Colors.red,
+                                                decorationThickness: 2,
+                                                fontSize: 14.sp,
+                                                color: AppColors.greyColor),
+                                          )
+                                        : Text(
+                                            "${"Delivery".tr(context)} :",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14.sp,
+                                                color: AppColors.greyColor),
+                                          ),
+                                    state.checkData!.delivryFees.toString() ==
+                                            "0"
+                                        ? Text(
+                                            "${formatCurrency.format(double.parse(state.checkData!.delivryFees.toString().trim()))}",
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              decorationColor: Colors.red,
+                                              decorationThickness: 2,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.sp,
+                                            ),
+                                          )
+                                        : Text(
+                                            "${formatCurrency.format(double.parse(state.checkData!.delivryFees.toString()))} ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.sp,
+                                            ),
+                                          )
+                                  ],
+                                ),
+                                10.ph,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
                                     Text(
-                                      "${"Delivery".tr(context)} :",
+                                      "${"point discount value".tr(context)} :",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.sp,
                                           color: AppColors.greyColor),
                                     ),
                                     Text(
-                                      "${formatCurrency.format(double.parse(state.checkData!.delivryFees.toString()))} ",
+                                      "${formatCurrency.format(double.parse(state.checkData!.point_discount_value.toString()))} ",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14.sp,
@@ -717,7 +1010,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   ],
                                 ),
                                 10.ph,
-
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Text(
+                                    "${"Congrats , you will gain".tr(context)} ${state.checkData!.point_amount} ${"points will be added to your account after receiving this request.".tr(context)}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.greenColor),
+                                  ),
+                                ),
                                 20.ph,
                                 SizedBox(
                                   width: 1.sw,
@@ -732,10 +1034,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   state.checkData!
                                                       .orderConfirmationMessage);
                                           if (confirmed) {
+                                            if (state.paymentMethod!.isEmpty) {
+                                              context
+                                                  .read<CartCubit>()
+                                                  .changepaymentMethod("Cash");
+                                            }
                                             // Proceed with the action
                                             if (state.checkData!
-                                                    .defaultAddress ==
-                                                null) {
+                                                        .defaultAddress ==
+                                                    null &&
+                                                state.checkData!.isEmployee ==
+                                                    false) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
@@ -755,39 +1064,148 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       seconds: 2),
                                                 ),
                                               );
-                                            } else if (state
-                                                .paymentMethod!.isEmpty) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  backgroundColor: Colors.red,
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 30.h,
-                                                      top: 30.h,
-                                                      left: 50.w,
-                                                      right: 50.w),
-                                                  content: Text(
-                                                    "Please select payment method"
-                                                        .tr(context),
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  duration: const Duration(
-                                                      seconds: 2),
-                                                ),
-                                              );
-                                            } else {
-                                              context
-                                                  .read<CartCubit>()
-                                                  .sendOrder(
-                                                      state.checkData!
-                                                                  .promoCode ==
-                                                              null
-                                                          ? ""
-                                                          : state.checkData!
-                                                              .promoCode!.code!,
-                                                      '',
-                                                      '');
+                                            }
+                                            // else if (state
+                                            //     .paymentMethod!.isEmpty) {
+                                            //   ScaffoldMessenger.of(context)
+                                            //       .showSnackBar(
+                                            //     SnackBar(
+                                            //       backgroundColor: Colors.red,
+                                            //       padding: EdgeInsets.only(
+                                            //           bottom: 30.h,
+                                            //           top: 30.h,
+                                            //           left: 50.w,
+                                            //           right: 50.w),
+                                            //       content: Text(
+                                            //         "Please select payment method"
+                                            //             .tr(context),
+                                            //         style: const TextStyle(
+                                            //             color: Colors.white),
+                                            //       ),
+                                            //       duration: const Duration(
+                                            //           seconds: 2),
+                                            //     ),
+                                            //   );
+                                            // }
+                                            else {
+                                              if (state
+                                                  .paymentMethod!.isEmpty) {
+                                                context
+                                                    .read<CartCubit>()
+                                                    .changepaymentMethod(
+                                                        "Cash");
+                                              }
+                                              if (state
+                                                  .checkData!.isEmployee!) {
+                                                if (state
+                                                        .employeerPhoneNumber!.isEmpty ||
+                                                    state.employeerPhoneNumber ==
+                                                        "null" ||
+                                                    state.employeerPhoneNumber2 ==
+                                                        "null") {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "Enter Your PhoneNumer"
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                } else if (state
+                                                    .employeerAddress!
+                                                    .isEmpty) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "Select provinces"
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                } else if (state
+                                                    .employeerEnterTitle!
+                                                    .isEmpty) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "Please add address details"
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  context
+                                                      .read<CartCubit>()
+                                                      .sendOrder(
+                                                          state.checkData!
+                                                                      .promoCode ==
+                                                                  null
+                                                              ? ""
+                                                              : state
+                                                                  .checkData!
+                                                                  .promoCode!
+                                                                  .code!,
+                                                          '',
+                                                          '',
+                                                          state.checkData!
+                                                              .isEmployee!);
+                                                }
+                                              } else {
+                                                context
+                                                    .read<CartCubit>()
+                                                    .sendOrder(
+                                                        state.checkData!
+                                                                    .promoCode ==
+                                                                null
+                                                            ? ""
+                                                            : state
+                                                                .checkData!
+                                                                .promoCode!
+                                                                .code!,
+                                                        '',
+                                                        '',
+                                                        state.checkData!
+                                                            .isEmployee!);
+                                              }
                                             }
                                           } else {}
                                         }
@@ -805,73 +1223,217 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             )),
                                 ),
                                 20.verticalSpace,
-                                SizedBox(
-                                  width: 1.sw,
-                                  height: 48.h,
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                        if (state.loadingSendOrder) {
-                                        } else {
-                                          // Proceed with the action
-                                          if (state.checkData!.defaultAddress ==
-                                              null) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                backgroundColor: Colors.red,
-                                                padding: EdgeInsets.only(
-                                                    bottom: 30.h,
-                                                    top: 30.h,
-                                                    left: 50.w,
-                                                    right: 50.w),
-                                                content: Text(
-                                                  "Please add address"
-                                                      .tr(context),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                duration:
-                                                    const Duration(seconds: 2),
-                                              ),
-                                            );
-                                          } else if (state
-                                              .paymentMethod!.isEmpty) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                backgroundColor: Colors.red,
-                                                padding: EdgeInsets.only(
-                                                    bottom: 30.h,
-                                                    top: 30.h,
-                                                    left: 50.w,
-                                                    right: 50.w),
-                                                content: Text(
-                                                  "Please select payment method"
-                                                      .tr(context),
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                duration:
-                                                    const Duration(seconds: 2),
-                                              ),
-                                            );
-                                          } else {
-                                            _selectDateTime(
-                                                context, state.checkData);
-                                          }
-                                        }
-                                      },
-                                      child: state.loadingSendOrder
-                                          ? CircularProgressIndicator(
-                                              color: Colors.white,
-                                            )
-                                          : Text(
-                                              "Book The Product".tr(context),
-                                              style: TextStyle(
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 0.5.sw,
+                                      height: 48.h,
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            bool confirmed =
+                                                await showConfirmationDialogForCheckOut(
+                                                    context,
+                                                    state.checkData!
+                                                        .pre_order_message);
+                                            if (confirmed) {
+                                              if (state.loadingSendOrder) {
+                                              } else {
+                                                if (state
+                                                    .paymentMethod!.isEmpty) {
+                                                  context
+                                                      .read<CartCubit>()
+                                                      .changepaymentMethod(
+                                                          "Cash");
+                                                }
+                                                // Proceed with the action
+                                                if (state.checkData!
+                                                            .defaultAddress ==
+                                                        null &&
+                                                    state.checkData!
+                                                            .isEmployee ==
+                                                        false) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "Please add address"
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                }
+                                                //  else if (state
+                                                //     .paymentMethod!.isEmpty) {
+                                                //   ScaffoldMessenger.of(context)
+                                                //       .showSnackBar(
+                                                //     SnackBar(
+                                                //       backgroundColor: Colors.red,
+                                                //       padding: EdgeInsets.only(
+                                                //           bottom: 30.h,
+                                                //           top: 30.h,
+                                                //           left: 50.w,
+                                                //           right: 50.w),
+                                                //       content: Text(
+                                                //         "Please select payment method"
+                                                //             .tr(context),
+                                                //         style: const TextStyle(
+                                                //             color: Colors.white),
+                                                //       ),
+                                                //       duration:
+                                                //           const Duration(seconds: 2),
+                                                //     ),
+                                                //   );
+                                                // }
+                                                else {
+                                                  if (state
+                                                      .checkData!.isEmployee!) {
+                                                    if (state.paymentMethod!
+                                                        .isEmpty) {
+                                                      context
+                                                          .read<CartCubit>()
+                                                          .changepaymentMethod(
+                                                              "Cash");
+                                                    }
+                                                    if (state
+                                                            .employeerPhoneNumber!
+                                                            .isEmpty ||
+                                                        state.employeerPhoneNumber ==
+                                                            "null" ||
+                                                        state.employeerPhoneNumber2 ==
+                                                            "null") {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 30.h,
+                                                                  top: 30.h,
+                                                                  left: 50.w,
+                                                                  right: 50.w),
+                                                          content: Text(
+                                                            "Enter Your PhoneNumer"
+                                                                .tr(context),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2),
+                                                        ),
+                                                      );
+                                                    } else if (state
+                                                        .employeerAddress!
+                                                        .isEmpty) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 30.h,
+                                                                  top: 30.h,
+                                                                  left: 50.w,
+                                                                  right: 50.w),
+                                                          content: Text(
+                                                            "Select provinces"
+                                                                .tr(context),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2),
+                                                        ),
+                                                      );
+                                                    } else if (state
+                                                        .employeerEnterTitle!
+                                                        .isEmpty) {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  bottom: 30.h,
+                                                                  top: 30.h,
+                                                                  left: 50.w,
+                                                                  right: 50.w),
+                                                          content: Text(
+                                                            "Please add address details"
+                                                                .tr(context),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                          ),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      _selectDateTime(context,
+                                                          state.checkData);
+                                                    }
+                                                  } else {
+                                                    print("Hi");
+                                                    _selectDateTime(context,
+                                                        state.checkData);
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          child: state.loadingSendOrder
+                                              ? CircularProgressIndicator(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14.sp),
-                                            )),
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.timer,
+                                                      color: Colors.white,
+                                                    ),
+                                                    10.pw,
+                                                    Text(
+                                                      "Book The Product"
+                                                          .tr(context),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                  ],
+                                                )),
+                                    ),
+                                  ],
                                 )
                               ],
                             );
@@ -903,7 +1465,7 @@ Future<bool> showConfirmationDialogForCheckOut(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${'Are you sure you want to proceed?'.tr(context)} "),
+              // Text("${'Are you sure you want to proceed?'.tr(context)} "),
               orderConfirmationMessage == null
                   ? SizedBox()
                   : Text(

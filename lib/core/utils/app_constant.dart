@@ -41,8 +41,8 @@ class AppConstant {
   }
 
   static CustomDrawer(BuildContext context, String? token) {
-    String name = CacheHelper.getData(key: "EMAIL") ?? "";
-    String email = CacheHelper.getData(key: "NAME") ?? "";
+    // String name = CacheHelper.getData(key: "EMAIL") ?? "";
+    String name = CacheHelper.getData(key: "NAME") ?? "";
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return BlocBuilder<HomeCubit, HomeState>(
@@ -50,377 +50,380 @@ class AppConstant {
             return Drawer(
               backgroundColor: AppColors.whiteColor,
               surfaceTintColor: AppColors.primaryColor,
-              child: ListView(
-                children: <Widget>[
-                  email.isEmpty && name.isEmpty
-                      ? SizedBox()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "$email",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                              Text(
-                                "$name",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  email.isEmpty && name.isEmpty ? SizedBox() : Divider(),
-                  if (homestate.sideBarSections != null)
-                    for (var section in homestate.sideBarSections!)
-                      BlocBuilder<LocaleCubit, LocaleState>(
-                        builder: (context, loclae) {
-                          return ListTile(
-                            title: Text(
-                              loclae.locale.languageCode == "en"
-                                  ? '${section.nameEn}'
-                                  : '${section.nameAr}',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              if (section.type == "blog") {
-                                context.read<HomeCubit>().getblogSection(
-                                    context, section.id.toString());
-                              } else {
-                                Navigator.pop(context);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductsSidebarSectionsScreen(
-                                      sectionID: section.id.toString(),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          );
-                        },
-                      ),
-                  ListTile(
-                    title: Text(
-                      'Our partner stores'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SuplliersScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  token == null
-                      ? SizedBox()
-                      : ListTile(
-                          title: Text(
-                            'Your suggestion matters to us'.tr(context),
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    SendAdviceAndConsultScreen(
-                                  title: "Your suggestion matters to us",
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                  token == null
-                      ? SizedBox()
-                      : ListTile(
-                          title: Text(
-                            'Free consultations'.tr(context),
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    SendAdviceAndConsultScreen(
-                                  title: "Free consultations",
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                  token == null
-                      ? SizedBox()
-                      : ListTile(
-                          title: Text(
-                            'My Orders'.tr(context),
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const OrdersScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                  token == null
-                      ? SizedBox()
-                      : ListTile(
-                          title: Text(
-                            'Shipping addresses'.tr(context),
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ShippingAddressesScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                  ListTile(
-                    title: Text(
-                      'Articles'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ArticlesScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Tutorials videos'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const TutorialsScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  token == null
-                      ? SizedBox()
-                      : state.userInfo?.isBlogger == "0"
-                          ? SizedBox()
-                          : ListTile(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView(
+                  children: <Widget>[
+                    // name.isEmpty
+                    //     ? SizedBox()
+                    //     : Padding(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //         child: Row(
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: [
+                    //             Text(
+                    //               "Hi".tr(context),
+                    //               style: TextStyle(
+                    //                   color: AppColors.primaryColor,
+                    //                   fontSize: 26.sp,
+                    //                   fontWeight: FontWeight.bold),
+                    //             ),
+                    //             15.pw,
+                    //             Text(
+                    //               "$name",
+                    //               style: TextStyle(
+                    //                   fontSize: 18.sp,
+                    //                   fontWeight: FontWeight.w700,
+                    //                   color: AppColors.blackColor),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    // name.isEmpty ? SizedBox() : Divider(),
+                    if (homestate.sideBarSections != null)
+                      for (var section in homestate.sideBarSections!)
+                        BlocBuilder<LocaleCubit, LocaleState>(
+                          builder: (context, loclae) {
+                            return ListTile(
                               title: Text(
-                                'Wallet'.tr(context),
+                                loclae.locale.languageCode == "en"
+                                    ? '${section.nameEn}'
+                                    : '${section.nameAr}',
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               onTap: () {
-                                Navigator.pop(context);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const WalletScreen(),
-                                  ),
-                                );
+                                if (section.type == "blog") {
+                                  context.read<HomeCubit>().getblogSection(
+                                      context, section.id.toString());
+                                } else {
+                                  Navigator.pop(context);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductsSidebarSectionsScreen(
+                                        sectionID: section.id.toString(),
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
-                            ),
-                  token == null
-                      ? SizedBox()
-                      : ListTile(
-                          title: Text(
-                            'Settings'.tr(context),
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const SettingsScreen(),
-                              ),
                             );
                           },
                         ),
-                  ListTile(
-                    title: Text(
-                      'Contact Us'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ContactUsScreen(),
+                    ListTile(
+                      title: Text(
+                        'Our partner stores'.tr(context),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'About us'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
                       ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SuplliersScreen(),
+                          ),
+                        );
+                      },
                     ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AboutUsScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Terms and conditions'.tr(context),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const TermsAndConditionsScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  token == null
-                      ? ListTile(
-                          title: AppConstant.customElvatedButton(
-                              context, "Login", () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const LogInScreen()),
-                            (Route route) => false,
-                          );
-                        },
+                    token == null
+                        ? SizedBox()
+                        : ListTile(
+                            title: Text(
+                              'Your suggestion matters to us'.tr(context),
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)))
-                      : SizedBox(),
-                  token == null ? SizedBox() : SizedBox()
-                  // ListTile(
-                  //     title: InkWell(
-                  //       onTap: () async {
-                  //         GoogleSignIn googleSignIn = GoogleSignIn();
-                  //         googleSignIn.disconnect();
-                  //         SharedPreferences preferences =
-                  //             await SharedPreferences.getInstance();
-                  //         await preferences.clear();
-                  //         di.sl<ApiBaseHelper>().updateHeader();
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SendAdviceAndConsultScreen(
+                                    title: "Your suggestion matters to us",
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                    token == null
+                        ? SizedBox()
+                        : ListTile(
+                            title: Text(
+                              'Free consultations'.tr(context),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SendAdviceAndConsultScreen(
+                                    title: "Free consultations",
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                    // token == null
+                    //     ? SizedBox()
+                    //     : ListTile(
+                    //         title: Text(
+                    //           'My Orders'.tr(context),
+                    //           style: TextStyle(
+                    //             fontSize: 14.sp,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //           Navigator.of(context).push(
+                    //             MaterialPageRoute(
+                    //               builder: (context) => const OrdersScreen(),
+                    //             ),
+                    //           );
+                    //         },
+                    //       ),
+                    // token == null
+                    //     ? SizedBox()
+                    //     : ListTile(
+                    //         title: Text(
+                    //           'Shipping addresses'.tr(context),
+                    //           style: TextStyle(
+                    //             fontSize: 14.sp,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //           Navigator.of(context).push(
+                    //             MaterialPageRoute(
+                    //               builder: (context) =>
+                    //                   const ShippingAddressesScreen(),
+                    //             ),
+                    //           );
+                    //         },
+                    //       ),
+                    // ListTile(
+                    //   title: Text(
+                    //     'Articles'.tr(context),
+                    //     style: TextStyle(
+                    //       fontSize: 14.sp,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //     Navigator.pop(context);
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const ArticlesScreen(),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // ListTile(
+                    //   title: Text(
+                    //     'Tutorials videos'.tr(context),
+                    //     style: TextStyle(
+                    //       fontSize: 14.sp,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //     Navigator.pop(context);
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const TutorialsScreen(),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    // token == null
+                    //     ? SizedBox()
+                    //     : state.userInfo?.isBlogger == "0"
+                    //         ? SizedBox()
+                    //         : ListTile(
+                    //             title: Text(
+                    //               'Wallet'.tr(context),
+                    //               style: TextStyle(
+                    //                 fontSize: 14.sp,
+                    //                 fontWeight: FontWeight.bold,
+                    //               ),
+                    //             ),
+                    //             onTap: () {
+                    //               Navigator.pop(context);
+                    //               Navigator.of(context).push(
+                    //                 MaterialPageRoute(
+                    //                   builder: (context) => const WalletScreen(),
+                    //                 ),
+                    //               );
+                    //             },
+                    //           ),
+                    token == null
+                        ? SizedBox()
+                        : ListTile(
+                            title: Text(
+                              'Settings'.tr(context),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const SettingsScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                    ListTile(
+                      title: Text(
+                        'Contact Us'.tr(context),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ContactUsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'About us'.tr(context),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AboutUsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Terms and conditions'.tr(context),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const TermsAndConditionsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    token == null
+                        ? ListTile(
+                            title: AppConstant.customElvatedButton(
+                                context, "Login", () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const LogInScreen()),
+                              (Route route) => false,
+                            );
+                          },
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)))
+                        : SizedBox(),
+                    token == null ? SizedBox() : SizedBox()
+                    // ListTile(
+                    //     title: InkWell(
+                    //       onTap: () async {
+                    //         GoogleSignIn googleSignIn = GoogleSignIn();
+                    //         googleSignIn.disconnect();
+                    //         SharedPreferences preferences =
+                    //             await SharedPreferences.getInstance();
+                    //         await preferences.clear();
+                    //         di.sl<ApiBaseHelper>().updateHeader();
 
-                  //         Navigator.of(context).pushAndRemoveUntil(
-                  //           MaterialPageRoute(
-                  //               builder: (context) => const LogInScreen()),
-                  //           (Route route) => false,
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         child: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.center,
-                  //                   children: [
-                  //                     Text(
-                  //                       "Log out",
-                  //                       style: TextStyle(
-                  //                           fontSize: 14.sp,
-                  //                           fontWeight: FontWeight.w600,
-                  //                           color: AppColors.blackColor),
-                  //                     ),
-                  //                   ]),
-                  //               Icon(
-                  //                 Icons.logout_outlined,
-                  //                 color: AppColors.greyColor,
-                  //                 size: 24.sp,
-                  //               )
-                  //             ]),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // 40.ph,
-                  // ,
-                  // token == null
-                  //     ? SizedBox()
-                  //     : ListTile(
-                  //         // contentPadding: EdgeInsets.all(0),
-                  //         title: BlocBuilder<ProfileCubit, ProfileState>(
-                  //           builder: (context, state) {
-                  //             return AppConstant.customElvatedButton(
-                  //                 context, "Delete Account", () async {
-                  //               if (state.laodingfeedback) {
-                  //               } else {
-                  //                 bool confirmed =
-                  //                     await showConfirmationDialog(context);
-                  //                 if (confirmed) {
-                  //                   // Proceed with the action
-                  //                   context
-                  //                       .read<ProfileCubit>()
-                  //                       .deleteAccount(context);
-                  //                 } else {}
-                  //               }
-                  //             },
-                  //                 style: TextStyle(color: Colors.white),
-                  //                 loading: state.laodingfeedback ? true : false);
-                  //           },
-                  //         ),
-                  //       )
-                ],
+                    //         Navigator.of(context).pushAndRemoveUntil(
+                    //           MaterialPageRoute(
+                    //               builder: (context) => const LogInScreen()),
+                    //           (Route route) => false,
+                    //         );
+                    //       },
+                    //       child: Container(
+                    //         child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //             children: [
+                    //               Column(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.center,
+                    //                   children: [
+                    //                     Text(
+                    //                       "Log out",
+                    //                       style: TextStyle(
+                    //                           fontSize: 14.sp,
+                    //                           fontWeight: FontWeight.w600,
+                    //                           color: AppColors.blackColor),
+                    //                     ),
+                    //                   ]),
+                    //               Icon(
+                    //                 Icons.logout_outlined,
+                    //                 color: AppColors.greyColor,
+                    //                 size: 24.sp,
+                    //               )
+                    //             ]),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // 40.ph,
+                    // ,
+                    // token == null
+                    //     ? SizedBox()
+                    //     : ListTile(
+                    //         // contentPadding: EdgeInsets.all(0),
+                    //         title: BlocBuilder<ProfileCubit, ProfileState>(
+                    //           builder: (context, state) {
+                    //             return AppConstant.customElvatedButton(
+                    //                 context, "Delete Account", () async {
+                    //               if (state.laodingfeedback) {
+                    //               } else {
+                    //                 bool confirmed =
+                    //                     await showConfirmationDialog(context);
+                    //                 if (confirmed) {
+                    //                   // Proceed with the action
+                    //                   context
+                    //                       .read<ProfileCubit>()
+                    //                       .deleteAccount(context);
+                    //                 } else {}
+                    //               }
+                    //             },
+                    //                 style: TextStyle(color: Colors.white),
+                    //                 loading: state.laodingfeedback ? true : false);
+                    //           },
+                    //         ),
+                    //       )
+                  ],
+                ),
               ),
             );
           },

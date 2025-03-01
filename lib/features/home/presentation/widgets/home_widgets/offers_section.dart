@@ -34,6 +34,7 @@ class _SectionsWidgetState extends State<OffersSection> {
                   fromSimilarProduct: false,
                   fromHome: true,
                   productDetails: Products(
+                      points: state.homeInfo!.discountedProducts![index].points,
                       displayProduct: state
                           .homeInfo!.discountedProducts![index].displayProduct,
                       finalPrice:

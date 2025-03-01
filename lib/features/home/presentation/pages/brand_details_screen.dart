@@ -1,4 +1,6 @@
 import 'package:alkhatouna/Locale/app_localization.dart';
+import 'package:alkhatouna/core/extensions/padding_extensions.dart';
+import 'package:alkhatouna/core/utils/app_colors.dart';
 import 'package:alkhatouna/core/utils/app_constant.dart';
 import 'package:alkhatouna/features/home/data/models/sub_categories_model.dart';
 import 'package:alkhatouna/features/home/presentation/cubit/home_cubit.dart';
@@ -110,6 +112,62 @@ class _BrandDetailsScreenState extends State<BrandDetailsScreen> {
                                 ),
                               )
                             ]),
+                        20.ph,
+                        SizedBox(
+                            width: 0.9.sw,
+                            child: TextFormField(
+                              initialValue: state.keyWordForBrandDetails ?? "",
+                              textInputAction: TextInputAction.search,
+                              onFieldSubmitted: (value) {
+                                if (value.isNotEmpty) {
+                                  context.read<HomeCubit>().exitBrandScreen();
+                                  context
+                                      .read<HomeCubit>()
+                                      .changekeyWordForBrandDetails(value);
+
+                                  context
+                                      .read<HomeCubit>()
+                                      .getbrandsInfo(context, widget.brandId);
+                                }
+                              },
+                              decoration: InputDecoration(
+                                suffixIcon:
+                                    state.keyWordForBrandDetails!.isEmpty
+                                        ? SizedBox()
+                                        : GestureDetector(
+                                            onTap: () {
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .exitBrandScreen();
+
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .getbrandsInfo(
+                                                      context, widget.brandId);
+                                            },
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 20,
+                                            ),
+                                          ),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: AppColors.primaryColor,
+                                ),
+                                filled: false,
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.primaryColor,
+                                    width:
+                                        2.0, // Adjust the border width as needed
+                                  ),
+                                ),
+                                hintStyle:
+                                    TextStyle(color: AppColors.primaryColor),
+                                hintText: "Find what you want".tr(context),
+                              ),
+                            )),
+                        20.ph,
                         state.oneBrandDetails?.products == null
                             ? Center(
                                 child: Column(

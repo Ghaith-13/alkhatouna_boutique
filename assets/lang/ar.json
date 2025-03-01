@@ -17,8 +17,9 @@
     "Forgot your password":" نسيت كلمة السر الخاصة بك",
     "Forget Password":"نسيت كلمة السر",
     "Enter Your Email":"ادخل الأيميل الخاص بك",
-    "Please, enter your email address. You will receive a link to create a new password via email.":"الرجاء , ادخل رقمك الهاتف أو بريدك الإلكتروني",
+    "Please, enter your email address. You will receive a link to create a new password via email.":"الرجاء , ادخل رقمك الهاتف",
     "Send":"إرسال",
+    "The number must not start with 0.":"لا يجب أن يبدأ الرقم ب 0",
     "See more":"عرض المزيد",
     "Get discounts of up to 50% on selected products":"احصل على خصومات تصل إلى 50% على المنتجات المختارة",
     "Up to 50% in Khatuna":"ما يصل إلى 50 % في خاتونة",
@@ -69,8 +70,8 @@
     "Total amount":"المبلغ الإجمالي",
     "CHECK OUT":"الدفع",
     "Profile Page":"الصفحة الشخصية",
-    "My Orders":"طلباتي",
-    "Shipping addresses":"عناوين الشحن",
+    "My Orders":"طلباتچ",
+    "Shipping addresses":"عناوينچ",
     "payment methods":"طرق الدفع",
     "Discount code":"كود الخصم",
     "Ratings":"التقييمات",
@@ -100,9 +101,10 @@
     "Reorder":"إعادة الطلب",
     "Personal Information":"المعلومات الشخصية",
     "Title":"العنوان",
+    "Your birthday":"عيد ميلادك",
     "Password":"كلمة السر",
     "Change":"تغيير",
-    "Notifications":"الإشعارات",
+    "Notifications":"إشعاراتچ",
     "Sales":"مبيعات",
     "New arrivals":"الوافدون الجدد",
     "Delivery status changes":"تغيير حالة الوصول",
@@ -114,13 +116,31 @@
     "Favorites":"المفضلة",
     "Sorry, this item is currently sold out":"عذراً , نفذت كمية هذا العنصر",
     "Add to favorites":"إضافة للمفضلة",
+    "Update":"تحديث",
+    "The number must be entered correctly to complete the process.":"يجب ادخال الرقم بشكل صحيح لإتمام العملية",
+    "Enter the new mobile number here":"ادخل رقم الموبايل الجديد هنا ",
     "Delete from the list":"حذف من القائمة",
+    "Add mobile number":"إضافة رقم موبايل",
+    "Number updated successfully":"تم تحديث الرقم بنجاح",
+    "The product has been successfully deleted.":"لقد تم حذف المنتج بنجاح",
+    "You have not added a mobile number to the account yet.":"لم تقم بإضافة رقم موبايل للحساب حتى الان ",
     "Checkout":"الدفع",
+    "Phone number already exists":"رقم الهاتف موجود بالفعل",
+    "Your account does not have a mobile number. You must enter a number now.":"حسابك لا يملك رقم موبايل . يجب ادخال رقم حالاً",
+    "Brand":"العلامة التجارية",
+    "The product is already in your list.":"المنتج موجود في قائمتك بالفعل",
+    "Please go to settings and add the number":"الرجاء الذهاب للإعدادت وقم بإضافة الرقم",
     "Shipping address":"عنوان الشحن",
+    "to verify it.":"للتحقق",
+    "the reason :":"السبب :",
     "Payment":"الدفع",
     "Delivery":"التوصيل",
+    "returned":"راجع",
     "Summary":"الملخص",
-    "SUBMIT ORDER":"إرسال الطلب",
+    "SUBMIT ORDER":"ارسل الطلبية الآن",
+    "your username on instagram":"اسم المستخدم الخاص بك على الانستگرام",
+    "The code has been sent to the number":"تم إرسال الكود للرقم ",
+    "which was used in the address to verify it.":"الذي استخدم في العنوان للتأكد منه",
     "Success!":"نجاح !",
     "Your order will be delivered soon Thank you for shopping from Khatouna"    :"سيتم توصيل طلبك قريباً \n شكرا لتسوقك من خاتونة",
     "Continue shopping":"إكمال التسوق",
@@ -154,15 +174,20 @@
     "Invalid login credentials":"تسجيل دخول غير صالح",
     "Sorry, there are no products.":"عذراً لا يوجد منتجات ",
     "Phone Number":"رقم الموبايل",
+    "There are no products currently.":"There are no products currently.",
     "Notes":"ملاحظات",
     "Countries":"البلدان",
     "Provinces":"المحافظات",
+    "Select provinces":"اختر محافظة",
+    "Confirm Date":"تأكيد التاريح",
+    "Are you sure you want to select":"هل أنتي متأكدة من اختيارك",
     "Areas":"مناطق",
     "Sub Areas":"أحياء",
     "Selected Successfully":"تم الاختيار بنجاح",
     "Add title":"اضف عنوان",
     "Add phone number":"اضف رقم موبايل",
     "Choose country":"اختر مدينة",
+    "Add Correct number":"ادخل رقم صحيح",
     "Choose province":"اختر محافظة",
     "Delete":"حذف",
     "You do not have any addresses yet.":"ليس لديك عناوين حتى الآن",
@@ -219,15 +244,22 @@
     "Are you sure you want to proceed?":"هل أنت متأكد من القيام بالعملية ؟",
     "No":"لا",
     "Yes":"نعم",
-    "Tutorials videos":"فيديوهات تعليمية",
+    "Delete All":"حذف الكل",
+    "Cancelled successfully":"تم الإلغاء بنجاح",
+    "Cancel Order":"إلغاء الطلب",
+    "Are you sure you want to cancel the order?":"هل أنت متأكد من إلغاء الطلب ؟",
+    "Tutorials videos":"شلون استخدم التطبيق ؟",
     "Sorry, there are no videos.":"عذراً , لا يجد فيدوهات",
     "Sorry, there are no articles.":"عذراً , لا يوجد مقالات",
     "Sorry, there are no activities.":"عذراً , لا يوجد نشاطات",
+    "Add correct phone number":"ادخل رقم صحيح",
     "Promo Code":"كود الخصم",
+    "If you encounter a problem logging in or registering, please contact us to solve the problem.":"إذا واجهت مشكلة في الدخول أو التسجيل يرجى التواصل معنا لحل المشكلة",
     "Browse the rest of the sections to find more products.":"تصفح بقية الأقسام لتجد المزيد من المنتجات",
     "Send confirmation code via WhatsApp":"ارسل رمز التحقيق عبر واتساب",
     "The phone number must start with 07":"رقم الموبايل يجب أن يبدأ ب 07",
     "The PIN code does not match the code sent.":"رمز التحقق لا يطابق الكود المرسل",
+    "Are you sure you want to delete all items from your cart ?":"هل أنت متأكد أنك تريد حذف جميع العناصر من سلة التسوق الخاصة بك؟",
     "There is no account for this number.":"لا يوجد حساب لهذا الرقم",
     "Enter Your New Password":"ادخل كلمة السر الجديدة",
     "Password updated successfully":"تم تحديث كلمة السر بنجاح",
@@ -251,8 +283,11 @@
     "Product link":"رابط المنتج",
     "Most Selling Products":"المنتجات الأكثر مبيعاً",
     "Products":"المنتجات",
+    "Click here":"اضغط هنا",
+    "points":"نقطة",
+    "To create a new account":"لإنشاء حساب جديد",
     "Log out":"تسجيل خروج",
-    "Points records":"سجل النقاط",
+    "Points records":"سجل نقاطچ",
     "Total Points":"مجموع النقاط",
     "Type":"النوع",
     "No search results":"لا يوجد نتائج بحث",
@@ -267,6 +302,20 @@
     "refund":"مرتجع طلبية",
     "Total Amount before discount":"المبلغ الكلي قبل الخصم",
     "phone number":"عن طريق رقم الهاتف",
+    "phone number Profile":"رقم الهاتف : ",
+    "Enter your birthday":"ادخلي عيد ميلادك",
+    "not necessary":"غير ضروري",
+    "Address Details":"تفاصيل العنوان",
+    "Please add address details":"الرجاء ادخال تفاصيل العنوان",
+    "Enter Another PhoneNumer":"ادخل رقم هاتف آخر",
+    "Shipping address details":"تفاصيل عنوان الشحن",
+    "Birthday entered successfully":"تم إدخال عيد ميلاد بنجاح ",
+    "You have no notifications yet.":"ليس لديك إشعارات حتى الآن ",
+    "No description available at this time":"لا يتوفر وصف حاليا ",
+    "If you are facing a problem":"إذا كنت تواجه مشكلة",
+    "to contact us via WhatsApp":"للتوصل معنا عبر الواتس اب",
+    "click here":"اضغط هنا",
+    "Hi":"مرحبا",
     "By Email":"عن طريق البريد الإلكتروني",
     "User Categories":"فئات المستخدم",
     "Complete":"اكمل",
@@ -302,10 +351,22 @@
     "Sent successfully":"تم الارسال بنجاح",
     "Our partner stores":"متاجر شركائنا ",
     "Sorry, there are no suppliers.":"عذراً , لا يوجد متاجر لشركائنا",
-    "Book The Product":"حجز الطلبية",
+    "Book The Product":"عمل حجز مؤجل",
     "The product has been successfully booked.":"تم حجز المنتج بنجاح",
     "reservation":"حجز",
-    "Reservation information":"معلومات الحجز"
+    "Reservation information":"معلومات الحجز",
+    "notified_products":"منتجات رجعت توفرت",
+    "Confirm Delete":"تأكيد الحذف",
+    "Points entered are more than points you have":"النقاط المدخلة أكثر من النقاط التي لديك",
+    "Use your points":"استخدم نقاطك",
+    "Ok":"حسناً",
+    "You have":"لديك",
+    "point discount value":"قيمة خصم النقاط",
+    "Are you sure you want to delete this item from your cart ?":"هل أنت متأكد أنك تريد حذف هذا العنصر من سلتك ؟",
+    "Congrats , you will gain":"مبروك 👏🎉🥳 , ستكتسب ",
+    "Enter the value of points you want to use":"ادخل قيمة النقاط التي تريد استخدامها",
+    "points will be added to your account after receiving this request.":"نقطة تضاف إلى حسابك بعد استلام هذا الطلب ",
+    "Note: You can use points in multiples of a thousand, such as: 1000, 2000, 3000.....":"ملاحظة : يمكنك استخدام النقاط بمضاعفات الألف ، مثل : 1000 ، 2000 ،3000 ....."
     
     
 }

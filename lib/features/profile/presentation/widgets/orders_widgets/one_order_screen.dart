@@ -173,6 +173,19 @@ class _OneOrderScreenState extends State<OneOrderScreen> {
                         ),
                       )),
                 ),
+                5.pw,
+                widget.orderDetails.notes == null
+                    ? SizedBox()
+                    : widget.orderDetails.notes.isEmpty
+                        ? SizedBox()
+                        : Expanded(
+                            child: Text(
+                            "${"the reason :".tr(context)} ${widget.orderDetails.notes ?? ""}",
+                            maxLines: 3,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                5.pw,
                 Container(
                     // width: 98.w,
                     padding:

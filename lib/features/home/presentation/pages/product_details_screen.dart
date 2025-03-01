@@ -31,8 +31,10 @@ import 'package:path_provider/path_provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productId;
+  final bool deniedAddToCard;
 
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen(
+      {super.key, required this.productId, this.deniedAddToCard = false});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -72,7 +74,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: ProductDetailsBottomNavigation(),
+      bottomNavigationBar: ProductDetailsBottomNavigation(
+        deniedAddToCard: widget.deniedAddToCard,
+      ),
       appBar: AppConstant.customAppBar(
         context,
         "",
@@ -162,15 +166,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 loadingshare = false;
                                               });
 
-                                              await Share.shareXFiles(
-                                                [file],
-                                                text:
-                                                    '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع',
+                                              await Share.share(
+                                                '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع',
                                                 sharePositionOrigin: box!
                                                         .localToGlobal(
                                                             Offset.zero) &
                                                     box.size,
                                               );
+                                              // await Share.shareXFiles(
+                                              //   [file],
+                                              //   text:
+                                              //       '${"Product link".tr(context)} : https://alkhatouna-boutique-8d85a.firebaseapp.com/productDetails/?id=${state.productData!.product!.id!} \n ${locale.locale.languageCode == "en" ? state.productData!.product!.descriptionEn ?? "" : locale.locale.languageCode == "ar" ? state.productData!.product!.descriptionAr ?? "" : state.productData!.product!.descriptionKu ?? ""} \n ${state.productData!.product!.finalPrice} د.ع',
+                                              //   sharePositionOrigin: box!
+                                              //           .localToGlobal(
+                                              //               Offset.zero) &
+                                              //       box.size,
+                                              // );
                                             }
                                           },
                                           child: loadingshare
@@ -328,7 +339,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       EdgeInsets.symmetric(horizontal: 12.w),
                                   child: BlocBuilder<LocaleCubit, LocaleState>(
                                     builder: (context, locale) {
-                                      return Text(
+                                      return SelectableText(
                                         locale.locale.languageCode == "en"
                                             ? state.productData!.product!
                                                     .descriptionEn ??
@@ -341,9 +352,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                         .descriptionKu ??
                                                     "",
                                         style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: AppColors.blackColor),
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.blackColor,
+                                        ),
                                       );
                                     },
                                   ),

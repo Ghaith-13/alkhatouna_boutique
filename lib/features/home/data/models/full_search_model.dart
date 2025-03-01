@@ -278,6 +278,7 @@ class Products {
   var reviewAvg;
   var imageUrl;
   var isFeatured;
+  var points;
   bool? isFavorite;
   var createdAt;
   var finalPrice;
@@ -297,6 +298,7 @@ class Products {
       this.discount,
       this.priceAfterDiscount,
       this.reviewCount,
+      this.points,
       this.reviewAvg,
       this.imageUrl,
       this.isFeatured,
@@ -315,6 +317,7 @@ class Products {
     nameEn = json?['name_en'];
     nameKu = json?['name_ku'];
     price = json?['price'];
+    points = json?['points'];
     isDiscount = json?['is_discount'];
     discount = json?['discount'];
     priceAfterDiscount = json?['price_after_discount'];
@@ -339,6 +342,7 @@ class Products {
     data?['name_en'] = this.nameEn;
     data?['name_ku'] = this.nameKu;
     data?['price'] = this.price;
+    data?['points'] = this.points;
     data?['is_discount'] = this.isDiscount;
     data?['discount'] = this.discount;
     data?['price_after_discount'] = this.priceAfterDiscount;

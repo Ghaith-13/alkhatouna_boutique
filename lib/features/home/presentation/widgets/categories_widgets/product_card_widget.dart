@@ -148,6 +148,8 @@
 
 // ignore_for_file: must_be_immutable
 
+import 'package:alkhatouna/features/all_products/presentation/cubit/all_products.dart';
+import 'package:alkhatouna/features/all_products/presentation/cubit/all_products_cubit.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:alkhatouna/Locale/app_localization.dart';
@@ -169,12 +171,14 @@ import 'package:alkhatouna/features/home/presentation/widgets/categories_widgets
 class ProductCardWidget extends StatefulWidget {
   bool fromSimilarProduct;
   bool fromHome;
+  bool notified;
   Products productDetails;
 
   ProductCardWidget({
     super.key,
     required this.productDetails,
     this.fromSimilarProduct = false,
+    this.notified = false,
     this.fromHome = false,
   });
 
@@ -189,6 +193,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
     checkIfGuest();
   }
 
+  bool notifyProduct = false;
   String? token;
   bool loadingToken = false;
   Future checkIfGuest() async {
@@ -204,7 +209,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topCenter, children: [
-      InkWell(onTap: () {
+      GestureDetector(onTap: () {
         AppConstant.customNavigation(
             context,
             ProductDetailsScreen(
@@ -287,207 +292,309 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         },
       )),
       widget.productDetails.displayProduct == false
-          ? ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8.sp)),
-              child: Container(
-                margin: EdgeInsets.only(bottom: 20.h),
-                width: 1.sw,
-                color: const Color.fromARGB(185, 255, 255, 255),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(children: [
-                      SizedBox(
-                        height: 210.h,
-                      ),
-                      SizedBox(
-                        height: 184.h,
-                        width: 1.sw,
-                      ),
-                      PositionedDirectional(
-                          bottom: 2,
-                          end: 7,
-                          child: InkWell(
-                            onTap: () {
-                              if (token == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Colors.red,
-                                    padding: EdgeInsets.only(
-                                        bottom: 30.h,
-                                        top: 30.h,
-                                        left: 50.w,
-                                        right: 50.w),
-                                    content: Text(
-                                      "Log in to enjoy these features."
-                                          .tr(context),
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    duration: const Duration(seconds: 2),
-                                  ),
-                                );
-                              } else {
-                                if (widget.fromHome == false) {
-                                  setState(() {
-                                    if (widget.productDetails.isFavorite ??
-                                        false) {
-                                      widget.productDetails.isFavorite = false;
-                                    } else {
-                                      widget.productDetails.isFavorite = true;
-                                    }
-                                    // widget.productDetails.isFavorite =
-                                    //     !widget.productDetails.isFavorite!;
-                                  });
-                                }
+          ? GestureDetector(
+              onTap: () {
+                AppConstant.customNavigation(
+                    context,
+                    ProductDetailsScreen(
+                      deniedAddToCard: true,
+                      productId: widget.productDetails.id.toString(),
+                    ),
+                    -1,
+                    0);
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 20.h),
+                  width: 1.sw,
+                  color: const Color.fromARGB(185, 255, 255, 255),
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(children: [
+                        widget.notified
+                            ? BlocBuilder<HomeCubit, HomeState>(
+                                builder: (context, state) {
+                                  return BlocBuilder<AllProductsCubit,
+                                      AllProductsState>(
+                                    builder: (context, value) {
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          if (token == null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                backgroundColor: Colors.red,
+                                                padding: EdgeInsets.only(
+                                                    bottom: 30.h,
+                                                    top: 30.h,
+                                                    left: 50.w,
+                                                    right: 50.w),
+                                                content: Text(
+                                                  "Log in to enjoy these features."
+                                                      .tr(context),
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                              ),
+                                            );
+                                          } else {
+                                            if (state.notifyProduct) {
+                                            } else {
+                                              String? userID =
+                                                  await CacheHelper.getData(
+                                                key: "USER_ID",
+                                              );
 
-                                context.read<HomeCubit>().toggleFavorite(
-                                    context,
-                                    widget.productDetails.id.toString(),
-                                    fromHome: widget.fromHome,
-                                    fromSimilarProduct:
-                                        widget.fromSimilarProduct);
-                              }
-                              // showFlexibleBottomSheet(
-                              //   bottomSheetColor: AppColors.whiteColor,
-                              //   barrierColor: Color.fromARGB(94, 83, 83, 83),
-                              //   bottomSheetBorderRadius: BorderRadius.only(
-                              //       topLeft: Radius.circular(40.sp),
-                              //       topRight: Radius.circular(40.sp)),
-                              //   minHeight: 0,
-                              //   initHeight: 0.5,
-                              //   maxHeight: 0.5,
-                              //   anchors: [0, 0.5],
-                              //   isSafeArea: true,
-                              //   context: context,
-                              //   builder: favoriteBottomSheet,
-                              // );
-                            },
-                            child: Container(
-                                padding: EdgeInsets.all(10),
-                                width: 36.0.sp,
-                                height: 36.0.sp,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 1.0,
+                                              FirebaseMessaging messaging =
+                                                  FirebaseMessaging.instance;
+
+                                              String? fcmtoken =
+                                                  await messaging.getToken();
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .notifyProduct(
+                                                      context,
+                                                      userID.toString(),
+                                                      fcmtoken.toString(),
+                                                      widget.productDetails.id
+                                                          .toString(),
+                                                      products:
+                                                          value.allProductsData,
+                                                      delete: true);
+                                            }
+                                          }
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: CircleAvatar(
+                                              backgroundColor: Colors.red,
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              )),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                          height: 210.h,
+                        ),
+                        SizedBox(
+                          height: 184.h,
+                          width: 1.sw,
+                        ),
+                        PositionedDirectional(
+                            bottom: 2,
+                            end: 7,
+                            child: InkWell(
+                              onTap: () {
+                                if (token == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.red,
+                                      padding: EdgeInsets.only(
+                                          bottom: 30.h,
+                                          top: 30.h,
+                                          left: 50.w,
+                                          right: 50.w),
+                                      content: Text(
+                                        "Log in to enjoy these features."
+                                            .tr(context),
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  if (widget.fromHome == false) {
+                                    setState(() {
+                                      if (widget.productDetails.isFavorite ??
+                                          false) {
+                                        widget.productDetails.isFavorite =
+                                            false;
+                                      } else {
+                                        widget.productDetails.isFavorite = true;
+                                      }
+                                      // widget.productDetails.isFavorite =
+                                      //     !widget.productDetails.isFavorite!;
+                                    });
+                                  }
+
+                                  context.read<HomeCubit>().toggleFavorite(
+                                      context,
+                                      widget.productDetails.id.toString(),
+                                      fromHome: widget.fromHome,
+                                      fromSimilarProduct:
+                                          widget.fromSimilarProduct);
+                                }
+                                // showFlexibleBottomSheet(
+                                //   bottomSheetColor: AppColors.whiteColor,
+                                //   barrierColor: Color.fromARGB(94, 83, 83, 83),
+                                //   bottomSheetBorderRadius: BorderRadius.only(
+                                //       topLeft: Radius.circular(40.sp),
+                                //       topRight: Radius.circular(40.sp)),
+                                //   minHeight: 0,
+                                //   initHeight: 0.5,
+                                //   maxHeight: 0.5,
+                                //   anchors: [0, 0.5],
+                                //   isSafeArea: true,
+                                //   context: context,
+                                //   builder: favoriteBottomSheet,
+                                // );
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  width: 36.0.sp,
+                                  height: 36.0.sp,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 1.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child:
+                                      widget.productDetails.isFavorite ?? false
+                                          ? Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                              size: 18.sp,
+                                            )
+                                          : SvgPicture.asset(
+                                              "assets/icons/favorite.svg",
+                                              width: 24.sp,
+                                              height: 24.sp,
+                                            )),
+                            ))
+                      ]),
+                      Expanded(child: SizedBox()),
+                      widget.notified
+                          ? SizedBox()
+                          : Container(
+                              width: 1.sw,
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Sorry, this item is currently sold out"
+                                          .tr(context),
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          color: AppColors.blackColor,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    BlocBuilder<HomeCubit, HomeState>(
+                                      builder: (context, state) {
+                                        return SizedBox(
+                                          width: 1.sw,
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius
+                                                      .zero, // Set borderRadius to zero
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                if (token == null) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 30.h,
+                                                          top: 30.h,
+                                                          left: 50.w,
+                                                          right: 50.w),
+                                                      content: Text(
+                                                        "Log in to enjoy these features."
+                                                            .tr(context),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  if (notifyProduct) {
+                                                  } else {
+                                                    setState(() {
+                                                      notifyProduct = true;
+                                                    });
+                                                    String? userID =
+                                                        await CacheHelper
+                                                            .getData(
+                                                      key: "USER_ID",
+                                                    );
+
+                                                    FirebaseMessaging
+                                                        messaging =
+                                                        FirebaseMessaging
+                                                            .instance;
+
+                                                    String? fcmtoken =
+                                                        await messaging
+                                                            .getToken();
+                                                    await context
+                                                        .read<HomeCubit>()
+                                                        .notifyProduct(
+                                                            context,
+                                                            userID.toString(),
+                                                            fcmtoken.toString(),
+                                                            widget
+                                                                .productDetails
+                                                                .id
+                                                                .toString());
+                                                    setState(() {
+                                                      notifyProduct = false;
+                                                    });
+                                                  }
+                                                }
+                                              },
+                                              child: notifyProduct
+                                                  ? SizedBox(
+                                                      width: 15,
+                                                      height: 15,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      "Notify me when it is available"
+                                                          .tr(context),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
-                                child: widget.productDetails.isFavorite ?? false
-                                    ? Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                        size: 18.sp,
-                                      )
-                                    : SvgPicture.asset(
-                                        "assets/icons/favorite.svg",
-                                        width: 24.sp,
-                                        height: 24.sp,
-                                      )),
-                          ))
-                    ]),
-                    Expanded(child: SizedBox()),
-                    Container(
-                      width: 1.sw,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              "Sorry, this item is currently sold out"
-                                  .tr(context),
-                              style: TextStyle(
-                                  fontSize: 11.sp,
-                                  color: AppColors.blackColor,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            BlocBuilder<HomeCubit, HomeState>(
-                              builder: (context, state) {
-                                return SizedBox(
-                                  width: 1.sw,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius
-                                              .zero, // Set borderRadius to zero
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        if (token == null) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: Colors.red,
-                                              padding: EdgeInsets.only(
-                                                  bottom: 30.h,
-                                                  top: 30.h,
-                                                  left: 50.w,
-                                                  right: 50.w),
-                                              content: Text(
-                                                "Log in to enjoy these features."
-                                                    .tr(context),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                            ),
-                                          );
-                                        } else {
-                                          if (state.notifyProduct) {
-                                          } else {
-                                            String? userID =
-                                                await CacheHelper.getData(
-                                              key: "USER_ID",
-                                            );
-
-                                            FirebaseMessaging messaging =
-                                                FirebaseMessaging.instance;
-
-                                            String? fcmtoken =
-                                                await messaging.getToken();
-                                            context
-                                                .read<HomeCubit>()
-                                                .notifyProduct(
-                                                    context,
-                                                    userID.toString(),
-                                                    fcmtoken.toString(),
-                                                    widget.productDetails.id
-                                                        .toString());
-                                          }
-                                        }
-                                      },
-                                      child: state.notifyProduct
-                                          ? SizedBox(
-                                              width: 15,
-                                              height: 15,
-                                              child: CircularProgressIndicator(
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                          : Text(
-                                              "Notify me when it is available"
-                                                  .tr(context),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            )),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                              ),
+                            )
+                    ],
+                  ),
                 ),
               ),
             )

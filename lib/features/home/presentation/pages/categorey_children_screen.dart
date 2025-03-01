@@ -82,7 +82,7 @@ class _CategoreyChildrenScreenState extends State<CategoreyChildrenScreen> {
                                         LocaleState>(
                                       builder: (context, locale) {
                                         return FadeInUp(
-                                            child: InkWell(
+                                            child: GestureDetector(
                                           onTap: () {
                                             // print(state.categoreyChildrenData!
                                             // .categories![index].hasChildren!);

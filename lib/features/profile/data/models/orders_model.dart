@@ -28,15 +28,18 @@ class OrdersList {
   List<Pending>? delivered;
   List<Pending>? completed;
   List<Pending>? cancelled;
+  List<Pending>? returned;
 
-  OrdersList(
-      {this.pending,
-      this.confirmed,
-      this.readyToShip,
-      this.onTheWay,
-      this.delivered,
-      this.completed,
-      this.cancelled});
+  OrdersList({
+    this.pending,
+    this.confirmed,
+    this.readyToShip,
+    this.onTheWay,
+    this.delivered,
+    this.completed,
+    this.cancelled,
+    this.returned,
+  });
 
   OrdersList.fromJson(Map<String, dynamic>? json) {
     if (json?['pending'] != null) {
@@ -81,6 +84,12 @@ class OrdersList {
         cancelled!.add(new Pending.fromJson(v));
       });
     }
+    if (json?['returned'] != null) {
+      returned = <Pending>[];
+      json?['returned'].forEach((v) {
+        returned!.add(new Pending.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic>? toJson() {
@@ -106,6 +115,9 @@ class OrdersList {
     }
     if (this.cancelled != null) {
       data?['cancelled'] = this.cancelled!.map((v) => v.toJson()).toList();
+    }
+    if (this.returned != null) {
+      data?['returned'] = this.returned!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -143,6 +155,7 @@ class Pending {
   var createdAt;
   var type;
   var updatedAt;
+  var point_discount_value;
   List<Items>? items;
 
   Pending(
@@ -163,6 +176,7 @@ class Pending {
       this.countryName,
       this.provinceName,
       this.areaName,
+      this.point_discount_value,
       this.subAreaName,
       this.addressTitle,
       this.addressPhone,
@@ -198,6 +212,7 @@ class Pending {
     provinceName = json?['province_name'];
     areaName = json?['area_name'];
     subAreaName = json?['sub_area_name'];
+    point_discount_value = json?['point_discount_value'];
     addressTitle = json?['address_title'];
     addressPhone = json?['address_phone'];
     addressNotes = json?['address_notes'];
@@ -226,6 +241,7 @@ class Pending {
     data?['user_id'] = this.userId;
     data?['status'] = this.status;
     data?['total_amount'] = this.totalAmount;
+    data?['point_discount_value'] = this.point_discount_value;
     data?['discount_percentage'] = this.discountPercentage;
     data?['discount_value'] = this.discountValue;
     data?['total_amount_after_discount'] = this.totalAmountAfterDiscount;

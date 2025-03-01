@@ -53,6 +53,7 @@ class Settings {
   var whatsappName;
   var tiktokLink;
   var tiktokName;
+  var close_app;
   String? orderConfirmationMessage;
   String? aboutUs;
   String? termsAndConditions;
@@ -78,6 +79,7 @@ class Settings {
       this.termsAndConditions,
       this.privacyPolicy,
       this.refundPolicy,
+      this.close_app,
       this.createdAt,
       this.updatedAt});
 
@@ -100,6 +102,7 @@ class Settings {
     refundPolicy = json?['refund_policy'];
     createdAt = json?['created_at'];
     updatedAt = json?['updated_at'];
+    close_app = json?['close_app'];
   }
 
   Map<String, dynamic>? toJson() {
@@ -121,6 +124,7 @@ class Settings {
     data?['privacy_policy'] = this.privacyPolicy;
     data?['refund_policy'] = this.refundPolicy;
     data?['created_at'] = this.createdAt;
+    data?['close_app'] = this.close_app;
     data?['updated_at'] = this.updatedAt;
     return data;
   }

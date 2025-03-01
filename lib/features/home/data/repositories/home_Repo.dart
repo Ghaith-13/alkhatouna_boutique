@@ -9,6 +9,7 @@ import 'package:alkhatouna/features/home/data/models/categorey_children_model.da
 import 'package:alkhatouna/features/home/data/models/favorite_model.dart';
 import 'package:alkhatouna/features/home/data/models/full_search_model.dart';
 import 'package:alkhatouna/features/home/data/models/get_blogs_model.dart';
+import 'package:alkhatouna/features/home/data/models/notification_model.dart';
 import 'package:alkhatouna/features/home/data/models/notify_model.dart';
 import 'package:alkhatouna/features/home/data/models/one_plog_model.dart';
 import 'package:alkhatouna/features/home/data/models/product_model.dart';
@@ -62,9 +63,9 @@ class HomeRepo {
   }
 
   Future<BrandDetailsModel> getBrandDetails(
-      String brandId, int pagenumber) async {
+      String brandId, int pagenumber, String keyword) async {
     BrandDetailsModel MyOrdersResponse = BrandDetailsModel.fromJson(
-      await dataSource.getBrandDetails(brandId, pagenumber),
+      await dataSource.getBrandDetails(brandId, pagenumber, keyword),
     );
     return MyOrdersResponse;
   }
@@ -98,9 +99,9 @@ class HomeRepo {
     return MyOrdersResponse;
   }
 
-  Future<BrandsModel> getBrands() async {
+  Future<BrandsModel> getBrands({String keyword = ""}) async {
     BrandsModel MyOrdersResponse = BrandsModel.fromJson(
-      await dataSource.getBrands(),
+      await dataSource.getBrands(keyword),
     );
     return MyOrdersResponse;
   }
@@ -155,6 +156,13 @@ class HomeRepo {
   Future<SupllierModel> getSupllier() async {
     SupllierModel response = SupllierModel.fromJson(
       await dataSource.getSupllier(),
+    );
+    return response;
+  }
+
+  Future<NotificationModel> getNotifications() async {
+    NotificationModel response = NotificationModel.fromJson(
+      await dataSource.getNotifications(),
     );
     return response;
   }

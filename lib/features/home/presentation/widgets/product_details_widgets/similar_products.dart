@@ -72,6 +72,8 @@ class _SimilarProductsState extends State<SimilarProducts> {
                               child: ProductCardWidget(
                                 fromSimilarProduct: true,
                                 productDetails: Products(
+                                    points: state.productData!
+                                        .relatedProducts![index].points,
                                     finalPrice: state.productData!
                                         .relatedProducts![index].finalPrice,
                                     discount: state.productData!
@@ -96,8 +98,8 @@ class _SimilarProductsState extends State<SimilarProducts> {
                                         .relatedProducts![index].price,
                                     reviewAvg: state.productData!
                                         .relatedProducts![index].reviewAvg,
-                                    reviewCount: state.productData!
-                                        .relatedProducts![index].reviewCount),
+                                    reviewCount:
+                                        state.productData!.relatedProducts![index].reviewCount),
                               ));
                         },
                       ),

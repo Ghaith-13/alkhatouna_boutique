@@ -39,7 +39,7 @@ class _SectionsWidgetState extends State<BrandsSection> {
                       return SizedBox(
                         width: childWidth,
                         child: FadeInUp(
-                            child: InkWell(
+                            child: GestureDetector(
                           onTap: () {
                             AppConstant.customNavigation(
                                 context,
